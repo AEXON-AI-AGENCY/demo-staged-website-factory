@@ -222,12 +222,12 @@ export default function Home() {
           </div>
 
           {/* Headline — manifesto large type */}
-          <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.92] mb-6 text-zinc-100">
-            <span className="text-3d">Your competitors</span>
+          <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.92] mb-6">
+            <span className="headline-plain">Your competitors</span>
             <br />
             <span className="gradient-text">already have</span>
             <br />
-            <span className="text-3d">a website.</span>
+            <span className="headline-plain">a website.</span>
           </h1>
 
           {/* Lede */}
@@ -350,7 +350,7 @@ export default function Home() {
                 Starting at competitive prices with dedicated AI-powered support.
               </p>
               <a
-                href="https://aexonai.com"
+                href="https://aexonai.com/#consultation"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-semibold transition-all duration-200 hover:opacity-90"

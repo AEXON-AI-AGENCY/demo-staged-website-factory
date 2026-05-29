@@ -137,24 +137,26 @@ body {
   }
 }
 
-/* 3D cyan text — stands apart from orbital A letter */
-.text-3d {
-  color: var(--color-accent);
+/* 3D depth text — premium letterpress shadow, not colored overlays */
+.headline-plain {
+  color: #f4f4f5;
+  position: relative;
   text-shadow:
-    0 1px 0 rgba(0, 229, 255, 0.4),
-    0 2px 0 rgba(0, 229, 255, 0.3),
-    0 3px 0 rgba(0, 229, 255, 0.2),
-    0 4px 8px rgba(0, 229, 255, 0.15),
-    0 0 40px rgba(129, 140, 248, 0.25);
-  -webkit-text-stroke: 0.5px rgba(0, 229, 255, 0.35);
+    0 1px 0 rgba(0, 0, 0, 0.6),
+    0 2px 1px rgba(0, 0, 0, 0.4),
+    0 3px 2px rgba(0, 0, 0, 0.25),
+    0 4px 4px rgba(0, 0, 0, 0.18),
+    0 6px 8px rgba(0, 0, 0, 0.12);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.08);
 }
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+  background: linear-gradient(135deg, #e4e4e7 0%, var(--color-accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-stroke: 0.3px rgba(129, 140, 248, 0.2);
 }
 
 /* Headline line — add subtle top shadow for depth separation from orbital bg */
