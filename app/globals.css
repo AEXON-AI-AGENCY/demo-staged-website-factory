@@ -166,18 +166,14 @@ body {
   filter: drop-shadow(0 0 20px rgba(34,211,238,0.18)) drop-shadow(0 0 40px rgba(34,211,238,0.08));
 }
 
-/* Accent line — already have — same depth + shimmering indigo/purple gradient */
+/* Accent line — "already have" — deep indigo, high contrast, always renders */
 .headline-accent {
   display: block;
   font-family: var(--font-inter), var(--font-geist-mono), system-ui, sans-serif;
   font-weight: 900;
   letter-spacing: -0.03em;
-  /* SHIMMER GRADIENT — eye-catching brand accent that pops */
-  background: linear-gradient(120deg, #818cf8 0%, #c084fc 50%, #818cf8 100%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Deep indigo fill — vivid, high-saturation brand color */
+  color: #a78bfa;
   /* Same multi-layer shadow — identical depth to surrounding lines */
   text-shadow:
     0 1px 0 #000,
@@ -188,11 +184,10 @@ body {
     0 12px 36px rgba(0,0,0,0.5),
     0 20px 60px rgba(0,0,0,0.4),
     0 32px 80px rgba(0,0,0,0.3);
-  animation: shimmer 3s ease-in-out infinite;
-  /* Indigo stroke — slightly heavier for brand accent */
-  -webkit-text-stroke: 1.5px rgba(129,140,248,0.6);
+  /* Smooth ambient glow matching brand color */
+  -webkit-text-stroke: 1px rgba(129, 140, 248, 0.7);
   paint-order: stroke fill;
-  filter: drop-shadow(0 0 20px rgba(129,140,248,0.2)) drop-shadow(0 0 40px rgba(129,140,248,0.1));
+  filter: drop-shadow(0 0 16px rgba(167, 139, 250, 0.35)) drop-shadow(0 0 32px rgba(99, 102, 241, 0.2)) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
 /* Shimmer animation for already have gradient */
