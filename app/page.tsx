@@ -121,12 +121,12 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
       </div>
 
       {/* Business name */}
-      <h3 className="text-base font-semibold text-zinc-100 mb-2 leading-snug">
+      <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#f4f4f5' }}>
         {name}
       </h3>
 
       {/* Description */}
-      <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-2">
+      <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#a1a1aa' }}>
         {description}
       </p>
 
@@ -160,7 +160,7 @@ function CursorSpotlight() {
 // ─── Main page ─────────────────────────────────────────────────────────────────
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-zinc-100">
+    <div className="min-h-screen bg-[var(--color-bg)]" style={{ color: '#f4f4f5' }}>
 
       <CursorSpotlight />
 
@@ -172,7 +172,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Image src="/aexon-logo.png" alt="AEXON AI" width={56} height={38} className="h-auto" />
-            <span className="text-sm font-semibold text-zinc-200">Aexon AI</span>
+            <span className="text-sm font-semibold" style={{ color: '#e4e4e7' }}>Aexon AI</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -183,7 +183,7 @@ export default function Home() {
               href="https://aexonai.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+              className="text-xs transition-colors" style={{ color: '#a1a1aa' }}
             >
               aexonai.com →
             </a>
@@ -231,7 +231,7 @@ export default function Home() {
           </h1>
 
           {/* Lede */}
-          <p className="animate-fade-up animate-delay-300 text-base md:text-lg text-zinc-400 max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="animate-fade-up animate-delay-300 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed" style={{ color: '#a1a1aa' }}>
             These aren&apos;t templates. They&apos;re full AI-built sites — built for your industry, 
             your customers, your revenue goals. Pick yours, make it yours.
           </p>
@@ -262,7 +262,7 @@ export default function Home() {
 
         {/* Scroll indicator */}
         <div className="animate-fade-up animate-delay-500 absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <span className="text-xs text-zinc-600">Scroll to explore</span>
+          <span className="text-xs" style={{ color: '#52525b' }}>Scroll to explore</span>
           <div className="w-5 h-8 rounded-full border border-zinc-700 flex justify-center pt-1.5">
             <div className="w-0.5 h-2 rounded-full animate-bounce" style={{ background: "var(--color-accent)" }}/>
           </div>
@@ -275,9 +275,9 @@ export default function Home() {
 
           {/* Section header */}
           <div className="mb-12 flex items-baseline gap-4">
-            <h2 className="text-2xl font-bold text-zinc-100">Industry demos</h2>
+            <h2 className="text-2xl font-bold" style={{ color: '#f4f4f5' }}>Industry demos</h2>
             <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }}/>
-            <span className="text-xs text-zinc-600">13 verticals</span>
+            <span className="text-xs" style={{ color: '#52525b' }}>13 verticals</span>
           </div>
 
           {/* Bento-style grid with varying card sizes */}
@@ -342,10 +342,10 @@ export default function Home() {
             }}/>
 
             <div className="relative">
-              <h2 className="text-3xl md:text-4xl font-bold text-zinc-100 mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: '#f4f4f5' }}>
                 Want your site to look like this?
               </h2>
-              <p className="text-zinc-400 max-w-lg mx-auto mb-8 leading-relaxed">
+              <p className="max-w-lg mx-auto mb-8 leading-relaxed" style={{ color: '#a1a1aa' }}>
                 We build conversion-focused websites for local businesses in days, not weeks. 
                 Starting at competitive prices with dedicated AI-powered support.
               </p>
@@ -369,13 +369,13 @@ export default function Home() {
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
       <footer className="border-t border-white/5 py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-sm text-zinc-600">
+          <div className="flex items-center gap-2 text-sm" style={{ color: '#52525b' }}>
             <span>Built with AI by</span>
-            <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" className="font-medium text-zinc-400 hover:text-zinc-200 transition-colors">
+            <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" className="font-medium transition-colors" style={{ color: '#a1a1aa' }}>
               Aexon AI
             </a>
           </div>
-          <p className="text-sm text-zinc-700">© 2025 Aexon AI. All rights reserved.</p>
+          <p className="text-sm" style={{ color: '#3f3f46' }}>© 2025 Aexon AI. All rights reserved.</p>
         </div>
       </footer>
     </div>
