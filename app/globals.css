@@ -1,38 +1,42 @@
 @import "tailwindcss";
 
-/* Hallmark Design System Tokens */
+/* Hallmark · theme: Studio · macrostructure: Manifesto · nav: N5 · footer: Ft5 */
+/* Studied: no · diversification: first output for this project */
+
 :root {
-  /* Base colors */
-  --color-bg: #fafafa;
-  --color-surface: #ffffff;
-  --color-border: #e8e8e8;
-  --color-border-subtle: #f0f0f0;
-  --color-text: #0a0a0a;
-  --color-muted: #6b6b6b;
-  --color-muted-light: #9a9a9a;
-  
-  /* Primary accent - deep blue */
-  --color-accent: #1a1a2e;
-  --color-accent-2: #16213e;
-  
+  /* Base */
+  --color-bg: #09090b;
+  --color-surface: #18181b;
+  --color-surface-2: #27272a;
+  --color-border: #3f3f46;
+  --color-border-subtle: #27272a;
+  --color-text: #fafafa;
+  --color-muted: #a1a1aa;
+  --color-muted-light: #71717a;
+
+  /* Accent — electric indigo */
+  --color-accent: #818cf8;
+  --color-accent-dim: rgba(129, 140, 248, 0.12);
+  --color-accent-glow: rgba(129, 140, 248, 0.25);
+
   /* Per-vertical accent colors */
-  --color-plumbing: #0891b2;
-  --color-hvac: #0d9488;
-  --color-electrician: #ca8a04;
-  --color-roofer: #ea580c;
-  --color-auto-repair: #dc2626;
-  --color-salon: #db2777;
-  --color-restaurant: #ea580c;
-  --color-real-estate: #2563eb;
-  --color-law-firm: #1e3a5f;
-  --color-insurance: #065f46;
-  --color-clothing: #7c3aed;
-  --color-ecommerce: #059669;
-  
-  /* Semantic tokens */
+  --color-plumbing: #38bdf8;
+  --color-hvac: #2dd4bf;
+  --color-electrician: #facc15;
+  --color-roofer: #fb923c;
+  --color-auto-repair: #f87171;
+  --color-salon: #f472b6;
+  --color-restaurant: #fb923c;
+  --color-real-estate: #60a5fa;
+  --color-law-firm: #a78bfa;
+  --color-insurance: #34d399;
+  --color-clothing: #c084fc;
+  --color-ecommerce: #4ade80;
+
+  /* Semantic */
   --background: var(--color-bg);
   --foreground: var(--color-text);
-  
+
   /* Spacing scale */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -43,19 +47,21 @@
   --space-12: 3rem;
   --space-16: 4rem;
   --space-20: 5rem;
-  
+  --space-24: 6rem;
+  --space-32: 8rem;
+
   /* Border radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.4);
 }
 
 @theme inline {
@@ -65,17 +71,8 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --color-bg: #111111;
-    --color-surface: #1a1a1a;
-    --color-border: #2a2a2a;
-    --color-border-subtle: #222222;
-    --color-muted: #8a8a8a;
-    --color-muted-light: #666666;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -86,13 +83,118 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Selection styling */
 ::selection {
   background: var(--color-accent);
-  color: white;
+  color: #09090b;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-light);
+}
+
+/* Smooth focus */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Cursor spotlight — HP3 */
+.hero-spotlight {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    700px circle at var(--mx, 50%) var(--my, 40%),
+    var(--color-accent-glow),
+    transparent 60%
+  );
+  transition: background 150ms ease-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-spotlight::before {
+    transition: none;
+  }
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover glow */
+.vertical-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.vertical-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+}
+
+.vertical-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg), 0 0 40px var(--card-glow, transparent);
+}
+
+.vertical-card:hover::before {
+  opacity: 1;
+}
+
+/* Fade-in animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+    opacity: 1;
+  }
 }
