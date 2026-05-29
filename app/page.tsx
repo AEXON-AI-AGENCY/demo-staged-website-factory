@@ -222,8 +222,8 @@ export default function Home() {
           AI-built websites for local businesses
         </div>
 
-        {/* Headline — line-height 0.85em to fix merge */}
-        <h1 style={{ fontSize: "clamp(48px, 8vw, 96px)", fontWeight: 900, lineHeight: 0.85, marginBottom: "32px", letterSpacing: "-0.03em" }}>
+        {/* Headline — line-height 0.92em, no letter cutoff */}
+        <h1 style={{ fontSize: "clamp(48px, 8vw, 96px)", fontWeight: 900, lineHeight: 0.92, marginBottom: "32px", letterSpacing: "-0.03em" }}>
           <span style={{
             display: "block",
             color: "#ffffff",

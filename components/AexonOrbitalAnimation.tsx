@@ -14,7 +14,7 @@ export default function AexonOrbitalAnimation() {
         position: "fixed",
         inset: "0",
         zIndex: 0,
-        opacity: 0.12,
+        opacity: 0.22,
         pointerEvents: "none",
         overflow: "hidden",
       }}
