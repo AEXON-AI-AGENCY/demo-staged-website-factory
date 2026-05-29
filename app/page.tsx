@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import AexonOrbitalAnimation from "@/components/AexonOrbitalAnimation";
 
 // ─── Icon map (inline SVGs, no external deps) ─────────────────────────────────
 const icons: Record<string, React.ReactNode> = {
@@ -70,22 +71,29 @@ const icons: Record<string, React.ReactNode> = {
       <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
     </svg>
   ),
+  roofer: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  ),
 };
 
 // ─── Vertical data ────────────────────────────────────────────────────────────
 const VERTICALS = {
-  hvac:         { name: "CoolPro HVAC",        industry: "HVAC",          accent: "#f97316", description: "Seasonal HVAC website with urgency-driven CTAs, maintenance plans showcase, and fast quote request forms that capture high-intent leads.", demoUrl: "/demo/hvac" },
-  electrician:   { name: "Current Electric LLC", industry: "Electrical",    accent: "#3b82f6", description: "Professional electrical services website with safety certifications front-and-center, service-specific landing pages, and instant scheduling.", demoUrl: "/demo/electrician" },
-  salon:         { name: "Glow Studio Salon",   industry: "Salon & Spa",   accent: "#ec4899", description: "Elegant salon website with visual stylist portfolios, service menu with pricing, and seamless online booking integration.", demoUrl: "/demo/salon" },
-  plumbing:      { name: "Bay Area Plumbing Co.", industry: "Plumbing",     accent: "#0ea5e9", description: "Service-focused plumbing website with instant booking, service area mapping, and trust signals that convert browsers into booked appointments.", demoUrl: "/demo/plumbing" },
-  "auto-repair": { name: "Westside Auto Care",   industry: "Auto Repair",   accent: "#8b5cf6", description: "Trust-building auto repair website with transparent pricing, service reminder features, and appointment scheduling that reduces no-shows.", demoUrl: "/demo/auto-repair" },
-  clothing:      { name: "NOIR Apparel",         industry: "Clothing Brand", accent: "#1e1e2e", description: "Fashion-forward brand website with lookbook aesthetics, product storytelling, and email capture for drop notifications.", demoUrl: "/demo/clothing" },
-  restaurant:    { name: "Mama Rosa's Italian Kitchen", industry: "Restaurant", accent: "#f59e0b", description: "Restaurant website with embedded menu, reservation system, and catering inquiry forms that capture group booking revenue.", demoUrl: "/demo/restaurant" },
-  "real-estate": { name: "Horizon Realty Group", industry: "Real Estate",   accent: "#10b981", description: "Boutique real estate website with agent profiles, listing showcases, and lead capture forms for buyer/seller inquiries.", demoUrl: "/demo/real-estate" },
-  "law-firm":    { name: "Morrison & Associates Law", industry: "Law Firm", accent: "#6366f1", description: "Professional law firm website with practice area pages, attorney credentials, and confidential consultation request forms.", demoUrl: "/demo/law-firm" },
-  insurance:     { name: "Shield Insurance Partners", industry: "Insurance", accent: "#22d3ee", description: "Insurance agency website with carrier comparisons, quote request forms, and trust-building testimonials from satisfied clients.", demoUrl: "/demo/insurance" },
-  ecommerce:     { name: "Vitality Nutrition",   industry: "E-Commerce",    accent: "#84cc16", description: "Clean supplement e-commerce website with ingredient transparency, customer reviews, and subscription options for recurring revenue.", demoUrl: "/demo/ecommerce" },
-  "tech-company":{ name: "Nexus AI",             industry: "Tech Company",  accent: "#a78bfa", description: "Enterprise AI platform demo with agentic workflows, data intelligence, and scalable automation showcase.", demoUrl: "/demo/tech-company" },
+  hvac:          { name: "CoolPro HVAC",               industry: "HVAC",           accent: "#f97316", description: "Seasonal HVAC website with urgency-driven CTAs, maintenance plans showcase, and fast quote request forms that capture high-intent leads.", demoUrl: "/demo/hvac" },
+  electrician:   { name: "Current Electric LLC",        industry: "Electrical",     accent: "#3b82f6", description: "Professional electrical services website with safety certifications front-and-center, service-specific landing pages, and instant scheduling.", demoUrl: "/demo/electrician" },
+  salon:          { name: "Glow Studio Salon",          industry: "Salon & Spa",    accent: "#ec4899", description: "Elegant salon website with visual stylist portfolios, service menu with pricing, and seamless online booking integration.", demoUrl: "/demo/salon" },
+  plumbing:       { name: "Bay Area Plumbing Co.",      industry: "Plumbing",       accent: "#0ea5e9", description: "Service-focused plumbing website with instant booking, service area mapping, and trust signals that convert browsers into booked appointments.", demoUrl: "/demo/plumbing" },
+  "auto-repair": { name: "Westside Auto Care",          industry: "Auto Repair",    accent: "#8b5cf6", description: "Trust-building auto repair website with transparent pricing, service reminder features, and appointment scheduling that reduces no-shows.", demoUrl: "/demo/auto-repair" },
+  roofer:         { name: "TopTier Roofing",            industry: "Roofing",        accent: "#EA580C", description: "Roofing contractor website with project galleries, insurance claim guidance, and inspection request forms optimized for storm damage season.", demoUrl: "/demo/roofer" },
+  clothing:       { name: "NOIR Apparel",                industry: "Clothing Brand",  accent: "#8b5cf6", description: "Fashion-forward brand website with lookbook aesthetics, product storytelling, and email capture for drop notifications.", demoUrl: "/demo/clothing" },
+  restaurant:     { name: "Mama Rosa's Italian Kitchen", industry: "Restaurant",    accent: "#f59e0b", description: "Restaurant website with embedded menu, reservation system, and catering inquiry forms that capture group booking revenue.", demoUrl: "/demo/restaurant" },
+  "real-estate": { name: "Horizon Realty Group",         industry: "Real Estate",    accent: "#10b981", description: "Boutique real estate website with agent profiles, listing showcases, and lead capture forms for buyer/seller inquiries.", demoUrl: "/demo/real-estate" },
+  "law-firm":    { name: "Morrison & Associates Law",    industry: "Law Firm",       accent: "#6366f1", description: "Professional law firm website with practice area pages, attorney credentials, and confidential consultation request forms.", demoUrl: "/demo/law-firm" },
+  insurance:      { name: "Shield Insurance Partners",   industry: "Insurance",      accent: "#22d3ee", description: "Insurance agency website with carrier comparisons, quote request forms, and trust-building testimonials from satisfied clients.", demoUrl: "/demo/insurance" },
+  ecommerce:      { name: "Vitality Nutrition",           industry: "E-Commerce",     accent: "#84cc16", description: "Clean supplement e-commerce website with ingredient transparency, customer reviews, and subscription options for recurring revenue.", demoUrl: "/demo/ecommerce" },
+  "tech-company":{ name: "Nexus AI",                      industry: "Tech Company",   accent: "#a78bfa", description: "Enterprise AI platform demo with agentic workflows, data intelligence, and scalable automation showcase.", demoUrl: "/demo/tech-company" },
 } as const;
 
 type VerticalKey = keyof typeof VERTICALS;
@@ -188,6 +196,9 @@ export default function Home() {
   return (
     <div style={{ minHeight: "100vh", background: "#09090b", color: "#f4f4f5", fontFamily: "Inter, system-ui, sans-serif" }}>
 
+      {/* Orbital animation — fixed background, first child, z-index 0 */}
+      <AexonOrbitalAnimation />
+
       {/* Nav */}
       <nav style={{ maxWidth: "1200px", margin: "0 auto", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -197,7 +208,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(16,185,129,0.1)", color: "#10b981", border: "1px solid rgba(16,185,129,0.2)" }}>
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
-            12 live Demos
+            13 live Demos
           </span>
           <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#a1a1aa", textDecoration: "none" }}>
             aexonai.com →
@@ -211,9 +222,13 @@ export default function Home() {
           AI-built websites for local businesses
         </div>
 
-        {/* Headline */}
-        <h1 style={{ fontSize: "clamp(48px, 8vw, 96px)", fontWeight: 900, lineHeight: 0.5, marginBottom: "32px", letterSpacing: "-0.03em" }}>
-          <span style={{ display: "block", color: "#ffffff", textShadow: "0 1px 0 #000, 0 2px 3px #000, 0 4px 6px rgba(0,0,0,0.8), 0 6px 12px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.6), 0 12px 36px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.4), 0 32px 80px rgba(0,0,0,0.3)" }}>
+        {/* Headline — line-height 0.85em to fix merge */}
+        <h1 style={{ fontSize: "clamp(48px, 8vw, 96px)", fontWeight: 900, lineHeight: 0.85, marginBottom: "32px", letterSpacing: "-0.03em" }}>
+          <span style={{
+            display: "block",
+            color: "#ffffff",
+            textShadow: "0 1px 0 #000, 0 2px 3px #000, 0 4px 6px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6), 0 16px 48px rgba(0,0,0,0.4)",
+          }}>
             Your competitors
           </span>
           <span style={{
@@ -223,11 +238,15 @@ export default function Home() {
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
             textShadow: "none",
-            filter: "drop-shadow(0 1px 0 #000) drop-shadow(0 2px 3px #000) drop-shadow(0 4px 6px rgba(0,0,0,0.8)) drop-shadow(0 6px 12px rgba(0,0,0,0.7)) drop-shadow(0 8px 24px rgba(0,0,0,0.6)) drop-shadow(0 12px 36px rgba(0,0,0,0.5)) drop-shadow(0 20px 60px rgba(0,0,0,0.4)) drop-shadow(0 32px 80px rgba(0,0,0,0.3))",
+            filter: "drop-shadow(0 1px 0 #000) drop-shadow(0 2px 3px #000) drop-shadow(0 4px 6px rgba(0,0,0,0.8)) drop-shadow(0 8px 24px rgba(0,0,0,0.6)) drop-shadow(0 16px 48px rgba(0,0,0,0.4))",
           }}>
             already have
           </span>
-          <span style={{ display: "block", color: "#ffffff", textShadow: "0 1px 0 #000, 0 2px 3px #000, 0 4px 6px rgba(0,0,0,0.8), 0 6px 12px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.6), 0 12px 36px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.4), 0 32px 80px rgba(0,0,0,0.3)" }}>
+          <span style={{
+            display: "block",
+            color: "#ffffff",
+            textShadow: "0 1px 0 #000, 0 2px 3px #000, 0 4px 6px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6), 0 16px 48px rgba(0,0,0,0.4)",
+          }}>
             a website.
           </span>
         </h1>
@@ -238,7 +257,7 @@ export default function Home() {
 
         <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
           <a href="#demos" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 28px", borderRadius: "99px", fontSize: "14px", fontWeight: 600, background: "#22d3ee", color: "#09090b", textDecoration: "none", transition: "opacity 0.2s" }}>
-            Browse 12 demos
+            Browse 13 demos
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 5v14M5 12l7 7 7-7"/>
             </svg>
@@ -254,14 +273,15 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "48px" }}>
           <h2 style={{ fontSize: "24px", fontWeight: 700, color: "#f4f4f5", whiteSpace: "nowrap" }}>Industry demos</h2>
           <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.06)" }} />
-          <span style={{ fontSize: "12px", color: "#52525b", whiteSpace: "nowrap" }}>12 verticals</span>
+          <span style={{ fontSize: "12px", color: "#52525b", whiteSpace: "nowrap" }}>13 verticals</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <Row keys={["hvac", "electrician", "salon"]} />
-          <Row keys={["plumbing", "auto-repair", "clothing"]} />
-          <Row keys={["restaurant", "real-estate", "law-firm"]} />
-          <Row keys={["insurance", "ecommerce", "tech-company"]} />
+          <Row keys={["plumbing", "auto-repair", "roofer"]} />
+          <Row keys={["clothing", "restaurant", "real-estate"]} />
+          <Row keys={["law-firm", "insurance", "ecommerce"]} />
+          <Row keys={["tech-company"]} />
         </div>
       </section>
 
