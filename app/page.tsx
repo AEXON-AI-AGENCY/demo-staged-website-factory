@@ -1,89 +1,94 @@
-/* Hallmark · macrostructure: Manifesto · theme: Studio · accent: indigo */
 "use client";
-import type { Metadata } from "next";
-import React from "react";
-import Image from "next/image";
-import "./globals.css";
-import { VERTICALS } from "@/lib/verticals";
-import AexonOrbitalAnimation from "@/components/AexonOrbitalAnimation";
 
-// ─── Industry icons ───────────────────────────────────────────────────────────
+import Image from "next/image";
+
+// ─── Icon map (inline SVGs, no external deps) ─────────────────────────────────
 const icons: Record<string, React.ReactNode> = {
-  plumbing: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 6a5 5 0 0 1 1 9.9M9 19l3-3m0 0l3 3m-3-3v12"/>
-    </svg>
-  ),
   hvac: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/><circle cx="12" cy="12" r="4"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14.5 4h-5L7 7H4a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-3l-2.5-3z"/>
+      <circle cx="12" cy="13" r="3"/>
     </svg>
   ),
   electrician: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-    </svg>
-  ),
-  roofer: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-  ),
-  "auto-repair": (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6M9 17h-5"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
     </svg>
   ),
   salon: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><line x1="4" y1="21" x2="20" y2="21"/><line x1="12" y1="16" x2="12" y2="21"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2a10 10 0 0 1 10 10c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2z"/>
+      <path d="M12 8v4l3 3"/>
     </svg>
   ),
-  restaurant: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+  plumbing: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 14h6v6H4zM14 4h6v6h-6zM4 14l4-4M14 10l4 4"/>
     </svg>
   ),
-  "real-estate": (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M19 21v-8l-7-4.5V3h10v5l-7 4.5v4.5l7 4.5v0z"/><path d="M19 14.5V3"/><path d="M12 21v-6l-5-3V3h10v9l-5 3v6"/>
-    </svg>
-  ),
-  "law-firm": (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/>
-    </svg>
-  ),
-  insurance: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+  "auto-repair": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="18" r="3"/>
+      <path d="M2 17L6.5 8.5a4.5 4.5 0 0 1 6.4-2.5L14 9l4 4-2.1 2.1a4.5 4.5 0 0 1-2.8 6.7L6 20l-2-1z"/>
     </svg>
   ),
   clothing: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 2l4 4h4l2 4-2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V12l-2-2 2-4h4L6 2z"/><path d="M12 2v8"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.38 3.46L16 2l-4 1-4-1L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
+    </svg>
+  ),
+  restaurant: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+    </svg>
+  ),
+  "real-estate": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  ),
+  "law-firm": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <path d="M9 17V9M15 17V9M9 9h6"/>
+    </svg>
+  ),
+  insurance: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
     </svg>
   ),
   ecommerce: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
     </svg>
   ),
   "tech-company": (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="4" width="16" height="16" rx="2"/>
-      <rect x="9" y="9" width="6" height="6"/>
-      <line x1="9" y1="1" x2="9" y2="4"/>
-      <line x1="15" y1="1" x2="15" y2="4"/>
-      <line x1="9" y1="20" x2="9" y2="23"/>
-      <line x1="15" y1="20" x2="15" y2="23"/>
-      <line x1="20" y1="9" x2="23" y2="9"/>
-      <line x1="20" y1="14" x2="23" y2="14"/>
-      <line x1="1" y1="9" x2="4" y2="9"/>
-      <line x1="1" y1="14" x2="4" y2="14"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
     </svg>
   ),
 };
+
+// ─── Vertical data ────────────────────────────────────────────────────────────
+const VERTICALS = {
+  hvac:         { name: "CoolPro HVAC",        industry: "HVAC",          accent: "#f97316", description: "Seasonal HVAC website with urgency-driven CTAs, maintenance plans showcase, and fast quote request forms that capture high-intent leads.", demoUrl: "/demo/hvac" },
+  electrician:   { name: "Current Electric LLC", industry: "Electrical",    accent: "#3b82f6", description: "Professional electrical services website with safety certifications front-and-center, service-specific landing pages, and instant scheduling.", demoUrl: "/demo/electrician" },
+  salon:         { name: "Glow Studio Salon",   industry: "Salon & Spa",   accent: "#ec4899", description: "Elegant salon website with visual stylist portfolios, service menu with pricing, and seamless online booking integration.", demoUrl: "/demo/salon" },
+  plumbing:      { name: "Bay Area Plumbing Co.", industry: "Plumbing",     accent: "#0ea5e9", description: "Service-focused plumbing website with instant booking, service area mapping, and trust signals that convert browsers into booked appointments.", demoUrl: "/demo/plumbing" },
+  "auto-repair": { name: "Westside Auto Care",   industry: "Auto Repair",   accent: "#8b5cf6", description: "Trust-building auto repair website with transparent pricing, service reminder features, and appointment scheduling that reduces no-shows.", demoUrl: "/demo/auto-repair" },
+  clothing:      { name: "NOIR Apparel",         industry: "Clothing Brand", accent: "#1e1e2e", description: "Fashion-forward brand website with lookbook aesthetics, product storytelling, and email capture for drop notifications.", demoUrl: "/demo/clothing" },
+  restaurant:    { name: "Mama Rosa's Italian Kitchen", industry: "Restaurant", accent: "#f59e0b", description: "Restaurant website with embedded menu, reservation system, and catering inquiry forms that capture group booking revenue.", demoUrl: "/demo/restaurant" },
+  "real-estate": { name: "Horizon Realty Group", industry: "Real Estate",   accent: "#10b981", description: "Boutique real estate website with agent profiles, listing showcases, and lead capture forms for buyer/seller inquiries.", demoUrl: "/demo/real-estate" },
+  "law-firm":    { name: "Morrison & Associates Law", industry: "Law Firm", accent: "#6366f1", description: "Professional law firm website with practice area pages, attorney credentials, and confidential consultation request forms.", demoUrl: "/demo/law-firm" },
+  insurance:     { name: "Shield Insurance Partners", industry: "Insurance", accent: "#22d3ee", description: "Insurance agency website with carrier comparisons, quote request forms, and trust-building testimonials from satisfied clients.", demoUrl: "/demo/insurance" },
+  ecommerce:     { name: "Vitality Nutrition",   industry: "E-Commerce",    accent: "#84cc16", description: "Clean supplement e-commerce website with ingredient transparency, customer reviews, and subscription options for recurring revenue.", demoUrl: "/demo/ecommerce" },
+  "tech-company":{ name: "Nexus AI",             industry: "Tech Company",  accent: "#a78bfa", description: "Enterprise AI platform demo with agentic workflows, data intelligence, and scalable automation showcase.", demoUrl: "/demo/tech-company" },
+} as const;
+
+type VerticalKey = keyof typeof VERTICALS;
 
 // ─── Vertical card ─────────────────────────────────────────────────────────────
 function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
@@ -93,47 +98,62 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
   return (
     <a
       href={demoUrl}
-      className="vertical-card group block rounded-2xl p-5 border"
       style={{
-        background: `rgba(24,24,27,0.6)`,
-        borderColor: `rgba(63,63,70,0.5)`,
-        boxShadow: `--card-glow, ${accent}15`,
-        "--card-glow": `0 0 40px ${accent}20`,
-      } as React.CSSProperties}
+        display: "flex",
+        flexDirection: "column",
+        gap: "0",
+        padding: "20px",
+        borderRadius: "16px",
+        background: "rgba(24, 24, 27, 0.8)",
+        border: `1px solid rgba(63, 63, 70, 0.5)`,
+        boxShadow: `0 0 40px ${accent}15`,
+        textDecoration: "none",
+        color: "#f4f4f5",
+        minHeight: "160px",
+        transition: "all 0.3s ease",
+        cursor: "pointer",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 0 60px ${accent}30`;
+        (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 0 40px ${accent}15`;
+        (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
+      }}
     >
-      {/* Accent bar at top */}
-      <div
-        className="h-0.5 rounded-full mb-4 transition-all duration-500 group-hover:opacity-100 opacity-60"
-        style={{ background: accent }}
-      />
+      {/* Accent bar */}
+      <div style={{ width: "40px", height: "3px", borderRadius: "99px", background: accent, marginBottom: "16px", opacity: 0.85 }} />
 
       {/* Icon + industry */}
-      <div className="flex items-center gap-3 mb-3">
-        <div
-          className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
-          style={{ background: `${accent}20`, color: accent }}
-        >
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+        <div style={{
+          width: "32px", height: "32px", borderRadius: "8px",
+          background: `${accent}20`, color: accent,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0,
+        }}>
           {icons[id]}
         </div>
-        <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: accent }}>
+        <span style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: accent }}>
           {industry}
         </span>
       </div>
 
       {/* Business name */}
-      <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#f4f4f5' }}>
+      <div style={{ fontSize: "15px", fontWeight: 600, color: "#f4f4f5", marginBottom: "6px", lineHeight: 1.3 }}>
         {name}
-      </h3>
+      </div>
 
       {/* Description */}
-      <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#a1a1aa' }}>
+      <div style={{ fontSize: "12px", color: "#a1a1aa", lineHeight: 1.6, marginBottom: "16px", flex: 1 }}>
         {description}
-      </p>
+      </div>
 
       {/* CTA */}
-      <div className="flex items-center gap-1.5 text-xs font-medium transition-all duration-300 group-hover:gap-2.5" style={{ color: accent }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 500, color: accent, marginTop: "auto" }}>
         <span>View demo</span>
-        <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </div>
@@ -141,241 +161,137 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
   );
 }
 
-// ─── Cursor spotlight ──────────────────────────────────────────────────────────
-function CursorSpotlight() {
-  React.useEffect(() => {
-    const el = document.getElementById("hero-spotlight");
-    if (!el) return;
-    const handler = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-      el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-    };
-    el.addEventListener("pointermove", handler);
-    return () => el.removeEventListener("pointermove", handler);
-  }, []);
-  return null;
+// ─── Bento row helper ──────────────────────────────────────────────────────────
+function Row({ keys }: { keys: VerticalKey[] }) {
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
+      {keys.map((key) => {
+        const v = VERTICALS[key];
+        return (
+          <VerticalCard
+            key={key}
+            id={key}
+            name={v.name}
+            industry={v.industry}
+            accent={v.accent}
+            description={v.description}
+            demoUrl={v.demoUrl}
+          />
+        );
+      })}
+    </div>
+  );
 }
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)]" style={{ color: '#f4f4f5' }}>
+    <div style={{ minHeight: "100vh", background: "#09090b", color: "#f4f4f5", fontFamily: "Inter, system-ui, sans-serif" }}>
 
-      <CursorSpotlight />
-
-      {/* ── Brain animation — page-level fixed background ──────────────────── */}
-      <AexonOrbitalAnimation />
-
-      {/* ── Nav ───────────────────────────────────────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Image src="/aexon-logo.png" alt="AEXON AI" width={56} height={38} className="h-auto" />
-            <span className="text-sm font-semibold" style={{ color: '#e4e4e7' }}>Aexon AI</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"/>
-              13 live demos
-            </span>
-            <a
-              href="https://aexonai.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs transition-colors" style={{ color: '#a1a1aa' }}
-            >
-              aexonai.com →
-            </a>
-          </div>
+      {/* Nav */}
+      <nav style={{ maxWidth: "1200px", margin: "0 auto", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <Image src="/aexon-logo.png" alt="AEXON AI" width={56} height={38} style={{ height: "auto" }} />
+          <span style={{ fontSize: "14px", fontWeight: 600, color: "#e4e4e7" }}>Aexon AI</span>
         </div>
-      </header>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(16,185,129,0.1)", color: "#10b981", border: "1px solid rgba(16,185,129,0.2)" }}>
+            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
+            12 live Demos
+          </span>
+          <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#a1a1aa", textDecoration: "none" }}>
+            aexonai.com →
+          </a>
+        </div>
+      </nav>
 
-      {/* ── Hero — Manifesto with cursor spotlight ─────────────────────────── */}
-      <section
-        id="hero-spotlight"
-        className="hero-spotlight relative min-h-[80vh] flex flex-col items-center justify-center text-center px-6 pt-32 pb-20"
-      >
-        {/* Grid background */}
-        <div className="absolute inset-0 z-0" aria-hidden="true">
-          <svg className="w-full h-full opacity-[0.035]" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#818cf8" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100" height="100" fill="url(#grid)"/>
-          </svg>
+      {/* Hero */}
+      <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "80px 24px 60px", textAlign: "center" }}>
+        <div style={{ display: "inline-block", padding: "6px 14px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(34,211,238,0.08)", color: "#22d3ee", border: "1px solid rgba(34,211,238,0.15)", marginBottom: "32px" }}>
+          AI-built websites for local businesses
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto">
+        {/* Headline */}
+        <h1 style={{ fontSize: "clamp(48px, 8vw, 96px)", fontWeight: 900, lineHeight: 0.5, marginBottom: "32px", letterSpacing: "-0.03em" }}>
+          <span style={{ display: "block", color: "#ffffff", textShadow: "0 1px 0 #000, 0 2px 3px #000, 0 4px 6px rgba(0,0,0,0.8), 0 6px 12px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.6), 0 12px 36px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.4), 0 32px 80px rgba(0,0,0,0.3)" }}>
+            Your competitors
+          </span>
+          <span style={{
+            display: "block",
+            background: "linear-gradient(90deg, #ffffff 0%, #a78bfa 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            textShadow: "none",
+            filter: "drop-shadow(0 1px 0 #000) drop-shadow(0 2px 3px #000) drop-shadow(0 4px 6px rgba(0,0,0,0.8)) drop-shadow(0 6px 12px rgba(0,0,0,0.7)) drop-shadow(0 8px 24px rgba(0,0,0,0.6)) drop-shadow(0 12px 36px rgba(0,0,0,0.5)) drop-shadow(0 20px 60px rgba(0,0,0,0.4)) drop-shadow(0 32px 80px rgba(0,0,0,0.3))",
+          }}>
+            already have
+          </span>
+          <span style={{ display: "block", color: "#ffffff", textShadow: "0 1px 0 #000, 0 2px 3px #000, 0 4px 6px rgba(0,0,0,0.8), 0 6px 12px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.6), 0 12px 36px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.4), 0 32px 80px rgba(0,0,0,0.3)" }}>
+            a website.
+          </span>
+        </h1>
 
-          {/* Eyebrow */}
-          <div className="animate-fade-up animate-delay-100 inline-flex items-center gap-2.5 px-4 py-2 rounded-full border text-xs font-medium mb-8"
-            style={{
-              background: "rgba(129,140,248,0.08)",
-              borderColor: "rgba(129,140,248,0.25)",
-              color: "var(--color-accent)"
-            }}>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-accent)" }}/>
-            AI-built websites for local businesses
-          </div>
+        <p style={{ fontSize: "18px", color: "#a1a1aa", maxWidth: "600px", margin: "0 auto 40px", lineHeight: 1.7 }}>
+          These aren't templates. They're full AI-built sites — built for your industry, your customers, your revenue goals. Pick yours, make it yours.
+        </p>
 
-          {/* Headline — manifesto large type, all 3 lines premium depth treatment */}
-          <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-2 font-['Inter','var(--font-inter)']" style={{ lineHeight: "0.5em" }}>
-            <span className="headline-line" style={{ lineHeight: "0.5em", display: "block" }}>Your competitors</span>
-            <br />
-            <span className="headline-accent" style={{ lineHeight: "0.5em", display: "block" }}>already have</span>
-            <br />
-            <span className="headline-line" style={{ lineHeight: "0.5em", display: "block" }}>a website.</span>
-          </h1>
+        <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+          <a href="#demos" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 28px", borderRadius: "99px", fontSize: "14px", fontWeight: 600, background: "#22d3ee", color: "#09090b", textDecoration: "none", transition: "opacity 0.2s" }}>
+            Browse 12 demos
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+          </a>
+          <a href="https://aexonai.com/#consultation" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 28px", borderRadius: "99px", fontSize: "14px", fontWeight: 600, background: "rgba(255,255,255,0.06)", color: "#f4f4f5", border: "1px solid rgba(255,255,255,0.1)", textDecoration: "none" }}>
+            Talk to us
+          </a>
+        </div>
+      </section>
 
-          {/* Lede */}
-          <p className="animate-fade-up animate-delay-300 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed" style={{ color: '#a1a1aa' }}>
-            These aren&apos;t templates. They&apos;re full AI-built sites — built for your industry, 
-            your customers, your revenue goals. Pick yours, make it yours.
+      {/* Demo cards */}
+      <section id="demos" style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px 80px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "48px" }}>
+          <h2 style={{ fontSize: "24px", fontWeight: 700, color: "#f4f4f5", whiteSpace: "nowrap" }}>Industry demos</h2>
+          <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.06)" }} />
+          <span style={{ fontSize: "12px", color: "#52525b", whiteSpace: "nowrap" }}>12 verticals</span>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <Row keys={["hvac", "electrician", "salon"]} />
+          <Row keys={["plumbing", "auto-repair", "clothing"]} />
+          <Row keys={["restaurant", "real-estate", "law-firm"]} />
+          <Row keys={["insurance", "ecommerce", "tech-company"]} />
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding: "0 24px 96px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center", padding: "64px 32px", borderRadius: "24px", border: "1px solid rgba(129,140,248,0.2)", background: "linear-gradient(135deg, rgba(129,140,248,0.08) 0%, rgba(24,24,27,0.9) 60%)", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(129,140,248,0.12), transparent)", pointerEvents: "none" }} />
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: "#f4f4f5", marginBottom: "12px", position: "relative" }}>
+            Want your site to look like this?
+          </h2>
+          <p style={{ fontSize: "16px", color: "#a1a1aa", maxWidth: "480px", margin: "0 auto 32px", lineHeight: 1.7, position: "relative" }}>
+            We build conversion-focused websites for local businesses in days, not weeks. Starting at competitive prices with dedicated AI-powered support.
           </p>
-
-          {/* CTAs */}
-          <div className="animate-fade-up animate-delay-400 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a
-              href="#demos"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-200 hover:opacity-90"
-              style={{ background: "var(--color-accent)", color: "#09090b" }}
-            >
-              Browse 12 demos
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14M19 12l-7 7-7-7"/>
-              </svg>
-            </a>
-            <a
-              href="https://aexonai.com/#consultation"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold border transition-all duration-200 hover:bg-zinc-800/50"
-              style={{ borderColor: "rgba(255,255,255,0.12)", color: "var(--color-text)" }}
-            >
-              Talk to us
-            </a>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="animate-fade-up animate-delay-500 absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <span className="text-xs" style={{ color: '#52525b' }}>Scroll to explore</span>
-          <div className="w-5 h-8 rounded-full border border-zinc-700 flex justify-center pt-1.5">
-            <div className="w-0.5 h-2 rounded-full animate-bounce" style={{ background: "var(--color-accent)" }}/>
-          </div>
+          <a href="https://aexonai.com/#consultation" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 32px", borderRadius: "99px", fontSize: "14px", fontWeight: 600, background: "#22d3ee", color: "#09090b", textDecoration: "none", position: "relative" }}>
+            Get started
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
         </div>
       </section>
 
-      {/* ── Demo grid ──────────────────────────────────────────────────────── */}
-      <section id="demos" className="px-6 pb-32">
-        <div className="max-w-6xl mx-auto">
-
-          {/* Section header */}
-          <div className="mb-12 flex items-baseline gap-4">
-            <h2 className="text-2xl font-bold" style={{ color: '#f4f4f5' }}>Industry demos</h2>
-            <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }}/>
-            <span className="text-xs" style={{ color: '#52525b' }}>13 verticals</span>
-          </div>
-
-          {/* Bento-style grid with varying card sizes */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-            {/* Row 1: 3 normals */}
-            {(["hvac", "electrician", "salon"] as const).map((key, i) => {
-              const v = VERTICALS[key];
-              return (
-                <div key={key} className={`animate-fade-up animate-delay-${(i + 1) * 100}`}>
-                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} />
-                </div>
-              );
-            })}
-
-            {/* Row 2: plumber wide, 2 normals */}
-            {(["plumbing", "auto-repair", "clothing"] as const).map((key, i) => {
-              const v = VERTICALS[key];
-              return (
-                <div key={key} className={key === "plumbing" ? "lg:col-span-2" : ""}>
-                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} />
-                </div>
-              );
-            })}
-
-            {/* Row 3: 3 normals */}
-            {(["restaurant", "real-estate", "law-firm"] as const).map((key) => {
-              const v = VERTICALS[key];
-              return (
-                <div key={key}>
-                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} />
-                </div>
-              );
-            })}
-
-            {/* Row 4: insurance (wide), ecommerce, tech-company */}
-            {(["insurance", "ecommerce", "tech-company"] as const).map((key, i) => {
-              const v = VERTICALS[key];
-              return (
-                <div key={key} className={i === 0 ? "lg:col-span-1" : ""}>
-                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl}  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Final CTA strip ─────────────────────────────────────────────────── */}
-      <section className="px-6 pb-24">
-        <div className="max-w-6xl mx-auto">
-          <div
-            className="relative overflow-hidden rounded-2xl px-8 py-16 md:py-20 text-center border"
-            style={{
-              background: "linear-gradient(135deg, rgba(129,140,248,0.08) 0%, rgba(24,24,27,0.9) 60%)",
-              borderColor: "rgba(129,140,248,0.2)"
-            }}
-          >
-            {/* Glow */}
-            <div className="absolute inset-0" aria-hidden="true" style={{
-              background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(129,140,248,0.12), transparent)"
-            }}/>
-
-            <div className="relative">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: '#f4f4f5' }}>
-                Want your site to look like this?
-              </h2>
-              <p className="max-w-lg mx-auto mb-8 leading-relaxed" style={{ color: '#a1a1aa' }}>
-                We build conversion-focused websites for local businesses in days, not weeks. 
-                Starting at competitive prices with dedicated AI-powered support.
-              </p>
-              <a
-                href="https://aexonai.com/#consultation"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-semibold transition-all duration-200 hover:opacity-90"
-                style={{ background: "var(--color-accent)", color: "#09090b" }}
-              >
-                Get started
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Footer ─────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-white/5 py-8 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-sm" style={{ color: '#52525b' }}>
+      {/* Footer */}
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "32px 24px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "#52525b" }}>
             <span>Built with AI by</span>
-            <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" className="font-medium transition-colors" style={{ color: '#a1a1aa' }}>
-              Aexon AI
-            </a>
+            <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "14px", fontWeight: 500, color: "#a1a1aa", textDecoration: "none" }}>Aexon AI</a>
           </div>
-          <p className="text-sm" style={{ color: '#3f3f46' }}>© 2025 Aexon AI. All rights reserved.</p>
+          <p style={{ fontSize: "14px", color: "#3f3f46" }}>© 2025 Aexon AI. All rights reserved.</p>
         </div>
       </footer>
     </div>
