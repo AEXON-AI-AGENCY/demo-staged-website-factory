@@ -222,12 +222,12 @@ export default function Home() {
           </div>
 
           {/* Headline — manifesto large type, all 3 lines premium depth treatment */}
-          <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-2 font-['Inter','var(--font-inter)']" style={{ lineHeight: "0.55em" }}>
-            <span className="headline-line">Your competitors</span>
+          <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-2 font-['Inter','var(--font-inter)']" style={{ lineHeight: "0.5em" }}>
+            <span className="headline-line" style={{ lineHeight: "0.5em", display: "block" }}>Your competitors</span>
             <br />
-            <span className="headline-accent">already have</span>
+            <span className="headline-accent" style={{ lineHeight: "0.5em", display: "block" }}>already have</span>
             <br />
-            <span className="headline-line">a website.</span>
+            <span className="headline-line" style={{ lineHeight: "0.5em", display: "block" }}>a website.</span>
           </h1>
 
           {/* Lede */}
