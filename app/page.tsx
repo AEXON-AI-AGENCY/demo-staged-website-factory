@@ -5,7 +5,7 @@ import React from "react";
 import Image from "next/image";
 import "./globals.css";
 import { VERTICALS } from "@/lib/verticals";
-import AexonBrainAnimation from "@/components/AexonBrainAnimation";
+import AexonOrbitalAnimation from "@/components/AexonOrbitalAnimation";
 
 // ─── Industry icons ───────────────────────────────────────────────────────────
 const icons: Record<string, React.ReactNode> = {
@@ -86,9 +86,9 @@ const icons: Record<string, React.ReactNode> = {
 };
 
 // ─── Vertical card ─────────────────────────────────────────────────────────────
-function VerticalCard({ id, name, industry, accent, description, demoUrl, mockupImage }: {
+function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
   id: string; name: string; industry: string; accent: string;
-  description: string; demoUrl: string; mockupImage?: string;
+  description: string; demoUrl: string;
 }) {
   return (
     <a
@@ -106,13 +106,6 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl, mockup
         className="h-0.5 rounded-full mb-4 transition-all duration-500 group-hover:opacity-100 opacity-60"
         style={{ background: accent }}
       />
-
-      {/* Mockup image for tech-company */}
-      {mockupImage && (
-        <div className="mb-3 rounded-lg overflow-hidden h-24 -mx-1">
-          <img src={mockupImage} alt={name} className="w-full h-full object-cover opacity-80" />
-        </div>
-      )}
 
       {/* Icon + industry */}
       <div className="flex items-center gap-3 mb-3">
@@ -172,7 +165,7 @@ export default function Home() {
       <CursorSpotlight />
 
       {/* ── Brain animation — page-level fixed background ──────────────────── */}
-      <AexonBrainAnimation />
+      <AexonOrbitalAnimation />
 
       {/* ── Nav ───────────────────────────────────────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/5">
@@ -325,7 +318,7 @@ export default function Home() {
               const v = VERTICALS[key];
               return (
                 <div key={key} className={i === 0 ? "lg:col-span-1" : ""}>
-                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} mockupImage={"mockupImage" in v ? (v as any).mockupImage : undefined} />
+                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl}  />
                 </div>
               );
             })}

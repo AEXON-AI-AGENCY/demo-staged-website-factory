@@ -222,7 +222,6 @@ export const VERTICALS = {
     cta_sub: "Trusted by 200+ enterprises",
     description: "Enterprise AI platform demo with agentic workflows, data intelligence, and scalable automation showcase.",
     demoUrl: "/demo/tech-company",
-    mockupImage: "/wilteckinc-preview.jpg",
   },
 } as const;
 

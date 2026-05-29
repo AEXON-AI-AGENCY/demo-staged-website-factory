@@ -201,318 +201,469 @@ body {
 }
 
 /* ================================================
-   AEXON BRAIN ANIMATION CSS
-   Pure CSS animated "Big A" brain/neural network
+/* ================================================
+   AEXON ORBITAL ANIMATION CSS
+   Futuristic 3D animated "A" logo with orbital rings
    ================================================ */
 
-/* Brain animation container */
-.aexon-brain-container {
+/* Orbital animation container */
+.orbital-container {
   position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  background: radial-gradient(ellipse at center, #030711 0%, #0A1428 40%, #030712 100%);
 }
 
-/* Logo orbit - centered container */
-.logo-orbit {
+/* Deep space background glow */
+.orbital-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 45%, rgba(34, 211, 238, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+}
+
+/* Center glow beneath the "A" */
+.orbital-center-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 600px;
   height: 600px;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.08) 0%, rgba(34, 211, 238, 0.04) 30%, transparent 60%);
+  animation: center-pulse 6s ease-in-out infinite;
 }
 
-/* Inner mark with brain field */
-.aexon-mark {
+/* ================================================
+   ORBITAL RINGS
+   ================================================ */
+
+.orbital-ring {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 280px;
-  height: 280px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  background: 
+    linear-gradient(rgba(3, 7, 17, 0.85), rgba(3, 7, 17, 0.85)) padding-box,
+    linear-gradient(90deg, rgba(0, 255, 255, 0), rgba(34, 211, 238, 0.6), rgba(0, 255, 255, 0)) border-box;
+  box-shadow: 
+    0 0 20px rgba(34, 211, 238, 0.15),
+    inset 0 0 20px rgba(34, 211, 238, 0.05);
 }
 
-/* Brain field container */
-.brain-field {
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* Ring 1: Nearly horizontal, ~15-20° tilt */
+.ring-1 {
+  width: 420px;
+  height: 420px;
+  transform: translate(-50%, -50%) rotateX(75deg) rotateZ(15deg);
+  animation: ring-spin-1 30s linear infinite;
+}
+
+/* Ring 2: Diagonal, ~45-60° angle */
+.ring-2 {
+  width: 520px;
+  height: 520px;
+  transform: translate(-50%, -50%) rotateX(55deg) rotateZ(50deg);
+  animation: ring-spin-2 22s linear infinite reverse;
+}
+
+/* Ring 3: Nearly vertical, ~70-80° angle */
+.ring-3 {
+  width: 380px;
+  height: 380px;
+  transform: translate(-50%, -50%) rotateX(15deg) rotateZ(75deg);
+  animation: ring-spin-3 28s linear infinite;
+}
+
+/* Ring body (inner gradient) */
+.ring-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(34, 211, 238, 0.15) 30deg,
+    transparent 60deg,
+    rgba(34, 211, 238, 0.12) 120deg,
+    transparent 180deg,
+    rgba(34, 211, 238, 0.1) 240deg,
+    transparent 300deg,
+    rgba(34, 211, 238, 0.15) 330deg,
+    transparent 360deg
+  );
 }
 
 /* ================================================
-   MESH LAYERS - Rotating gradient layers
+   ORBITAL NODES
    ================================================ */
 
-.mesh {
+.orbital-node {
   position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, rgba(34, 211, 238, 0.9) 50%, rgba(34, 211, 238, 0.5) 70%, transparent 100%);
+  box-shadow: 
+    0 0 12px rgba(34, 211, 238, 1),
+    0 0 24px rgba(34, 211, 238, 0.6),
+    0 0 40px rgba(34, 211, 238, 0.3);
+}
+
+.node-primary {
+  width: 12px;
+  height: 12px;
+}
+
+.node-secondary {
+  width: 8px;
+  height: 8px;
+  opacity: 0.8;
+}
+
+/* Node positions on ring 1 */
+.node-1a {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: node-travel-1a 30s linear infinite;
+}
+.node-1b {
   top: 50%;
+  right: -4px;
+  transform: translateY(-50%);
+  animation: node-travel-1b 30s linear infinite;
+}
+.node-1c {
+  bottom: -6px;
   left: 50%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+  animation: node-travel-1c 30s linear infinite;
 }
 
-.mesh-one {
-  width: 240px;
-  height: 240px;
-  background: 
-    radial-gradient(circle at 30% 30%, rgba(34, 211, 238, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.2) 0%, transparent 50%),
-    conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(34, 211, 238, 0.15) 60deg, transparent 120deg, rgba(34, 211, 238, 0.12) 180deg, transparent 240deg, rgba(6, 182, 212, 0.15) 300deg, transparent 360deg);
-  animation: mesh-rotate-1 20s linear infinite;
-}
-
-.mesh-two {
-  width: 320px;
-  height: 320px;
-  background: 
-    radial-gradient(circle at 60% 40%, rgba(34, 211, 238, 0.25) 0%, transparent 40%),
-    radial-gradient(circle at 40% 60%, rgba(0, 240, 255, 0.18) 0%, transparent 40%),
-    conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(34, 211, 238, 0.1) 90deg, transparent 180deg, rgba(6, 182, 212, 0.1) 270deg, transparent 360deg);
-  animation: mesh-rotate-2 15s linear infinite reverse;
-}
-
-.mesh-three {
-  width: 400px;
-  height: 400px;
-  background: 
-    radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 30%),
-    radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 30%);
-  animation: mesh-rotate-3 25s linear infinite;
-}
-
-/* ================================================
-   MINI-NODES - Floating neural network nodes
-   ================================================ */
-
-.mini-node {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle, #22d3ee 0%, rgba(34, 211, 238, 0.8) 40%, transparent 70%);
-  border-radius: 50%;
-  box-shadow: 0 0 16px rgba(34, 211, 238, 1), 0 0 32px rgba(34, 211, 238, 0.6);
-  animation: node-float 6s ease-in-out infinite;
-}
-
-.mini-one {
-  top: 20%;
+/* Node positions on ring 2 */
+.node-2a {
+  top: -6px;
   left: 50%;
-  animation-delay: 0s;
-  animation-duration: 5s;
+  transform: translateX(-50%);
+  animation: node-travel-2a 22s linear infinite reverse;
 }
-
-.mini-two {
-  top: 35%;
-  left: 20%;
-  animation-delay: 1.2s;
-  animation-duration: 7s;
+.node-2b {
+  top: 50%;
+  left: -4px;
+  transform: translateY(-50%);
+  animation: node-travel-2b 22s linear infinite reverse;
 }
-
-.mini-three {
-  top: 35%;
-  right: 20%;
-  animation-delay: 2.4s;
-  animation-duration: 6s;
-}
-
-.mini-four {
-  top: 65%;
-  left: 25%;
-  animation-delay: 0.8s;
-  animation-duration: 8s;
-}
-
-.mini-five {
-  top: 65%;
-  right: 25%;
-  animation-delay: 1.6s;
-  animation-duration: 5.5s;
-}
-
-/* ================================================
-   NEURONS - Large drifting neural orbs
-   ================================================ */
-
-.neuron {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #22d3ee 40%, rgba(34, 211, 238, 0.5) 70%, transparent 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 24px rgba(34, 211, 238, 1), 0 0 48px rgba(34, 211, 238, 0.7), 0 0 72px rgba(34, 211, 238, 0.4);
-  animation: neuron-drift 12s ease-in-out infinite;
-}
-
-.neuron-a {
-  top: 25%;
-  left: 15%;
-  animation-delay: 0s;
-  animation-duration: 14s;
-}
-
-.neuron-b {
-  top: 30%;
+.node-2c {
+  bottom: 10%;
   right: 15%;
-  animation-delay: 3s;
-  animation-duration: 16s;
+  animation: node-travel-2c 22s linear infinite reverse;
 }
 
-.neuron-c {
-  bottom: 30%;
-  left: 20%;
-  animation-delay: 6s;
-  animation-duration: 12s;
+/* Node positions on ring 3 */
+.node-3a {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: node-travel-3a 28s linear infinite;
 }
-
-.neuron-d {
-  bottom: 25%;
-  right: 20%;
-  animation-delay: 9s;
-  animation-duration: 15s;
+.node-3b {
+  top: 35%;
+  right: -4px;
+  transform: translateY(-50%);
+  animation: node-travel-3b 28s linear infinite;
 }
-
-/* ================================================
-   PULSE LINES - Connecting neural pathways
-   ================================================ */
-
-.pulse-line {
-  position: absolute;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.6) 50%, transparent 100%);
-  transform-origin: left center;
-  animation: pulse-opacity 4s ease-in-out infinite;
-}
-
-.line-a {
-  top: 30%;
-  left: 30%;
-  width: 120px;
-  transform: rotate(25deg);
-  animation-delay: 0s;
-}
-
-.line-b {
-  top: 45%;
-  right: 30%;
-  width: 100px;
-  transform: rotate(-35deg);
-  animation-delay: 1.5s;
-}
-
-.line-c {
-  bottom: 35%;
-  left: 35%;
-  width: 90px;
-  transform: rotate(15deg);
-  animation-delay: 3s;
+.node-3c {
+  bottom: 10%;
+  left: 25%;
+  animation: node-travel-3c 28s linear infinite;
 }
 
 /* ================================================
-   AEXON LETTER - Glowing "A" centerpiece
+   VOLUMETRIC "A" LETTER
    ================================================ */
 
-.aexon-letter {
+.orbital-a-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 180px;
+  width: 200px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Outer halo - widest glow */
+.a-halo {
+  position: absolute;
+  width: 300px;
+  height: 360px;
+  background: radial-gradient(ellipse, rgba(34, 211, 238, 0.12) 0%, rgba(0, 255, 255, 0.06) 30%, transparent 70%);
+  border-radius: 50%;
+  animation: halo-breathe 8s ease-in-out infinite;
+}
+
+/* Mid glow layer */
+.a-mid-glow {
+  position: absolute;
+  width: 220px;
+  height: 260px;
+  background: radial-gradient(ellipse, rgba(34, 211, 238, 0.2) 0%, rgba(0, 255, 255, 0.1) 40%, transparent 70%);
+  border-radius: 50%;
+  animation: mid-glow-pulse 5s ease-in-out infinite;
+}
+
+/* Inner glow layer */
+.a-inner-glow {
+  position: absolute;
+  width: 160px;
+  height: 190px;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.15) 0%, rgba(34, 211, 238, 0.25) 40%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* The "A" letter itself */
+.a-letter {
+  position: relative;
+  font-size: 140px;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.12);
-  filter: blur(1px);
-  text-shadow:
-    0 0 30px rgba(34, 211, 238, 0.2),
-    0 0 60px rgba(34, 211, 238, 0.15),
-    0 0 90px rgba(34, 211, 238, 0.1);
-  animation: letter-pulse 4s ease-in-out infinite;
+  color: #ffffff;
   line-height: 1;
   letter-spacing: -0.05em;
-  z-index: 10;
+  text-shadow:
+    0 0 40px rgba(34, 211, 238, 1),
+    0 0 80px rgba(34, 211, 238, 0.8),
+    0 0 120px rgba(34, 211, 238, 0.5),
+    0 0 160px rgba(0, 255, 255, 0.3);
+  animation: letter-glow 4s ease-in-out infinite;
+  z-index: 5;
+}
+
+/* Cyan edge highlight */
+.a-edge-glow {
+  position: absolute;
+  width: 180px;
+  height: 200px;
+  background: 
+    linear-gradient(135deg, transparent 30%, rgba(0, 255, 255, 0.15) 45%, rgba(34, 211, 238, 0.25) 50%, rgba(0, 255, 255, 0.15) 55%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(4px);
+  animation: edge-shimmer 6s ease-in-out infinite;
+}
+
+/* ================================================
+   AMBIENT PARTICLES
+   ================================================ */
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+}
+
+.particle-1 {
+  top: 20%;
+  left: 15%;
+  animation: particle-drift-1 20s ease-in-out infinite;
+}
+.particle-2 {
+  top: 25%;
+  right: 20%;
+  animation: particle-drift-2 18s ease-in-out infinite;
+}
+.particle-3 {
+  bottom: 30%;
+  left: 25%;
+  animation: particle-drift-3 22s ease-in-out infinite;
+}
+.particle-4 {
+  bottom: 20%;
+  right: 15%;
+  animation: particle-drift-4 16s ease-in-out infinite;
+}
+.particle-5 {
+  top: 40%;
+  left: 10%;
+  animation: particle-drift-5 24s ease-in-out infinite;
 }
 
 /* ================================================
    KEYFRAME ANIMATIONS
    ================================================ */
 
-/* Mesh rotation animations */
-@keyframes mesh-rotate-1 {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+/* Ring spin animations */
+@keyframes ring-spin-1 {
+  from { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(15deg) rotateY(0deg); }
+  to { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(15deg) rotateY(360deg); }
 }
 
-@keyframes mesh-rotate-2 {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(-360deg); }
+@keyframes ring-spin-2 {
+  from { transform: translate(-50%, -50%) rotateX(55deg) rotateZ(50deg) rotateY(0deg); }
+  to { transform: translate(-50%, -50%) rotateX(55deg) rotateZ(50deg) rotateY(360deg); }
 }
 
-@keyframes mesh-rotate-3 {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+@keyframes ring-spin-3 {
+  from { transform: translate(-50%, -50%) rotateX(15deg) rotateZ(75deg) rotateY(0deg); }
+  to { transform: translate(-50%, -50%) rotateX(15deg) rotateZ(75deg) rotateY(360deg); }
 }
 
-/* Node floating animation */
-@keyframes node-float {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateY(-15px) scale(1.1);
-    opacity: 1;
-  }
+/* Node travel animations - circular paths matching ring rotation */
+@keyframes node-travel-1a {
+  from { top: -6px; left: 50%; transform: translateX(-50%) rotate(0deg); }
+  25% { top: 50%; right: -6px; transform: translateY(-50%) rotate(90deg); }
+  50% { bottom: -6px; left: 50%; transform: translateX(-50%) rotate(180deg); }
+  75% { top: 50%; left: -6px; transform: translateY(-50%) rotate(270deg); }
+  to { top: -6px; left: 50%; transform: translateX(-50%) rotate(360deg); }
 }
 
-/* Neuron drifting animation */
-@keyframes neuron-drift {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.7;
-  }
-  25% {
-    transform: translate(15px, -10px) scale(1.1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translate(5px, -20px) scale(1);
-    opacity: 0.8;
-  }
-  75% {
-    transform: translate(-10px, -10px) scale(0.95);
-    opacity: 0.7;
-  }
+@keyframes node-travel-1b {
+  from { top: 50%; right: -4px; transform: translateY(-50%) rotate(0deg); }
+  25% { bottom: -4px; left: 50%; transform: translateX(-50%) rotate(90deg); }
+  50% { top: 50%; left: -4px; transform: translateY(-50%) rotate(180deg); }
+  75% { top: -4px; left: 50%; transform: translateX(-50%) rotate(270deg); }
+  to { top: 50%; right: -4px; transform: translateY(-50%) rotate(360deg); }
 }
 
-/* Pulse line opacity animation */
-@keyframes pulse-opacity {
-  0%, 100% {
-    opacity: 0.2;
-    width: 90px;
-  }
-  50% {
-    opacity: 0.8;
-    width: 120px;
-  }
+@keyframes node-travel-1c {
+  from { bottom: -6px; left: 50%; transform: translateX(-50%) rotate(0deg); }
+  25% { top: 50%; left: -6px; transform: translateY(-50%) rotate(90deg); }
+  50% { top: -6px; left: 50%; transform: translateX(-50%) rotate(180deg); }
+  75% { top: 50%; right: -6px; transform: translateY(-50%) rotate(270deg); }
+  to { bottom: -6px; left: 50%; transform: translateX(-50%) rotate(360deg); }
 }
 
-/* Letter pulse animation */
-@keyframes letter-pulse {
+@keyframes node-travel-2a {
+  from { top: -6px; left: 50%; transform: translateX(-50%); }
+  25% { top: 50%; left: -6px; transform: translateY(-50%); }
+  50% { bottom: -6px; left: 50%; transform: translateX(-50%); }
+  75% { top: 50%; right: -6px; transform: translateY(-50%); }
+  to { top: -6px; left: 50%; transform: translateX(-50%); }
+}
+
+@keyframes node-travel-2b {
+  from { top: 50%; left: -4px; transform: translateY(-50%); }
+  25% { bottom: -4px; left: 50%; transform: translateX(-50%); }
+  50% { top: 50%; right: -4px; transform: translateY(-50%); }
+  75% { top: -4px; left: 50%; transform: translateX(-50%); }
+  to { top: 50%; left: -4px; transform: translateY(-50%); }
+}
+
+@keyframes node-travel-2c {
+  from { bottom: 10%; right: 15%; }
+  25% { top: 15%; right: 10%; }
+  50% { top: 35%; left: 15%; }
+  75% { bottom: 15%; left: 10%; }
+  to { bottom: 10%; right: 15%; }
+}
+
+@keyframes node-travel-3a {
+  from { top: -4px; left: 50%; transform: translateX(-50%); }
+  25% { top: 50%; right: -4px; transform: translateY(-50%); }
+  50% { bottom: -4px; left: 50%; transform: translateX(-50%); }
+  75% { top: 50%; left: -4px; transform: translateY(-50%); }
+  to { top: -4px; left: 50%; transform: translateX(-50%); }
+}
+
+@keyframes node-travel-3b {
+  from { top: 35%; right: -4px; transform: translateY(-50%); }
+  25% { bottom: 10%; right: 15%; }
+  50% { top: 50%; left: -4px; transform: translateY(-50%); }
+  75% { top: 15%; left: 10%; }
+  to { top: 35%; right: -4px; transform: translateY(-50%); }
+}
+
+@keyframes node-travel-3c {
+  from { bottom: 10%; left: 25%; }
+  25% { top: 50%; left: -4px; transform: translateY(-50%); }
+  50% { top: 10%; right: 20%; }
+  75% { top: 35%; right: -4px; transform: translateY(-50%); }
+  to { bottom: 10%; left: 25%; }
+}
+
+/* Center glow pulse */
+@keyframes center-pulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* Letter glow animation */
+@keyframes letter-glow {
   0%, 100% {
     text-shadow:
-      0 0 30px rgba(34, 211, 238, 0.2),
-      0 0 60px rgba(34, 211, 238, 0.15),
-      0 0 90px rgba(34, 211, 238, 0.1);
-    transform: translate(-50%, -50%) scale(1);
+      0 0 40px rgba(34, 211, 238, 1),
+      0 0 80px rgba(34, 211, 238, 0.8),
+      0 0 120px rgba(34, 211, 238, 0.5),
+      0 0 160px rgba(0, 255, 255, 0.3);
   }
   50% {
     text-shadow:
-      0 0 40px rgba(34, 211, 238, 0.25),
-      0 0 80px rgba(34, 211, 238, 0.18),
-      0 0 110px rgba(34, 211, 238, 0.12);
-    transform: translate(-50%, -50%) scale(1.02);
+      0 0 50px rgba(34, 211, 238, 1),
+      0 0 100px rgba(34, 211, 238, 0.9),
+      0 0 140px rgba(34, 211, 238, 0.6),
+      0 0 180px rgba(0, 255, 255, 0.4);
   }
+}
+
+/* Halo breathe animation */
+@keyframes halo-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 0.8; }
+}
+
+/* Mid glow pulse */
+@keyframes mid-glow-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+/* Edge shimmer */
+@keyframes edge-shimmer {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+/* Particle drift animations */
+@keyframes particle-drift-1 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+  25% { transform: translate(30px, -20px); opacity: 0.7; }
+  50% { transform: translate(10px, -40px); opacity: 0.5; }
+  75% { transform: translate(-20px, -20px); opacity: 0.6; }
+}
+
+@keyframes particle-drift-2 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.5; }
+  25% { transform: translate(-25px, -15px); opacity: 0.7; }
+  50% { transform: translate(-40px, 10px); opacity: 0.4; }
+  75% { transform: translate(-15px, 25px); opacity: 0.6; }
+}
+
+@keyframes particle-drift-3 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+  25% { transform: translate(20px, 25px); opacity: 0.6; }
+  50% { transform: translate(35px, 5px); opacity: 0.5; }
+  75% { transform: translate(10px, -15px); opacity: 0.7; }
+}
+
+@keyframes particle-drift-4 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.5; }
+  25% { transform: translate(-15px, 20px); opacity: 0.6; }
+  50% { transform: translate(-30px, -10px); opacity: 0.4; }
+  75% { transform: translate(-5px, -25px); opacity: 0.7; }
+}
+
+@keyframes particle-drift-5 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+  25% { transform: translate(15px, -30px); opacity: 0.5; }
+  50% { transform: translate(25px, -15px); opacity: 0.4; }
+  75% { transform: translate(5px, -35px); opacity: 0.6; }
 }
 
 /* ================================================
@@ -520,71 +671,58 @@ body {
    ================================================ */
 
 @media (max-width: 768px) {
-  .logo-orbit {
-    width: 400px;
-    height: 400px;
-  }
+  .ring-1 { width: 280px; height: 280px; }
+  .ring-2 { width: 350px; height: 350px; }
+  .ring-3 { width: 260px; height: 260px; }
   
-  .aexon-mark {
-    width: 180px;
-    height: 180px;
-  }
+  .orbital-a-container { width: 140px; height: 168px; }
+  .a-letter { font-size: 96px; }
+  .a-halo { width: 210px; height: 250px; }
+  .a-mid-glow { width: 154px; height: 182px; }
+  .a-inner-glow { width: 112px; height: 133px; }
+  .a-edge-glow { width: 126px; height: 140px; }
   
-  .mesh-one { width: 160px; height: 160px; }
-  .mesh-two { width: 200px; height: 200px; }
-  .mesh-three { width: 260px; height: 260px; }
+  .node-primary { width: 10px; height: 10px; }
+  .node-secondary { width: 6px; height: 6px; }
   
-  .aexon-letter {
-    font-size: 120px;
-  }
+  .orbital-center-glow { width: 400px; height: 400px; }
   
-  .neuron {
-    width: 12px;
-    height: 12px;
-  }
-  
-  .mini-node {
-    width: 6px;
-    height: 6px;
-  }
-  
-  .pulse-line {
-    display: none;
-  }
+  .particle { display: none; }
 }
 
 @media (max-width: 480px) {
-  .logo-orbit {
-    width: 300px;
-    height: 300px;
-  }
+  .ring-1 { width: 220px; height: 220px; }
+  .ring-2 { width: 280px; height: 280px; }
+  .ring-3 { width: 200px; height: 200px; }
   
-  .aexon-mark {
-    width: 140px;
-    height: 140px;
-  }
+  .orbital-a-container { width: 110px; height: 132px; }
+  .a-letter { font-size: 72px; }
+  .a-halo { width: 165px; height: 198px; }
+  .a-mid-glow { width: 121px; height: 144px; }
+  .a-inner-glow { width: 88px; height: 105px; }
+  .a-edge-glow { width: 99px; height: 110px; }
   
-  .aexon-letter {
-    font-size: 90px;
-  }
+  .orbital-center-glow { width: 300px; height: 300px; }
 }
 
 /* Reduce motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .mesh,
-  .mini-node,
-  .neuron,
-  .pulse-line,
-  .aexon-letter {
+  .orbital-ring,
+  .orbital-node,
+  .a-letter,
+  .a-halo,
+  .a-mid-glow,
+  .a-edge-glow,
+  .orbital-center-glow,
+  .particle {
     animation: none;
   }
   
-  .mesh-one { transform: translate(-50%, -50%) rotate(0deg); }
-  .mesh-two { transform: translate(-50%, -50%) rotate(0deg); }
-  .mesh-three { transform: translate(-50%, -50%) rotate(0deg); }
+  .ring-1 { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(15deg); }
+  .ring-2 { transform: translate(-50%, -50%) rotateX(55deg) rotateZ(50deg); }
+  .ring-3 { transform: translate(-50%, -50%) rotateX(15deg) rotateZ(75deg); }
   
-  .aexon-letter {
-    text-shadow: 0 0 40px rgba(34, 211, 238, 0.9);
-    transform: translate(-50%, -50%) scale(1);
+  .a-letter {
+    text-shadow: 0 0 60px rgba(34, 211, 238, 1), 0 0 100px rgba(0, 255, 255, 0.6);
   }
 }
