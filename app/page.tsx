@@ -221,13 +221,13 @@ export default function Home() {
             AI-built websites for local businesses
           </div>
 
-          {/* Headline — manifesto large type */}
+          {/* Headline — manifesto large type, all 3 lines premium depth treatment */}
           <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.92] mb-6">
-            <span className="headline-plain">Your competitors</span>
+            <span className="headline-line">Your competitors</span>
             <br />
-            <span className="gradient-text">already have</span>
+            <span className="headline-accent">already have</span>
             <br />
-            <span className="headline-plain">a website.</span>
+            <span className="headline-line">a website.</span>
           </h1>
 
           {/* Lede */}
