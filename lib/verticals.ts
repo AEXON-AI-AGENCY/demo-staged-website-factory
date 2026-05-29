@@ -207,22 +207,42 @@ export const VERTICALS = {
     demoUrl: "/demo/ecommerce",
   },
   "tech-company": {
-    name: "Wilteck Inc",
-    tagline: "Enterprise Data Intelligence",
+    name: "Nexus AI",
+    tagline: "Intelligent Automation for Modern Enterprises",
     accent: "#22d3ee",
     industry: "Tech Company",
     location: "Austin, TX",
     phone: "(512) 555-0192",
-    email: "contact@wilteckinc.com",
+    email: "contact@nexus-ai.com",
     address: "8901 Data Blvd, Austin, TX 78701",
     hours: "Mon–Fri: 8AM–6PM",
-    services: ["Data Analytics", "AI Integration", "Business Intelligence", "Custom Software", "Cloud Infrastructure"],
-    about: "Enterprise data intelligence company helping businesses make smarter decisions with AI-powered analytics.",
+    services: ["Agentic Workflows", "Data Intelligence", "Scalable Automation", "Custom Software", "Cloud Infrastructure"],
+    about: "Enterprise AI platform helping businesses deploy intelligent automation at scale. Trusted by 200+ enterprises worldwide.",
     cta: "Request Demo",
     cta_sub: "Trusted by 200+ enterprises",
-    description: "Premium tech company website with AI product showcase, case studies, and enterprise CTA — built for companies who sell intelligence.",
+    description: "Enterprise AI platform demo with agentic workflows, data intelligence, and scalable automation showcase.",
     demoUrl: "/demo/tech-company",
+    mockupImage: "/wilteckinc-preview.jpg",
   },
 } as const;
+
+export interface Vertical {
+  name: string;
+  tagline: string;
+  accent: string;
+  industry: string;
+  location: string;
+  phone: string;
+  email: string;
+  address: string;
+  hours: string;
+  services: string[];
+  about: string;
+  cta: string;
+  cta_sub: string;
+  description: string;
+  demoUrl: string;
+  mockupImage?: string;
+}
 
 export type VerticalId = keyof typeof VERTICALS;

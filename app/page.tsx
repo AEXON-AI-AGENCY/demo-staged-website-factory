@@ -86,9 +86,9 @@ const icons: Record<string, React.ReactNode> = {
 };
 
 // ─── Vertical card ─────────────────────────────────────────────────────────────
-function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
+function VerticalCard({ id, name, industry, accent, description, demoUrl, mockupImage }: {
   id: string; name: string; industry: string; accent: string;
-  description: string; demoUrl: string;
+  description: string; demoUrl: string; mockupImage?: string;
 }) {
   return (
     <a
@@ -106,6 +106,13 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
         className="h-0.5 rounded-full mb-4 transition-all duration-500 group-hover:opacity-100 opacity-60"
         style={{ background: accent }}
       />
+
+      {/* Mockup image for tech-company */}
+      {mockupImage && (
+        <div className="mb-3 rounded-lg overflow-hidden h-24 -mx-1">
+          <img src={mockupImage} alt={name} className="w-full h-full object-cover opacity-80" />
+        </div>
+      )}
 
       {/* Icon + industry */}
       <div className="flex items-center gap-3 mb-3">
@@ -131,8 +138,8 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
       </p>
 
       {/* CTA */}
-<div className="flex items-center gap-1.5 text-xs font-medium transition-all duration-300 group-hover:gap-2.5" style={{ color: accent }}>
-          <span>View demo</span>
+      <div className="flex items-center gap-1.5 text-xs font-medium transition-all duration-300 group-hover:gap-2.5" style={{ color: accent }}>
+        <span>View demo</span>
         <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
@@ -164,6 +171,9 @@ export default function Home() {
 
       <CursorSpotlight />
 
+      {/* ── Brain animation — page-level fixed background ──────────────────── */}
+      <AexonBrainAnimation />
+
       {/* ── Nav ───────────────────────────────────────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -193,9 +203,6 @@ export default function Home() {
         id="hero-spotlight"
         className="hero-spotlight relative min-h-[80vh] flex flex-col items-center justify-center text-center px-6 pt-32 pb-20"
       >
-        {/* Brain animation background */}
-        <AexonBrainAnimation />
-
         {/* Grid background */}
         <div className="absolute inset-0 z-0" aria-hidden="true">
           <svg className="w-full h-full opacity-[0.035]" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -313,25 +320,15 @@ export default function Home() {
               );
             })}
 
-            {/* Row 4: wide + normal */}
-            {(["insurance", "ecommerce"] as const).map((key, i) => {
+            {/* Row 4: insurance (wide), ecommerce, tech-company */}
+            {(["insurance", "ecommerce", "tech-company"] as const).map((key, i) => {
               const v = VERTICALS[key];
               return (
-                <div key={key} className={i === 0 ? "lg:col-span-2" : ""}>
-                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} />
+                <div key={key} className={i === 0 ? "lg:col-span-1" : ""}>
+                  <VerticalCard id={key} name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} mockupImage={"mockupImage" in v ? (v as any).mockupImage : undefined} />
                 </div>
               );
             })}
-
-            {/* Row 5: tech-company featured */}
-            <div className="lg:col-span-3">
-              {(() => {
-                const v = VERTICALS["tech-company"];
-                return (
-                  <VerticalCard id="tech-company" name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} />
-                );
-              })()}
-            </div>
           </div>
         </div>
       </section>
