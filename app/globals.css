@@ -1,8 +1,61 @@
 @import "tailwindcss";
 
+/* Hallmark Design System Tokens */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base colors */
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-border: #e8e8e8;
+  --color-border-subtle: #f0f0f0;
+  --color-text: #0a0a0a;
+  --color-muted: #6b6b6b;
+  --color-muted-light: #9a9a9a;
+  
+  /* Primary accent - deep blue */
+  --color-accent: #1a1a2e;
+  --color-accent-2: #16213e;
+  
+  /* Per-vertical accent colors */
+  --color-plumbing: #0891b2;
+  --color-hvac: #0d9488;
+  --color-electrician: #ca8a04;
+  --color-roofer: #ea580c;
+  --color-auto-repair: #dc2626;
+  --color-salon: #db2777;
+  --color-restaurant: #ea580c;
+  --color-real-estate: #2563eb;
+  --color-law-firm: #1e3a5f;
+  --color-insurance: #065f46;
+  --color-clothing: #7c3aed;
+  --color-ecommerce: #059669;
+  
+  /* Semantic tokens */
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
+  
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 @theme inline {
@@ -16,11 +69,30 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --color-bg: #111111;
+    --color-surface: #1a1a1a;
+    --color-border: #2a2a2a;
+    --color-border-subtle: #222222;
+    --color-muted: #8a8a8a;
+    --color-muted-light: #666666;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  background: var(--color-accent);
+  color: white;
 }

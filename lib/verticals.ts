@@ -16,6 +16,8 @@ export const VERTICALS = {
     about: "Family-owned plumbing company serving the Bay Area for over 20 years. Licensed, bonded, and insured.",
     cta: "Schedule Service Today",
     cta_sub: "Same-day appointments available",
+    description: "Service-focused plumbing website with instant booking, service area mapping, and trust signals that convert browsers into booked appointments.",
+    demoUrl: "/demo/plumbing",
   },
   hvac: {
     name: "CoolPro HVAC",
@@ -31,6 +33,8 @@ export const VERTICALS = {
     about: "Top-rated HVAC contractor in Phoenix with 15+ years of experience. NATE-certified technicians.",
     cta: "Get a Free Estimate",
     cta_sub: "Licensed & bonded",
+    description: "Seasonal HVAC website with urgency-driven CTAs, maintenance plans showcase, and fast quote request forms that capture high-intent leads.",
+    demoUrl: "/demo/hvac",
   },
   electrician: {
     name: "Current Electric LLC",
@@ -46,6 +50,8 @@ export const VERTICALS = {
     about: "Licensed electricians serving Austin and surrounding counties. Free estimates. No overtime charges.",
     cta: "Request Service",
     cta_sub: "Available for emergencies",
+    description: "Professional electrical services website with safety certifications front-and-center, service-specific landing pages, and instant scheduling.",
+    demoUrl: "/demo/electrician",
   },
   roofer: {
     name: "TopTier Roofing",
@@ -61,6 +67,8 @@ export const VERTICALS = {
     about: "GAF-certified roofing contractor. 10-year warranty on labor. Hundreds of 5-star reviews.",
     cta: "Book Inspection",
     cta_sub: "No-obligation roof assessment",
+    description: "Roofing contractor website with project galleries, insurance claim guidance, and inspection request forms optimized for storm damage season.",
+    demoUrl: "/demo/roofer",
   },
   "auto-repair": {
     name: "Westside Auto Care",
@@ -76,6 +84,8 @@ export const VERTICALS = {
     about: "ASE-certified mechanics. Family-owned since 1998. No surprise pricing — ever.",
     cta: "Schedule Repair",
     cta_sub: "Walk-ins welcome",
+    description: "Trust-building auto repair website with transparent pricing, service reminder features, and appointment scheduling that reduces no-shows.",
+    demoUrl: "/demo/auto-repair",
   },
   salon: {
     name: "Glow Studio Salon",
@@ -91,6 +101,8 @@ export const VERTICALS = {
     about: "Award-winning salon in the heart of Midtown. Book online or walk in. Natural hair specialist.",
     cta: "Book Appointment",
     cta_sub: "Online booking available",
+    description: "Elegant salon website with visual stylist portfolios, service menu with pricing, and seamless online booking integration.",
+    demoUrl: "/demo/salon",
   },
   restaurant: {
     name: "Mama Rosa's Italian Kitchen",
@@ -106,6 +118,8 @@ export const VERTICALS = {
     about: "Houston's favorite family-owned Italian restaurant since 1985. House-made pasta daily.",
     cta: "View Menu & Order",
     cta_sub: "Order ahead, skip the wait",
+    description: "Restaurant website with embedded menu, reservation system, and catering inquiry forms that capture group booking revenue.",
+    demoUrl: "/demo/restaurant",
   },
   "real-estate": {
     name: "Horizon Realty Group",
@@ -121,6 +135,8 @@ export const VERTICALS = {
     about: "Denver's most trusted boutique real estate team. Average 18 years experience per agent.",
     cta: "Browse Listings",
     cta_sub: "Free market analysis",
+    description: "Boutique real estate website with agent profiles, listing showcases, and lead capture forms for buyer/seller inquiries.",
+    demoUrl: "/demo/real-estate",
   },
   "law-firm": {
     name: "Morrison & Associates Law",
@@ -136,6 +152,8 @@ export const VERTICALS = {
     about: "Award-winning Chicago law firm. Contingency-fee personal injury cases. Free consultations.",
     cta: "Get Free Consultation",
     cta_sub: "Se habla español",
+    description: "Professional law firm website with practice area pages, attorney credentials, and confidential consultation request forms.",
+    demoUrl: "/demo/law-firm",
   },
   insurance: {
     name: "Shield Insurance Partners",
@@ -151,6 +169,8 @@ export const VERTICALS = {
     about: "Independent agency representing 30+ carriers. We'll shop the best rates for you.",
     cta: "Get a Quote",
     cta_sub: "No spam, no pressure",
+    description: "Insurance agency website with carrier comparisons, quote request forms, and trust-building testimonials from satisfied clients.",
+    demoUrl: "/demo/insurance",
   },
   clothing: {
     name: "NOIR Apparel",
@@ -166,21 +186,8 @@ export const VERTICALS = {
     about: "NYC-born streetwear brand. 100% designed in Brooklyn. Limited runs, no restocks.",
     cta: "Shop the Collection",
     cta_sub: "Free shipping over $75",
-  },
-  "music-brand": {
-    name: "Pulse Records",
-    tagline: "Built by Artists. For Artists.",
-    accent: "#B91C1C",
-    industry: "Music / Record Label",
-    location: "Atlanta, GA",
-    phone: "(404) 555-0598",
-    email: "submissions@pulserrecords.com",
-    address: "817 W Peachtree St NW, Atlanta, GA 30308",
-    hours: "Mon–Fri: 10AM–6PM",
-    services: ["Record Deals", "Distribution", "Music Production", "Artist Development", "Sync Licensing"],
-    about: "Independent record label and full-service music company. Signed acts include Grammy nominees.",
-    cta: "Submit Your Music",
-    cta_sub: "Response within 72 hours",
+    description: "Fashion-forward brand website with lookbook aesthetics, product storytelling, and email capture for drop notifications.",
+    demoUrl: "/demo/clothing",
   },
   ecommerce: {
     name: "Vitality Nutrition",
@@ -196,6 +203,8 @@ export const VERTICALS = {
     about: "Science-backed supplements made with clean ingredients. 60-day money-back guarantee.",
     cta: "Shop Now",
     cta_sub: "Free shipping on orders over $50",
+    description: "Clean supplement e-commerce website with ingredient transparency, customer reviews, and subscription options for recurring revenue.",
+    demoUrl: "/demo/ecommerce",
   },
 } as const;
 
