@@ -222,7 +222,7 @@ export default function Home() {
           </div>
 
           {/* Headline — manifesto large type, all 3 lines premium depth treatment */}
-          <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.92] mb-6 font-['var(--font-inter)']">
+          <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.85] mb-4 font-['Inter','var(--font-inter)']">
             <span className="headline-line">Your competitors</span>
             <br />
             <span className="headline-accent">already have</span>
