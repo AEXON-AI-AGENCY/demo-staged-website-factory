@@ -32,6 +32,7 @@
   --color-insurance: #34d399;
   --color-clothing: #c084fc;
   --color-ecommerce: #4ade80;
+  --color-tech-company: #22d3ee;
 
   /* Semantic */
   --background: var(--color-bg);
@@ -196,5 +197,396 @@ body {
   .animate-fade-up {
     animation: none;
     opacity: 1;
+  }
+}
+
+/* ================================================
+   AEXON BRAIN ANIMATION CSS
+   Pure CSS animated "Big A" brain/neural network
+   ================================================ */
+
+/* Brain animation container */
+.aexon-brain-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Logo orbit - centered container */
+.logo-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+}
+
+/* Inner mark with brain field */
+.aexon-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
+}
+
+/* Brain field container */
+.brain-field {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ================================================
+   MESH LAYERS - Rotating gradient layers
+   ================================================ */
+
+.mesh {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mesh-one {
+  width: 240px;
+  height: 240px;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(34, 211, 238, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+    conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(34, 211, 238, 0.08) 60deg, transparent 120deg, rgba(34, 211, 238, 0.06) 180deg, transparent 240deg, rgba(6, 182, 212, 0.08) 300deg, transparent 360deg);
+  animation: mesh-rotate-1 20s linear infinite;
+}
+
+.mesh-two {
+  width: 320px;
+  height: 320px;
+  background: 
+    radial-gradient(circle at 60% 40%, rgba(34, 211, 238, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 40% 60%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+    conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(34, 211, 238, 0.05) 90deg, transparent 180deg, rgba(6, 182, 212, 0.05) 270deg, transparent 360deg);
+  animation: mesh-rotate-2 15s linear infinite reverse;
+}
+
+.mesh-three {
+  width: 400px;
+  height: 400px;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.06) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.04) 0%, transparent 30%),
+    radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.04) 0%, transparent 30%);
+  animation: mesh-rotate-3 25s linear infinite;
+}
+
+/* ================================================
+   MINI-NODES - Floating neural network nodes
+   ================================================ */
+
+.mini-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #22d3ee 0%, rgba(34, 211, 238, 0.6) 40%, transparent 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.8), 0 0 24px rgba(34, 211, 238, 0.4);
+  animation: node-float 6s ease-in-out infinite;
+}
+
+.mini-one {
+  top: 20%;
+  left: 50%;
+  animation-delay: 0s;
+  animation-duration: 5s;
+}
+
+.mini-two {
+  top: 35%;
+  left: 20%;
+  animation-delay: 1.2s;
+  animation-duration: 7s;
+}
+
+.mini-three {
+  top: 35%;
+  right: 20%;
+  animation-delay: 2.4s;
+  animation-duration: 6s;
+}
+
+.mini-four {
+  top: 65%;
+  left: 25%;
+  animation-delay: 0.8s;
+  animation-duration: 8s;
+}
+
+.mini-five {
+  top: 65%;
+  right: 25%;
+  animation-delay: 1.6s;
+  animation-duration: 5.5s;
+}
+
+/* ================================================
+   NEURONS - Large drifting neural orbs
+   ================================================ */
+
+.neuron {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #22d3ee 40%, rgba(34, 211, 238, 0.3) 70%, transparent 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.9), 0 0 40px rgba(34, 211, 238, 0.5), 0 0 60px rgba(34, 211, 238, 0.2);
+  animation: neuron-drift 12s ease-in-out infinite;
+}
+
+.neuron-a {
+  top: 25%;
+  left: 15%;
+  animation-delay: 0s;
+  animation-duration: 14s;
+}
+
+.neuron-b {
+  top: 30%;
+  right: 15%;
+  animation-delay: 3s;
+  animation-duration: 16s;
+}
+
+.neuron-c {
+  bottom: 30%;
+  left: 20%;
+  animation-delay: 6s;
+  animation-duration: 12s;
+}
+
+.neuron-d {
+  bottom: 25%;
+  right: 20%;
+  animation-delay: 9s;
+  animation-duration: 15s;
+}
+
+/* ================================================
+   PULSE LINES - Connecting neural pathways
+   ================================================ */
+
+.pulse-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.6) 50%, transparent 100%);
+  transform-origin: left center;
+  animation: pulse-opacity 4s ease-in-out infinite;
+}
+
+.line-a {
+  top: 30%;
+  left: 30%;
+  width: 120px;
+  transform: rotate(25deg);
+  animation-delay: 0s;
+}
+
+.line-b {
+  top: 45%;
+  right: 30%;
+  width: 100px;
+  transform: rotate(-35deg);
+  animation-delay: 1.5s;
+}
+
+.line-c {
+  bottom: 35%;
+  left: 35%;
+  width: 90px;
+  transform: rotate(15deg);
+  animation-delay: 3s;
+}
+
+/* ================================================
+   AEXON LETTER - Glowing "A" centerpiece
+   ================================================ */
+
+.aexon-letter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 180px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 
+    0 0 40px rgba(34, 211, 238, 0.9),
+    0 0 80px rgba(34, 211, 238, 0.7),
+    0 0 120px rgba(34, 211, 238, 0.5),
+    0 0 160px rgba(34, 211, 238, 0.3);
+  animation: letter-pulse 4s ease-in-out infinite;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  z-index: 10;
+}
+
+/* ================================================
+   KEYFRAME ANIMATIONS
+   ================================================ */
+
+/* Mesh rotation animations */
+@keyframes mesh-rotate-1 {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes mesh-rotate-2 {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes mesh-rotate-3 {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Node floating animation */
+@keyframes node-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-15px) scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Neuron drifting animation */
+@keyframes neuron-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translate(15px, -10px) scale(1.1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(5px, -20px) scale(1);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translate(-10px, -10px) scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+/* Pulse line opacity animation */
+@keyframes pulse-opacity {
+  0%, 100% {
+    opacity: 0.2;
+    width: 90px;
+  }
+  50% {
+    opacity: 0.8;
+    width: 120px;
+  }
+}
+
+/* Letter pulse animation */
+@keyframes letter-pulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 40px rgba(34, 211, 238, 0.9),
+      0 0 80px rgba(34, 211, 238, 0.7),
+      0 0 120px rgba(34, 211, 238, 0.5),
+      0 0 160px rgba(34, 211, 238, 0.3);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    text-shadow: 
+      0 0 50px rgba(34, 211, 238, 1),
+      0 0 100px rgba(34, 211, 238, 0.8),
+      0 0 150px rgba(34, 211, 238, 0.6),
+      0 0 200px rgba(34, 211, 238, 0.4);
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+}
+
+/* ================================================
+   RESPONSIVE ADJUSTMENTS
+   ================================================ */
+
+@media (max-width: 768px) {
+  .logo-orbit {
+    width: 400px;
+    height: 400px;
+  }
+  
+  .aexon-mark {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .mesh-one { width: 160px; height: 160px; }
+  .mesh-two { width: 200px; height: 200px; }
+  .mesh-three { width: 260px; height: 260px; }
+  
+  .aexon-letter {
+    font-size: 120px;
+  }
+  
+  .neuron {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .mini-node {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .pulse-line {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-orbit {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .aexon-mark {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .aexon-letter {
+    font-size: 90px;
+  }
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .mesh,
+  .mini-node,
+  .neuron,
+  .pulse-line,
+  .aexon-letter {
+    animation: none;
+  }
+  
+  .mesh-one { transform: translate(-50%, -50%) rotate(0deg); }
+  .mesh-two { transform: translate(-50%, -50%) rotate(0deg); }
+  .mesh-three { transform: translate(-50%, -50%) rotate(0deg); }
+  
+  .aexon-letter {
+    text-shadow: 0 0 40px rgba(34, 211, 238, 0.9);
+    transform: translate(-50%, -50%) scale(1);
   }
 }

@@ -2,8 +2,10 @@
 "use client";
 import type { Metadata } from "next";
 import React from "react";
+import Image from "next/image";
 import "./globals.css";
 import { VERTICALS } from "@/lib/verticals";
+import AexonBrainAnimation from "@/components/AexonBrainAnimation";
 
 // ─── Industry icons ───────────────────────────────────────────────────────────
 const icons: Record<string, React.ReactNode> = {
@@ -65,6 +67,20 @@ const icons: Record<string, React.ReactNode> = {
   ecommerce: (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+  ),
+  "tech-company": (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="4" width="16" height="16" rx="2"/>
+      <rect x="9" y="9" width="6" height="6"/>
+      <line x1="9" y1="1" x2="9" y2="4"/>
+      <line x1="15" y1="1" x2="15" y2="4"/>
+      <line x1="9" y1="20" x2="9" y2="23"/>
+      <line x1="15" y1="20" x2="15" y2="23"/>
+      <line x1="20" y1="9" x2="23" y2="9"/>
+      <line x1="20" y1="14" x2="23" y2="14"/>
+      <line x1="1" y1="9" x2="4" y2="9"/>
+      <line x1="1" y1="14" x2="4" y2="14"/>
     </svg>
   ),
 };
@@ -152,17 +168,13 @@ export default function Home() {
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--color-accent)" }}>
-              <svg className="w-5 h-5 text-zinc-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-            </div>
+            <Image src="/aexon-logo.png" alt="AEXON AI" width={56} height={38} className="h-auto" />
             <span className="text-sm font-semibold text-zinc-200">Aexon AI</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"/>
-              12 live demos
+              13 live demos
             </span>
             <a
               href="https://aexonai.com"
@@ -181,6 +193,9 @@ export default function Home() {
         id="hero-spotlight"
         className="hero-spotlight relative min-h-[80vh] flex flex-col items-center justify-center text-center px-6 pt-32 pb-20"
       >
+        {/* Brain animation background */}
+        <AexonBrainAnimation />
+
         {/* Grid background */}
         <div className="absolute inset-0 z-0" aria-hidden="true">
           <svg className="w-full h-full opacity-[0.035]" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -262,7 +277,7 @@ export default function Home() {
           <div className="mb-12 flex items-baseline gap-4">
             <h2 className="text-2xl font-bold text-zinc-100">Industry demos</h2>
             <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }}/>
-            <span className="text-xs text-zinc-600">12 verticals</span>
+            <span className="text-xs text-zinc-600">13 verticals</span>
           </div>
 
           {/* Bento-style grid with varying card sizes */}
@@ -307,6 +322,16 @@ export default function Home() {
                 </div>
               );
             })}
+
+            {/* Row 5: tech-company featured */}
+            <div className="lg:col-span-3">
+              {(() => {
+                const v = VERTICALS["tech-company"];
+                return (
+                  <VerticalCard id="tech-company" name={v.name} industry={v.industry} accent={v.accent} description={v.description} demoUrl={v.demoUrl} />
+                );
+              })()}
+            </div>
           </div>
         </div>
       </section>

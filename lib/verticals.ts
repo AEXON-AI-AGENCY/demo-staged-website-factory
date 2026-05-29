@@ -206,6 +206,23 @@ export const VERTICALS = {
     description: "Clean supplement e-commerce website with ingredient transparency, customer reviews, and subscription options for recurring revenue.",
     demoUrl: "/demo/ecommerce",
   },
+  "tech-company": {
+    name: "Wilteck Inc",
+    tagline: "Enterprise Data Intelligence",
+    accent: "#22d3ee",
+    industry: "Tech Company",
+    location: "Austin, TX",
+    phone: "(512) 555-0192",
+    email: "contact@wilteckinc.com",
+    address: "8901 Data Blvd, Austin, TX 78701",
+    hours: "Mon–Fri: 8AM–6PM",
+    services: ["Data Analytics", "AI Integration", "Business Intelligence", "Custom Software", "Cloud Infrastructure"],
+    about: "Enterprise data intelligence company helping businesses make smarter decisions with AI-powered analytics.",
+    cta: "Request Demo",
+    cta_sub: "Trusted by 200+ enterprises",
+    description: "Premium tech company website with AI product showcase, case studies, and enterprise CTA — built for companies who sell intelligence.",
+    demoUrl: "/demo/tech-company",
+  },
 } as const;
 
 export type VerticalId = keyof typeof VERTICALS;
