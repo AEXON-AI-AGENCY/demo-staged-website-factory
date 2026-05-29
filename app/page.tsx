@@ -223,11 +223,11 @@ export default function Home() {
 
           {/* Headline — manifesto large type */}
           <h1 className="animate-fade-up animate-delay-200 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.92] mb-6 text-zinc-100">
-            Your competitors
+            <span className="text-3d">Your competitors</span>
             <br />
             <span className="gradient-text">already have</span>
             <br />
-            a website.
+            <span className="text-3d">a website.</span>
           </h1>
 
           {/* Lede */}
@@ -249,7 +249,7 @@ export default function Home() {
               </svg>
             </a>
             <a
-              href="https://aexonai.com"
+              href="https://aexonai.com/#consultation"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold border transition-all duration-200 hover:bg-zinc-800/50"
