@@ -141,7 +141,6 @@ body {
 /* All three lines receive IDENTICAL depth treatment — they are one headline */
 .headline-line {
   display: block;
-  line-height: 1.0;
   /* Inter — the same premium typeface used by Stripe, Linear, Vercel */
   font-family: var(--font-inter), var(--font-geist-mono), system-ui, sans-serif;
   /* Near-white for maximum contrast on dark bg */
@@ -170,7 +169,6 @@ body {
 /* Accent line — "already have" — deep indigo, high contrast, always renders */
 .headline-accent {
   display: block;
-  line-height: 1.0;
   font-family: var(--font-inter), var(--font-geist-mono), system-ui, sans-serif;
   font-weight: 900;
   letter-spacing: -0.03em;
