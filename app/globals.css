@@ -141,8 +141,14 @@ body {
 /* All three lines receive IDENTICAL depth treatment — they are one headline */
 .headline-line {
   display: block;
+  /* Inter — the same premium typeface used by Stripe, Linear, Vercel */
+  font-family: var(--font-inter), var(--font-geist-mono), system-ui, sans-serif;
   /* Near-white for maximum contrast on dark bg */
   color: #f8f8fa;
+  /* font-weight 900 — heaviest Inter offers, comparable to Stripe's display weight */
+  font-weight: 900;
+  /* Optimized tracking for display type — not too tight, not too loose */
+  letter-spacing: -0.03em;
   /* Multi-layer drop shadow — dark below, nothing above = text floats ABOVE the orbital */
   /* This creates the illusion the text is lit from above (matches orbital cyan glow) */
   text-shadow:
@@ -158,14 +164,15 @@ body {
   paint-order: stroke fill;
   /* Subtle cyan ambient glow — text breathes with the orbital animation behind it */
   filter: drop-shadow(0 0 12px rgba(34,211,238,0.12)) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-  /* Tight tracking for impact — premium editorial feel */
-  letter-spacing: -0.025em;
 }
 
-/* Accent line — "already have" — same depth, indigo stroke for brand warmth */
+/* Accent line — "already have" — same depth, indigo/white gradient for brand warmth */
 .headline-accent {
   display: block;
-  color: #f4f4fa;
+  font-family: var(--font-inter), var(--font-geist-mono), system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  /* same multi-layer shadow — identical depth to surrounding lines */
   text-shadow:
     0 1px 0 rgba(0,0,0,0.9),
     0 2px 2px rgba(0,0,0,0.7),
@@ -174,17 +181,22 @@ body {
     0 8px 16px rgba(0,0,0,0.3),
     0 12px 28px rgba(0,0,0,0.2),
     0 20px 48px rgba(0,0,0,0.12);
-  /* Indigo stroke — slightly heavier than plain lines for the accent color brand */
+  /* Indigo stroke — slightly heavier for brand accent */
   -webkit-text-stroke: 1px rgba(129,140,248,0.55);
   paint-order: stroke fill;
   filter: drop-shadow(0 0 14px rgba(129,140,248,0.2)) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-  letter-spacing: -0.025em;
 }
 
 /* Mobile — slightly looser tracking, reduced shadow layers for perf */
 @media (max-width: 640px) {
   .headline-line,
   .headline-accent {
+    font-weight: 900;
+    text-shadow:
+      0 1px 0 rgba(0,0,0,0.9),
+      0 2px 2px rgba(0,0,0,0.7),
+      0 4px 8px rgba(0,0,0,0.5),
+      0 8px 16px rgba(0,0,0,0.3);
     -webkit-text-stroke: 0.5px rgba(34,211,238,0.35);
     letter-spacing: -0.015em;
     filter: drop-shadow(0 0 8px rgba(34,211,238,0.1)) drop-shadow(0 1px 2px rgba(0,0,0,0.5));
