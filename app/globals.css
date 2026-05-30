@@ -493,6 +493,44 @@ html, body {
 .footer-brand { font-size: 0.8125rem; font-weight: 600; color: var(--color-text); }
 .footer-copy { font-size: 0.75rem; color: var(--color-muted); }
 
+/* ─── HVAC Airflow Mist Particles ──────────────────────────────────────────── */
+/* 40 translucent droplets drifting upward with gentle horizontal sway */
+/* CSS-only @keyframes — position:fixed z-index:0 opacity:0.6 */
+.airflow-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Base particle — all 40 unique configs generated inline via nth-child */
+.airflow-particles::before,
+.airflow-particles::after {
+  content: '';
+  display: none; /* placeholder selectors, real particles use div children */
+}
+
+.airflow-particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: airflow-rise var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+/* staggered rise with gentle horizontal sway */
+@keyframes airflow-rise {
+  0%   { transform: translateY(0) translateX(0);        opacity: 0; }
+  10%  { opacity: var(--op, 0.4); }
+  80%  { opacity: var(--op, 0.4); }
+  100% { transform: translateY(-110vh) translateX(var(--drift, 20px)); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .airflow-particle { animation: none; opacity: 0.3; }
+}
+
 /* ─── Demo vertical page ─────────────────────────────────────────────────── */
 .demo-page {
   min-height: 100vh;
