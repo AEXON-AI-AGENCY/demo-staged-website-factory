@@ -35,8 +35,16 @@ export default function ElectricalPage() {
     <>
       {/* ── Lightning background animation ───────────────────────────────────── */}
       <div className="electrical-bg" aria-hidden="true">
+        {/* Crackle overlay — ambient electrical field */}
+        <div className="crackle-overlay" />
         {/* Ambient amber glow */}
         <div className="ambient-glow" />
+        {/* Continuous charge lines */}
+        <div className="charge-line charge-line-1" />
+        <div className="charge-line charge-line-2" />
+        <div className="charge-line charge-line-3" />
+        <div className="charge-line charge-line-4" />
+        <div className="charge-line charge-line-5" />
         {/* 5 lightning bolts */}
         <svg className="bolt bolt-1" viewBox="0 0 40 120" fill="none">
           <path d="M20 0 L8 50 L18 50 L10 120 L22 55 L14 55 L20 0Z"
@@ -277,13 +285,64 @@ export default function ElectricalPage() {
           top: -120px;
         }
 
-        .bolt-1 { left: 15%; animation: lightningStrike 5s ease-in 0s infinite; }
-        .bolt-2 { left: 35%; animation: lightningStrike 5s ease-in 1.3s infinite; transform: scaleX(-1); }
-        .bolt-3 { left: 58%; animation: lightningStrike 5s ease-in 2.6s infinite; }
-        .bolt-4 { left: 75%; animation: lightningStrike 5s ease-in 0.8s infinite; transform: scaleX(-1); }
-        .bolt-5 { left: 88%; animation: lightningStrike 5s ease-in 1.9s infinite; }
+        .bolt-1 {
+          left: 15%;
+          animation: lightningStrike 4s ease-out 0s infinite;
+          filter: drop-shadow(0 0 6px rgba(251,191,36,0.95)) drop-shadow(0 0 14px rgba(251,191,36,0.6));
+        }
+        .bolt-2 {
+          left: 38%;
+          animation: lightningStrike 4s ease-out 1.1s infinite;
+          transform: scaleX(-1);
+          filter: drop-shadow(0 0 6px rgba(251,191,36,0.7)) drop-shadow(0 0 14px rgba(251,191,36,0.4));
+        }
+        .bolt-3 {
+          left: 60%;
+          animation: lightningStrike 4s ease-out 2.3s infinite;
+          filter: drop-shadow(0 0 6px rgba(251,191,36,0.6)) drop-shadow(0 0 14px rgba(251,191,36,0.3));
+        }
+        .bolt-4 {
+          left: 78%;
+          animation: lightningStrike 4s ease-out 0.7s infinite;
+          transform: scaleX(-1);
+          filter: drop-shadow(0 0 6px rgba(251,191,36,0.5)) drop-shadow(0 0 14px rgba(251,191,36,0.25));
+        }
+        .bolt-5 {
+          left: 91%;
+          animation: lightningStrike 4s ease-out 1.8s infinite;
+          filter: drop-shadow(0 0 6px rgba(251,191,36,0.4)) drop-shadow(0 0 14px rgba(251,191,36,0.2));
+        }
 
-        .bolt path { filter: drop-shadow(0 0 8px rgba(251,191,36,0.9)) drop-shadow(0 0 20px rgba(251,191,36,0.5)); }
+        /* Continuous background charge lines */
+        .charge-line {
+          position: absolute;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(251,191,36,0.6) 20%, rgba(251,191,36,0.8) 50%, rgba(251,191,36,0.6) 80%, transparent 100%);
+          animation: chargeAcross var(--duration, 3s) linear infinite;
+          animation-delay: var(--delay, 0s);
+          opacity: 0;
+        }
+
+        .charge-line-1 { top: 18%; --duration: 2.2s; --delay: 0s; width: 100%; left: -100%; }
+        .charge-line-2 { top: 35%; --duration: 2.8s; --delay: 0.6s; width: 80%; left: -80%; }
+        .charge-line-3 { top: 52%; --duration: 1.9s; --delay: 1.2s; width: 90%; left: -90%; }
+        .charge-line-4 { top: 67%; --duration: 3.1s; --delay: 0.3s; width: 70%; left: -70%; }
+        .charge-line-5 { top: 82%; --duration: 2.5s; --delay: 0.9s; width: 85%; left: -85%; }
+
+        /* Global electrical crackle layer */
+        .crackle-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          background:
+            radial-gradient(ellipse 2px 80px at 12% 20%, rgba(251,191,36,0.15) 0%, transparent 100%),
+            radial-gradient(ellipse 1px 60px at 45% 45%, rgba(251,191,36,0.1) 0%, transparent 100%),
+            radial-gradient(ellipse 2px 90px at 78% 30%, rgba(251,191,36,0.12) 0%, transparent 100%),
+            radial-gradient(ellipse 1px 70px at 30% 75%, rgba(251,191,36,0.08) 0%, transparent 100%),
+            radial-gradient(ellipse 1px 50px at 65% 85%, rgba(251,191,36,0.1) 0%, transparent 100%);
+          animation: cracklePulse 0.15s ease-in-out infinite alternate;
+        }
 
         /* Warning stripe */
         .warning-stripe {
@@ -793,11 +852,24 @@ export default function ElectricalPage() {
 
         /* ── Keyframes ─────────────────────────────────────────────────────────── */
         @keyframes lightningStrike {
-          0%   { transform: translateY(-120px); opacity: 0; }
-          5%   { transform: translateY(0); opacity: 1; }
-          15%  { transform: translateY(0); opacity: 0.8; }
-          30%  { transform: translateY(0); opacity: 0; }
-          100% { transform: translateY(0); opacity: 0; }
+          0%   { transform: translateY(-200px) scaleY(0.3); opacity: 0; }
+          8%   { transform: translateY(0) scaleY(1.1); opacity: 1; }
+          12%  { transform: translateY(0) scaleY(1); opacity: 0.9; }
+          28%  { transform: translateY(0) scaleY(1); opacity: 0; }
+          100% { transform: translateY(0) scaleY(1); opacity: 0; }
+        }
+
+        @keyframes chargeAcross {
+          0%   { transform: translateX(0); opacity: 0; }
+          5%   { opacity: 0.7; }
+          50%  { opacity: 1; }
+          95%  { opacity: 0.5; }
+          100% { transform: translateX(calc(100vw + 100%)); opacity: 0; }
+        }
+
+        @keyframes cracklePulse {
+          0%   { opacity: 0.3; }
+          100% { opacity: 0.7; }
         }
 
         @keyframes amberPulse {
@@ -824,17 +896,69 @@ export default function ElectricalPage() {
           border-radius: 3px;
           padding: 1.75rem 1.5rem;
           text-align: left;
-          transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           cursor: default;
           position: relative;
+          overflow: hidden;
+        }
+
+        .service-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, #fbbf24, transparent);
+          transform: scaleX(0);
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          transform-origin: left;
         }
 
         .service-card:hover {
-          border-color: rgba(251,191,36,0.35);
+          border-color: rgba(251,191,36,0.4);
           border-top-color: #fbbf24;
-          background: rgba(251,191,36,0.04);
-          transform: translateY(-4px);
-          box-shadow: 0 12px 40px rgba(251,191,36,0.08);
+          background: rgba(251,191,36,0.05);
+          transform: translateY(-6px) scale(1.01);
+          box-shadow:
+            0 16px 48px rgba(251,191,36,0.12),
+            0 0 0 1px rgba(251,191,36,0.1),
+            inset 0 1px 0 rgba(251,191,36,0.15);
+        }
+
+        .service-card:hover::before {
+          transform: scaleX(1);
+        }
+
+        .service-card:hover .service-card-number {
+          color: #fbbf24;
+        }
+
+        .service-card-number {
+          transition: color 0.3s;
+        }
+
+        /* ── Trust bar hover ──────────────────────────────────────────────────── */
+        .trust-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0 2rem;
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #f5f5f7;
+          letter-spacing: 0.04em;
+          transition: color 0.2s;
+          cursor: default;
+        }
+
+        .trust-item:hover { color: #fbbf24; }
+        .trust-item:hover .trust-icon { transform: scale(1.3); }
+
+        .trust-icon {
+          color: #fbbf24;
+          font-size: 0.875rem;
+          display: inline-block;
+          transition: transform 0.2s cubic-bezier(0.16,1,0.3,1);
         }
 
         .service-card-number {
