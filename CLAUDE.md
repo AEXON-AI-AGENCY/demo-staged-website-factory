@@ -1,72 +1,52 @@
-# Claude Code Instructions — Demo Staged Website Factory
+# CLAUDE.md — Demo Staged Website Factory
 
-This repo contains AEXON AI's demo website verticals (plumbing, HVAC, electrician, roofing, auto-repair, restaurant, law firm, insurance, real estate, clothing, ecommerce, music brand). Each vertical gets a beautiful demo site + an AI receptionist demo.
+## Context
+This repo builds demo landing pages for each AEXON AI vertical. Each demo must look like a completely different website — not a reskin with different colors. If two demos look like the same template, that's a failure.
 
-## Agent Division of Labor
+## The Rule: Full Reinvention Every Time
 
-| Layer | Agent | Role |
-|-------|-------|------|
-| **Frontend** | Codex | Building all beautiful website UIs, landing pages, demo verticals. Uses Hallmark design skill (`skills/hallmark/`) for all UI work. |
-| **Backend** | Claude Code (this agent, Hermes/Odin) | Orchestrating the overall build, AI agents, backend systems, deployment pipeline, integrations, and any Go/Node/Python services. |
+| Element | HVAC | Electrical | Salon | Plumbing | Auto Repair | ... |
+|---------|------|------------|-------|----------|-------------|-----|
+| Font | Inter | Bebas Neue + IBM Plex Mono | _new_ | _new_ | _new_ | _new_ |
+| Color story | Cyan/ice on dark | Amber/charcoal | _new_ | _new_ | _new_ | _new_ |
+| Layout | Centered hero, 2×2 grid | Angled sections, numbered | _new_ | _new_ | _new_ | _new_ |
+| Animation | Mist particles rising | Lightning + charge lines | _new_ | _new_ | _new_ | _new_ |
+| Card style | Icon top, centered | Numbered 01–04, industrial | _new_ | _new_ | _new_ | _new_ |
 
-**Rule:** When a client signs, Codex builds the frontend from the demo design system. Claude Code handles backend/AI agentic services. The demo stage = frontend only = Codex.
+**If it looks like a previous demo → redesign, don't ship it.**
 
-## Design System — Hallmark
+## Per-Vertical Build Process
 
-All frontend work uses **Hallmark** (`skills/hallmark/`), the anti-AI-slop design skill by Together AI. Hallmark produces UIs that look **made, not generated**.
+1. **Design brief** → `docs/briefs/[vertical]-brief.md` with font families, full color palette, signature animation, layout structure. No reusing fonts/colors/animations from existing verticals.
+2. **Hallmark** → load `~/.hermes/skills/hallmark/SKILL.md` and references before writing UI. The "Reskin Trap" rule is in Hallmark — it will reject a vertical that just swaps hex codes.
+3. **Build** → `app/demo/[vertical]/page.tsx`. Inline styles only. NO Tailwind on demo pages (zinc-cascade bug).
+4. **Build** → `npm run build` must pass clean.
+5. **Commit** → descriptive message, push to origin main.
+6. **Deploy** → wait for Vercel READY state.
+7. **Inspect** → browser_vision before posting to Discord.
+8. **Post** → link to aexon-staged-demos Discord (`1509645301953069236`).
+9. **Cleanup** → delete REACH_MESSAGE.txt.
 
-**Quick Hallmark invocation via Codex:**
-```
-codex "hallmark redesign ./app --mood editorial"
-codex "build a beautiful landing page for a Brooklyn salon following Hallmark rules"
-codex "hallmark audit ./components/hero.tsx"
-```
+## Tech Rules
 
-## Current Demo Vertical Sites
+- Font: `next/font/google` — NOT `@import` in globals.css
+- Inline styles only — no Tailwind utilities on demo pages
+- Controlled React form with success state
+- "Talk to us" → `https://aexonai.com/#consultation`
+- `prefers-reduced-motion` respected
 
-```
-/app/page.tsx             ← Hub page linking all demos (build new beautiful one with Hallmark)
-/app/demo/[vertical]/     ← Per-vertical demo pages
-  clothing/
-  ecommerce/
-  insurance/
-  law-firm/
-  music-brand/
-  real-estate/
-  restaurant/
-```
+## Hallmark Integration
 
-## Vertical-Specific Design
+Hallmark lives at `~/.hermes/skills/hallmark/` and is the design authority:
+- Run `codex "hallmark audit app/demo/[vertical]/page.tsx"` to check for AI slop before committing
+- The "Per-Vertical Design Diversity — Non-Negotiable" section in Hallmark's SKILL.md is the enforcement mechanism
+- If Hallmark would call it a reskin, it's a reskin — rebuild
 
-Each demo should reflect its vertical:
-- **Restaurant** — warm, atmospheric, full-bleed food photography
-- **Law Firm** — editorial, refined, trust-inducing navy + cream
-- **Insurance** — clean, modern-minimal, professional
-- **Ecommerce/Clothing** — bold, photographic, fashion-forward
-- **Music Brand** — dark, atmospheric, cinematic
-- **Real Estate** — clean, photography-led, aspirational
+## Design Briefs
 
-## Design Pass Process
-
-1. Read Hallmark skill → `skills/hallmark/SKILL.md`
-2. Study reference design for that vertical type
-3. Pick macrostructure (21 options) + theme (22 options)
-4. Codex builds the frontend
-5. Slop test (65 gates) before handing back.
-
-## On Client Conversion
-
-When a prospect converts:
-1. **Frontend**: Codex takes the demo design and personalizes it (colors, copy, photos) for the client's brand
-2. **Backend**: Claude Code attaches agentic services (AI receptionist, booking, CRM, messaging, etc.)
-3. **Result**: A complete, beautiful, functional website
-
-The demo-to-production gap should be minimal — that's the business model.
-
-## No Hallmark Override Without Asking
-
-Hallmark is the design system. Before overriding its rules (adding fake browser chrome, fabricating metrics, skipping mobile testing), flag it explicitly.
-
-## Pre-flight Always
-
-Before touching any existing code, Codex scans for: `design.md`, font stack, palette, motion library, framework. Those get preserved. Hallmark introduces macrostructure, microinteraction discipline, slop-test gates.
+All briefs live at `docs/briefs/[vertical]-brief.md`. Each brief must specify:
+- Font families (heading + body, both Google Fonts)
+- Full color palette (background, surface, text, text-secondary, accent — 5 hex codes)
+- Signature animation (CSS-only, specific to the industry)
+- Layout structure (which Hallmark macrostructure)
+- Form fields and AI feature
