@@ -613,6 +613,32 @@ html, body {
 .orbit-ring:nth-child(4) { animation: orbit-reverse 24s linear infinite, edge-shimmer 7s ease-in-out infinite 1.5s; }
 .orbit-ring:nth-child(5) { animation: orbit 30s linear infinite, edge-shimmer 8s ease-in-out infinite 2s; }
 
+/* ─── Electrical Pulse Traces ─────────────────────────────────────────────── */
+/* 5 thin horizontal lines that race left-to-right with staggered delays */
+/* CSS-only @keyframes — position:fixed z-index:1 opacity:0.6 */
+.pulse-traces {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes pulse-trace {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  10%  { opacity: 0.9; }
+  80%  { opacity: 0.7; }
+  100% { transform: translateX(calc(100vw + 20%)); opacity: 0; }
+}
+
+.pulse-trace {
+  animation: pulse-trace 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-trace { animation: none; opacity: 0.2; }
+}
+
 /* ─── Mobile adjustments ──────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .vertical-grid { grid-template-columns: repeat(2, 1fr); }
