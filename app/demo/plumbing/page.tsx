@@ -168,18 +168,14 @@ export default function PlumbingPage() {
     const bubbles: Bubble[] = Array.from({ length: 8 }, () => new Bubble(canvas.width, canvas.height));
     const ripples: Ripple[] = [];
 
-    const accentMap = isDark
-      ? { accent: '#0EA5E9', accent2: '#38BDF8' }
-      : { accent: '#0284C7', accent2: '#0EA5E9' };
-
     let frame = 0;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const { accent, accent2 } = isDark
-        ? { accent: '#0EA5E9', accent2: '#38BDF8' }
-        : { accent: '#0284C7', accent2: '#0EA5E9' };
+      // Use c.canvasAccent for BOTH dark and light mode (both now have proper colors)
+      const accent = c.canvasAccent;
+      const accent2 = c.canvasAccent2;
 
       // Draw drops
       drops.forEach(drop => {
@@ -227,14 +223,21 @@ export default function PlumbingPage() {
   };
 
   // ── Theme colors ──────────────────────────────────────────────────
+  // ── Light mode water colors ─────────────────────────────────────
+  const lightAccent = '#0369A1';
+  const lightAccent2 = '#0284C7';
+  const darkAccent = '#0EA5E9';
+  const darkAccent2 = '#38BDF8';
+
+  // ── Theme colors ──────────────────────────────────────────────────
   const c = isDark ? {
     bg: '#060D1A',
     bg2: '#0B1829',
     bg3: '#0F2040',
     text: '#F0F6FF',
     text2: '#7A9CC0',
-    accent: '#0EA5E9',
-    accent2: '#38BDF8',
+    accent: darkAccent,
+    accent2: darkAccent2,
     warm: '#F97316',
     warm2: '#FB923C',
     border: 'rgba(14,165,233,0.18)',
@@ -244,14 +247,16 @@ export default function PlumbingPage() {
     inputBg: '#0F2040',
     footerBg: '#040A14',
     shadow: 'rgba(0,0,0,0.5)',
+    canvasAccent: darkAccent,
+    canvasAccent2: darkAccent2,
   } : {
     bg: '#EFF6FF',
     bg2: '#DBEAFE',
     bg3: '#BFDBFE',
     text: '#060D1A',
     text2: '#2563A8',
-    accent: '#0369A1',
-    accent2: '#0284C7',
+    accent: lightAccent,
+    accent2: lightAccent2,
     warm: '#C2410C',
     warm2: '#EA580C',
     border: 'rgba(2,86,161,0.18)',
@@ -261,11 +266,13 @@ export default function PlumbingPage() {
     inputBg: '#FFFFFF',
     footerBg: '#DBEAFE',
     shadow: 'rgba(0,0,0,0.08)',
+    canvasAccent: lightAccent,
+    canvasAccent2: lightAccent2,
   };
 
   const styles = `
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: ${c.bg}; }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(28px); }
       to { opacity: 1; transform: translateY(0); }
@@ -426,7 +433,7 @@ export default function PlumbingPage() {
       </button>
 
       {/* ─── Page content ─── */}
-      <div style={{ position: 'relative', zIndex: 1, background: 'transparent', color: c.text, fontFamily: "'DM Sans', sans-serif", minHeight: '100vh' }}>
+      <div style={{ position: 'relative', zIndex: 1, background: c.bg, color: c.text, fontFamily: "var(--font-dm-sans), system-ui, sans-serif", minHeight: '100vh' }}>
 
         {/* ─── Nav ─── */}
         <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: c.navBg, backdropFilter: 'blur(20px)', borderBottom: `1px solid ${c.border}`, padding: '14px 24px' }}>
@@ -442,12 +449,12 @@ export default function PlumbingPage() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
               </div>
               <div>
-                <div style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: '18px', color: c.accent, letterSpacing: '0.04em' }}>AQUAFLOW</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: c.text2, letterSpacing: '0.2em', marginTop: '-1px' }}>PLUMBING CO.</div>
+                <div style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: '18px', color: c.accent, letterSpacing: '0.04em' }}>AQUAFLOW</div>
+                <div style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '9px', color: c.text2, letterSpacing: '0.2em', marginTop: '-1px' }}>PLUMBING CO.</div>
               </div>
             </div>
             <a href="https://aexonai.com/#consultation" style={{
-              fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '14px',
+              fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontWeight: 600, fontSize: '14px',
               color: c.accent, textDecoration: 'none',
               border: `1.5px solid ${c.border}`, borderRadius: '8px',
               padding: '8px 20px', transition: 'all 0.2s ease',
@@ -469,12 +476,12 @@ export default function PlumbingPage() {
             boxShadow: `0 4px 18px rgba(249,115,22,0.4)`,
           }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'white', animation: 'pulseDot 1.5s ease infinite' }} />
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', fontWeight: 500, color: 'white', letterSpacing: '0.12em' }}>24/7 EMERGENCY RESPONSE</span>
+            <span style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '11px', fontWeight: 500, color: 'white', letterSpacing: '0.12em' }}>24/7 EMERGENCY RESPONSE</span>
           </div>
 
-          <h1 {...anim(0.2)} style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: 'clamp(48px, 9vw, 104px)', lineHeight: 0.88, color: c.text, marginBottom: '0px', letterSpacing: '-0.02em' }}>Plumbing</h1>
+          <h1 {...anim(0.2)} style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: 'clamp(48px, 9vw, 104px)', lineHeight: 0.88, color: c.text, marginBottom: '0px', letterSpacing: '-0.02em' }}>Plumbing</h1>
           <h1 {...anim(0.3)} style={{
-            fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: 'clamp(48px, 9vw, 104px)', lineHeight: 0.88,
+            fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: 'clamp(48px, 9vw, 104px)', lineHeight: 0.88,
             background: `linear-gradient(135deg, ${c.accent}, ${c.accent2})`,
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             marginBottom: '28px', letterSpacing: '-0.02em',
@@ -487,7 +494,7 @@ export default function PlumbingPage() {
 
           <div {...anim(0.5)} style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '52px' }}>
             <a href="#contact" style={{
-              fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '16px',
+              fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontWeight: 600, fontSize: '16px',
               background: `linear-gradient(135deg, ${c.warm}, ${c.warm2})`, color: 'white',
               textDecoration: 'none', borderRadius: '12px', padding: '14px 36px', display: 'inline-block',
               animation: 'pulseGlow 3s ease infinite',
@@ -498,7 +505,7 @@ export default function PlumbingPage() {
               onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)'}
             >Book Service →</a>
             <a href="tel:5557429103" style={{
-              fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '16px',
+              fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontWeight: 600, fontSize: '16px',
               color: c.accent, textDecoration: 'none', border: `1.5px solid ${c.border}`,
               borderRadius: '12px', padding: '14px 28px', display: 'inline-flex', alignItems: 'center', gap: '8px',
               transition: 'all 0.2s ease', background: c.card,
@@ -510,7 +517,7 @@ export default function PlumbingPage() {
 
           <div {...anim(0.6)} style={{ display: 'flex', gap: '28px', flexWrap: 'wrap' }}>
             {[{ icon: '🛡️', text: 'Licensed & Insured' }, { icon: '🏆', text: '20+ Years' }, { icon: '⭐', text: '4.9★ Google' }, { icon: '⚡', text: 'Same-Day Arrival' }].map((b, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: c.text2 }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '14px', color: c.text2 }}>
                 <span style={{ fontSize: '16px' }}>{b.icon}</span>{b.text}
               </div>
             ))}
@@ -519,8 +526,8 @@ export default function PlumbingPage() {
 
         {/* ─── Services Grid ─── */}
         <section style={{ padding: '64px 24px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div {...anim(0.7)} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: c.accent, letterSpacing: '0.2em', marginBottom: '14px' }}>WHAT WE DO</div>
-          <h2 {...anim(0.75)} style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: 'clamp(32px, 5vw, 56px)', color: c.text, marginBottom: '44px' }}>Our Services</h2>
+          <div {...anim(0.7)} style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '11px', color: c.accent, letterSpacing: '0.2em', marginBottom: '14px' }}>WHAT WE DO</div>
+          <h2 {...anim(0.75)} style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: 'clamp(32px, 5vw, 56px)', color: c.text, marginBottom: '44px' }}>Our Services</h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
             {services.map((svc, i) => (
@@ -549,7 +556,7 @@ export default function PlumbingPage() {
                 )}
                 <div style={{
                   position: 'absolute', top: '16px', right: '16px',
-                  fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: c.warm,
+                  fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '9px', color: c.warm,
                   background: isDark ? 'rgba(249,115,22,0.12)' : 'rgba(194,65,12,0.08)',
                   border: `1px solid ${isDark ? 'rgba(249,115,22,0.25)' : 'rgba(194,65,12,0.15)'}`,
                   borderRadius: '20px', padding: '3px 10px', letterSpacing: '0.05em',
@@ -565,12 +572,12 @@ export default function PlumbingPage() {
                 }}
                   dangerouslySetInnerHTML={{ __html: svc.icon }}
                 />
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: hoveredCard === i ? c.accent : c.text2, letterSpacing: '0.12em', marginBottom: '12px', transition: 'color 0.3s ease' }}>
+                <div style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '11px', color: hoveredCard === i ? c.accent : c.text2, letterSpacing: '0.12em', marginBottom: '12px', transition: 'color 0.3s ease' }}>
                   {svc.num}
                 </div>
-                <h3 style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: '22px', color: c.text, marginBottom: '10px' }}>{svc.title}</h3>
+                <h3 style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 700, fontSize: '22px', color: c.text, marginBottom: '10px' }}>{svc.title}</h3>
                 <p style={{ fontSize: '14px', color: c.text2, lineHeight: 1.6 }}>{svc.desc}</p>
-                <div style={{ marginTop: '20px', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: c.accent, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div style={{ marginTop: '20px', fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '14px', fontWeight: 600, color: c.accent, display: 'flex', alignItems: 'center', gap: '4px' }}>
                   Learn more <span style={{ fontSize: '16px' }}>→</span>
                 </div>
               </div>
@@ -585,8 +592,8 @@ export default function PlumbingPage() {
               {stats.map((s, i) => (
                 <div key={i} {...anim(1.2 + i * 0.1)}>
                   <div style={{ fontSize: '40px', marginBottom: '4px' }}>{s.icon}</div>
-                  <div style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: 'clamp(36px, 4vw, 52px)', color: c.accent, lineHeight: 1, marginBottom: '6px' }}>{s.num}</div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: c.text2, letterSpacing: '0.04em' }}>{s.label}</div>
+                  <div style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: 'clamp(36px, 4vw, 52px)', color: c.accent, lineHeight: 1, marginBottom: '6px' }}>{s.num}</div>
+                  <div style={{ fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '13px', color: c.text2, letterSpacing: '0.04em' }}>{s.label}</div>
                   <div style={{ width: '28px', height: '2px', background: c.warm, margin: '10px auto 0', borderRadius: '1px' }} />
                 </div>
               ))}
@@ -596,8 +603,8 @@ export default function PlumbingPage() {
 
         {/* ─── Why Us ─── */}
         <section style={{ padding: '72px 24px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div {...anim(1.4)} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: c.accent, letterSpacing: '0.2em', marginBottom: '14px' }}>THE AQUAFLOW DIFFERENCE</div>
-          <h2 {...anim(1.45)} style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: c.text, marginBottom: '48px' }}>Why Homeowners Trust Us</h2>
+          <div {...anim(1.4)} style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '11px', color: c.accent, letterSpacing: '0.2em', marginBottom: '14px' }}>THE AQUAFLOW DIFFERENCE</div>
+          <h2 {...anim(1.45)} style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: c.text, marginBottom: '48px' }}>Why Homeowners Trust Us</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
             {whyUs.map((w, i) => (
               <div key={i} {...anim(1.55 + i * 0.1)} style={{ background: c.card, border: `1px solid ${c.border}`, borderRadius: '16px', padding: '28px', backdropFilter: 'blur(12px)' }}>
@@ -610,7 +617,7 @@ export default function PlumbingPage() {
                 }}
                   dangerouslySetInnerHTML={{ __html: w.icon }}
                 />
-                <h3 style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: '18px', color: c.text, marginBottom: '8px' }}>{w.title}</h3>
+                <h3 style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 700, fontSize: '18px', color: c.text, marginBottom: '8px' }}>{w.title}</h3>
                 <p style={{ fontSize: '14px', color: c.text2, lineHeight: 1.6 }}>{w.sub}</p>
               </div>
             ))}
@@ -620,10 +627,10 @@ export default function PlumbingPage() {
         {/* ─── CTA Banner ─── */}
         <section style={{ padding: '80px 24px', textAlign: 'center', background: c.bg2 }}>
           <div style={{ maxWidth: '680px', margin: '0 auto' }}>
-            <h2 {...anim(1.8)} style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: 'clamp(32px, 5vw, 60px)', color: c.text, marginBottom: '16px', lineHeight: 1 }}>Got a Plumbing Emergency?</h2>
+            <h2 {...anim(1.8)} style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: 'clamp(32px, 5vw, 60px)', color: c.text, marginBottom: '16px', lineHeight: 1 }}>Got a Plumbing Emergency?</h2>
             <p {...anim(1.9)} style={{ fontSize: '18px', color: c.text2, marginBottom: '36px' }}>Don't wait — our licensed team is standing by around the clock.</p>
             <a href="#contact" {...anim(2.0)} style={{
-              display: 'inline-block', fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '17px',
+              display: 'inline-block', fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontWeight: 600, fontSize: '17px',
               background: `linear-gradient(135deg, ${c.warm}, ${c.warm2})`, color: 'white',
               textDecoration: 'none', borderRadius: '12px', padding: '16px 48px',
               animation: 'pulseGlow 3s ease infinite',
@@ -638,24 +645,24 @@ export default function PlumbingPage() {
 
         {/* ─── Contact Form ─── */}
         <section id="contact" style={{ padding: '80px 24px', maxWidth: '760px', margin: '0 auto' }}>
-          <div {...anim(2.1)} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: c.accent, letterSpacing: '0.2em', marginBottom: '14px' }}>SERVICE REQUEST</div>
-          <h2 {...anim(2.15)} style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: c.text, marginBottom: '40px' }}>Book a Service Call</h2>
+          <div {...anim(2.1)} style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '11px', color: c.accent, letterSpacing: '0.2em', marginBottom: '14px' }}>SERVICE REQUEST</div>
+          <h2 {...anim(2.15)} style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: c.text, marginBottom: '40px' }}>Book a Service Call</h2>
 
           {formSubmitted ? (
             <div {...anim(0.5)} style={{ background: c.card, border: `1.5px solid ${c.accent}`, borderRadius: '20px', padding: '56px 40px', textAlign: 'center', backdropFilter: 'blur(12px)' }}>
               <div style={{ fontSize: '56px', marginBottom: '16px' }}>🚿</div>
-              <h3 style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 700, fontSize: '28px', color: c.text, marginBottom: '10px' }}>Request Received!</h3>
+              <h3 style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 700, fontSize: '28px', color: c.text, marginBottom: '10px' }}>Request Received!</h3>
               <p style={{ color: c.text2, fontSize: '16px', lineHeight: 1.6 }}>We will contact you within 30 minutes to confirm your appointment.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '20px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
                 <div>
-                  <label style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>YOUR NAME</label>
+                  <label style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>YOUR NAME</label>
                   <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Michael Rodriguez" style={{
                     width: '100%', padding: '14px 16px', background: c.inputBg,
                     border: `1.5px solid ${c.border}`, borderRadius: '12px',
-                    color: c.text, fontFamily: "'DM Sans', sans-serif", fontSize: '15px', outline: 'none',
+                    color: c.text, fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '15px', outline: 'none',
                     transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
                   }}
                     onFocus={e => { const el = e.target as HTMLInputElement; el.style.borderColor = c.accent; el.style.boxShadow = `0 0 0 3px ${c.glow}`; }}
@@ -663,11 +670,11 @@ export default function PlumbingPage() {
                   />
                 </div>
                 <div>
-                  <label style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>PHONE NUMBER</label>
+                  <label style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>PHONE NUMBER</label>
                   <input type="tel" required value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} placeholder="(555) 742-9103" style={{
                     width: '100%', padding: '14px 16px', background: c.inputBg,
                     border: `1.5px solid ${c.border}`, borderRadius: '12px',
-                    color: c.text, fontFamily: "'JetBrains Mono', monospace", fontSize: '15px', outline: 'none',
+                    color: c.text, fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '15px', outline: 'none',
                     transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
                   }}
                     onFocus={e => { const el = e.target as HTMLInputElement; el.style.borderColor = c.accent; el.style.boxShadow = `0 0 0 3px ${c.glow}`; }}
@@ -676,11 +683,11 @@ export default function PlumbingPage() {
                 </div>
               </div>
               <div>
-                <label style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>SERVICE TYPE</label>
+                <label style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>SERVICE TYPE</label>
                 <select required value={formData.service} onChange={e => setFormData({ ...formData, service: e.target.value })} style={{
                   width: '100%', padding: '14px 16px', background: c.inputBg,
                   border: `1.5px solid ${c.border}`, borderRadius: '12px',
-                  color: c.text, fontFamily: "'DM Sans', sans-serif", fontSize: '15px', outline: 'none',
+                  color: c.text, fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '15px', outline: 'none',
                   appearance: 'none', cursor: 'pointer',
                   transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
                 }}
@@ -697,11 +704,11 @@ export default function PlumbingPage() {
                 </select>
               </div>
               <div>
-                <label style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>DESCRIBE THE ISSUE</label>
+                <label style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '10px', color: c.text2, letterSpacing: '0.15em', display: 'block', marginBottom: '8px' }}>DESCRIBE THE ISSUE</label>
                 <textarea value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} placeholder="Tell us what's going on — the more detail the better..." rows={4} style={{
                   width: '100%', padding: '14px 16px', background: c.inputBg,
                   border: `1.5px solid ${c.border}`, borderRadius: '12px',
-                  color: c.text, fontFamily: "'DM Sans', sans-serif", fontSize: '15px', outline: 'none', resize: 'vertical',
+                  color: c.text, fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '15px', outline: 'none', resize: 'vertical',
                   transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
                 }}
                   onFocus={e => { const el = e.target as HTMLTextAreaElement; el.style.borderColor = c.accent; el.style.boxShadow = `0 0 0 3px ${c.glow}`; }}
@@ -709,7 +716,7 @@ export default function PlumbingPage() {
                 />
               </div>
               <button type="submit" style={{
-                fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: '16px',
+                fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontWeight: 600, fontSize: '16px',
                 background: `linear-gradient(135deg, ${c.warm}, ${c.warm2})`, color: 'white', border: 'none',
                 borderRadius: '12px', padding: '16px 48px', cursor: 'pointer', width: 'fit-content',
                 boxShadow: `0 4px 16px rgba(249,115,22,0.3)`,
@@ -726,11 +733,11 @@ export default function PlumbingPage() {
         <footer style={{ background: c.footerBg, borderTop: `1px solid ${c.border}`, padding: '40px 24px' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '24px' }}>
             <div>
-              <div style={{ fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: '16px', color: c.accent, marginBottom: '8px', letterSpacing: '0.05em' }}>AQUAFLOW PLUMBING</div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: c.text2 }}>1420 N Cahuenga Blvd, Los Angeles, CA 90028</div>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '12px', color: c.text2, marginTop: '4px' }}>Mon–Sat 7AM–8PM • Sun 9AM–5PM</div>
+              <div style={{ fontFamily: "var(--font-manrope), system-ui, sans-serif", fontWeight: 800, fontSize: '16px', color: c.accent, marginBottom: '8px', letterSpacing: '0.05em' }}>AQUAFLOW PLUMBING</div>
+              <div style={{ fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '14px', color: c.text2 }}>1420 N Cahuenga Blvd, Los Angeles, CA 90028</div>
+              <div style={{ fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace", fontSize: '12px', color: c.text2, marginTop: '4px' }}>Mon–Sat 7AM–8PM • Sun 9AM–5PM</div>
             </div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: c.text2 }}>
+            <div style={{ fontFamily: "var(--font-dm-sans), system-ui, sans-serif", fontSize: '13px', color: c.text2 }}>
               Powered by <span style={{ color: c.accent }}>AEXON AI</span>
             </div>
           </div>
