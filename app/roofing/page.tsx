@@ -370,6 +370,36 @@ function ArrowIcon() {
   );
 }
 
+function SatelliteIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M4.9 4.9a14.5 14.5 0 0 0 0 20.5M2 2a17 17 0 0 0 0 20M19.1 4.9a14.5 14.5 0 0 1 0 20.5M22 2a17 17 0 0 1 0 20" />
+    </svg>
+  );
+}
+
+function SparkleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="m12 3-1.4 4.5L7 9l4.5 1.4L12 15l1.4-4.5L17 9l-4.5-1.4L12 3Z" />
+      <path d="m5 21 1-1 1 1M19 3l-1 1-1-1" />
+    </svg>
+  );
+}
+
+function BotIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+      <path d="M12 8V4H8" />
+      <rect x="4" y="8" width="16" height="12" rx="2" />
+      <path d="M2 14H4" />
+      <path d="M20 14H22" />
+      <path d="M9 18v2M15 18v2" />
+    </svg>
+  );
+}
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const services = [
@@ -495,6 +525,8 @@ export default function RoofingPage() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [submitted, setSubmitted] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [aiStep, setAiStep] = useState<number>(0);
+  const [aiMessages, setAiMessages] = useState<string[]>([]);
 
   const canvasRef = useFallingAnimation(darkTheme);
   const formRef = useRef<HTMLFormElement>(null);
@@ -504,6 +536,22 @@ export default function RoofingPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Bidirectional scroll animations
+  useEffect(() => {
+    if (!mounted) return;
+    const animatedElements = document.querySelectorAll('.scroll-animate');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('scroll-animated');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    animatedElements.forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [mounted]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -602,6 +650,13 @@ export default function RoofingPage() {
         .faq-chevron { transition: transform 0.25s ease; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-up { animation: fadeUp 0.5s ease forwards; }
+        .scroll-animate { opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; }
+        .scroll-animate.scroll-animated { opacity: 1; }
+        .scroll-animate.scroll-left { transform: translateX(-40px); }
+        .scroll-animate.scroll-right { transform: translateX(40px); }
+        .scroll-animate.scroll-up { transform: translateY(40px); }
+        .scroll-animate.scroll-down { transform: translateY(-40px); }
+        .scroll-animate.scroll-animated { transform: translate(0); }
       `}</style>
 
       {/* Canvas Background */}
@@ -690,7 +745,7 @@ export default function RoofingPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.5rem" }}>
             {services.map((s, i) => (
-              <div key={s.number} style={{ ...cardStyle, cursor: "default" }}
+              <div key={s.number} className="scroll-animate scroll-up" style={{ ...cardStyle, cursor: "default", animationDelay: `${i * 80}ms` }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLDivElement;
                   el.style.borderColor = colors.borderStrong;
@@ -726,7 +781,7 @@ export default function RoofingPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0" }}>
             {processSteps.map((step, i) => (
-              <div key={step.step} style={{ padding: "2rem", position: "relative", borderLeft: i > 0 ? `1px solid ${colors.border}` : "none" }}>
+              <div key={step.step} className="scroll-animate scroll-left" style={{ padding: "2rem", position: "relative", borderLeft: i > 0 ? `1px solid ${colors.border}` : "none", animationDelay: `${i * 100}ms` }}>
                 <div style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "3rem", color: colors.accent, opacity: 0.35, lineHeight: 1, marginBottom: "0.5rem" }}>{step.step}</div>
                 <h3 style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1.2rem", letterSpacing: "0.05em", color: colors.text, marginBottom: "0.6rem" }}>{step.title}</h3>
                 <p style={{ color: colors.textMuted, fontSize: "0.88rem", lineHeight: 1.65 }}>{step.desc}</p>
@@ -766,7 +821,7 @@ export default function RoofingPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}>
             {testimonials.map((t, i) => (
-              <div key={i} style={{ ...cardStyle, position: "relative" }}>
+              <div key={i} className="scroll-animate scroll-up" style={{ ...cardStyle, position: "relative", animationDelay: `${i * 100}ms` }}>
                 <div style={{ color: colors.accent, fontSize: "1.5rem", lineHeight: 1, marginBottom: "1rem" }}>&ldquo;</div>
                 <p style={{ color: colors.textMuted, fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.25rem", fontStyle: "italic" }}>{t.quote}</p>
                 <div style={{ borderTop: `1px solid ${colors.border}`, paddingTop: "1rem" }}>
@@ -801,6 +856,99 @@ export default function RoofingPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── AI SERVICE QUOTING AGENT ─────────────────────────────────────────── */}
+      <section id="ai-quote" style={{ position: "relative", zIndex: 1, padding: "80px 0", background: colors.bgAlt }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+            <div style={sectionLabel}>Powered by AI</div>
+            <h2 style={headingStyle}>Get a Roof Estimate — Instantly</h2>
+            <p style={{ color: colors.textMuted, maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>Summit AI analyzes your roof using satellite imagery and delivers an instant repair estimate. No waiting, no obligation.</p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", alignItems: "start" }}>
+            {/* AI Chat Demo */}
+            <div style={{ ...cardStyle, padding: 0, overflow: "hidden" }}>
+              <div style={{ padding: "1rem 1.5rem", background: `linear-gradient(135deg, ${colors.accent} 0%, ${colors.accentStrong} 100%)`, display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "grid", placeItems: "center" }}>
+                  <BotIcon />
+                </div>
+                <div>
+                  <div style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1rem", color: colors.onAccent, letterSpacing: "0.05em" }}>Summit AI</div>
+                  <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.75)" }}>Instant Roof Analysis</div>
+                </div>
+                <div style={{ marginLeft: "auto", fontSize: "0.65rem", padding: "0.2rem 0.6rem", background: "rgba(255,255,255,0.2)", borderRadius: "20px", color: colors.onAccent }}>Live Demo</div>
+              </div>
+
+              <div style={{ padding: "1.5rem", minHeight: "280px", display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+                  <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: colors.accent, display: "grid", placeItems: "center", flexShrink: 0 }}>
+                    <BotIcon />
+                  </div>
+                  <div style={{ background: colors.bgAlt, border: `1px solid ${colors.border}`, borderRadius: "12px", borderBottomLeftRadius: "4px", padding: "0.85rem 1rem", maxWidth: "85%" }}>
+                    <p style={{ color: colors.textMuted, fontSize: "0.88rem", lineHeight: 1.6, margin: 0 }}>Hi! I'm <strong style={{ color: colors.text }}>Summit AI</strong>. I can analyze your roof from satellite imagery and give you an instant repair estimate. What type of property do you have?</p>
+                  </div>
+                </div>
+
+                {aiStep >= 1 && (
+                  <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", flexDirection: "row-reverse" }}>
+                    <div style={{ background: colors.accent, borderRadius: "12px", borderBottomRightRadius: "4px", padding: "0.6rem 1rem", maxWidth: "75%" }}>
+                      <p style={{ color: colors.onAccent, fontSize: "0.85rem", margin: 0 }}>{aiMessages[0]}</p>
+                    </div>
+                  </div>
+                )}
+
+                {aiStep >= 2 && (
+                  <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+                    <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: colors.accent, display: "grid", placeItems: "center", flexShrink: 0 }}>
+                      <BotIcon />
+                    </div>
+                    <div style={{ background: colors.bgAlt, border: `1px solid ${colors.border}`, borderRadius: "12px", borderBottomLeftRadius: "4px", padding: "0.85rem 1rem", maxWidth: "85%" }}>
+                      <p style={{ color: colors.textMuted, fontSize: "0.88rem", lineHeight: 1.6, margin: 0 }}>{aiMessages[1]}</p>
+                    </div>
+                  </div>
+                )}
+
+                {aiStep < 2 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "auto" }}>
+                    {aiStep === 0 && ["Single Family Home", "Townhouse / Condo", "Commercial Building"].map(opt => (
+                      <button key={opt} onClick={() => { setAiMessages(prev => [...prev, opt]); setAiStep(1); setTimeout(() => { setAiMessages(prev => [...prev, "Great! I'm pulling up satellite imagery of your property now... Based on the analysis, I estimate your roof repair will range from $3,200 – $5,800 depending on materials and labor."]); setAiStep(2); }, 1200); }} style={{ padding: "0.7rem 1rem", background: colors.chip, border: `1px solid ${colors.border}`, borderRadius: "8px", color: colors.text, fontSize: "0.85rem", cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}
+                        onMouseEnter={e => { e.currentTarget.style.background = colors.accentSoft; e.currentTarget.style.borderColor = colors.accent; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = colors.chip; e.currentTarget.style.borderColor = colors.border; }}>
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* AI Features */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", paddingTop: "0.5rem" }}>
+              {[
+                { icon: <SatelliteIcon />, title: "Satellite Roof Analysis", desc: "Our AI examines your roof using satellite imagery to assess condition, age, and visible damage." },
+                { icon: <SparkleIcon />, title: "Instant Estimate", desc: "Get a ballpark repair cost in under 60 seconds. Know what to expect before calling." },
+                { icon: <ShieldIcon />, title: "Detailed Report", desc: "Receive a full roof condition report with damage photos and recommended actions." },
+                { icon: <CalendarIcon />, title: "Easy Scheduling", desc: "Book a professional in-person inspection with one click if you want a site visit." },
+              ].map((f, i) => (
+                <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "10px", background: colors.accentSoft, border: `1px solid ${colors.border}`, display: "grid", placeItems: "center", color: colors.accent, flexShrink: 0 }}>
+                    {f.icon}
+                  </div>
+                  <div>
+                    <h4 style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1.05rem", letterSpacing: "0.04em", color: colors.text, marginBottom: "0.25rem" }}>{f.title}</h4>
+                    <p style={{ color: colors.textSoft, fontSize: "0.85rem", lineHeight: 1.55, margin: 0 }}>{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+
+              <a href="#contact" style={{ ...accentBtnStyle, textDecoration: "none", marginTop: "0.5rem", alignSelf: "flex-start" }}>
+                Try AI Roof Analysis <ArrowIcon />
+              </a>
+            </div>
           </div>
         </div>
       </section>
