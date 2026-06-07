@@ -194,7 +194,7 @@ export default function AutoRepair() {
       font-size: 0.68rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: ${c.accent};
+      color: ${isDark ? c.accent : c.accentAlt};
       margin-bottom: 0.6rem;
     }
 
