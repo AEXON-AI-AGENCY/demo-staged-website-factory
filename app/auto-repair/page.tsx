@@ -477,7 +477,7 @@ export default function AutoRepair() {
               <span style={{ fontSize: "1.5rem" }}>🔧</span>
               <span
                 className="display-font"
-                style={{ fontSize: "1.3rem", color: c.text, letterSpacing: "0.06em" }}
+                style={{ fontSize: "1.3rem", color: isDark ? c.text : "#f0f0f0", letterSpacing: "0.06em" }}
               >
                 APEX AUTO
               </span>
@@ -659,7 +659,7 @@ export default function AutoRepair() {
             <p className="section-eyebrow">What We Fix</p>
             <h2
               className="display-font"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: c.text, margin: 0 }}
+              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: isDark ? c.text : "#f0f0f0", margin: 0 }}
             >
               SERVICE ROUNDS
             </h2>
@@ -737,7 +737,7 @@ export default function AutoRepair() {
                   className="display-font"
                   style={{
                     fontSize: "1.25rem",
-                    color: c.text,
+                    color: isDark ? c.text : "#f0f0f0",
                     margin: "0 0 0.6rem",
                     letterSpacing: "0.06em",
                   }}
@@ -761,7 +761,7 @@ export default function AutoRepair() {
             <p className="section-eyebrow">AI Concierge Agent</p>
             <h2
               className="display-font"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: c.text, margin: "0 0 0.75rem" }}
+              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: isDark ? c.text : "#f0f0f0", margin: "0 0 0.75rem" }}
             >
               INTAKE THAT OPENS A BAY
             </h2>
@@ -871,7 +871,7 @@ export default function AutoRepair() {
             <p className="section-eyebrow">Why Apex</p>
             <h2
               className="display-font"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: c.text, margin: 0 }}
+              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: isDark ? c.text : "#f0f0f0", margin: 0 }}
             >
               HONESTY BEFORE THE LIFT
             </h2>
@@ -917,7 +917,7 @@ export default function AutoRepair() {
                     className="display-font"
                     style={{
                       fontSize: "0.9rem",
-                      color: c.text,
+                      color: isDark ? c.text : "#f0f0f0",
                       marginBottom: "0.3rem",
                       letterSpacing: "0.06em",
                     }}
@@ -942,7 +942,7 @@ export default function AutoRepair() {
             <p className="section-eyebrow">Get Your Car Seen</p>
             <h2
               className="display-font"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: c.text, margin: "0 0 0.75rem" }}
+              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: isDark ? c.text : "#f0f0f0", margin: "0 0 0.75rem" }}
             >
               OPEN A SERVICE TICKET
             </h2>
@@ -975,7 +975,7 @@ export default function AutoRepair() {
                 </div>
                 <h3
                   className="display-font"
-                  style={{ fontSize: "1.6rem", color: c.text, marginBottom: "0.75rem" }}
+                  style={{ fontSize: "1.6rem", color: isDark ? c.text : "#f0f0f0", marginBottom: "0.75rem" }}
                 >
                   TICKET #{Math.floor(2800 + Math.random() * 200)} RECEIVED
                 </h3>
@@ -1149,7 +1149,7 @@ export default function AutoRepair() {
               <span style={{ fontSize: "1.3rem" }}>🔧</span>
               <span
                 className="display-font"
-                style={{ fontSize: "1.1rem", color: c.text, letterSpacing: "0.06em" }}
+                style={{ fontSize: "1.1rem", color: isDark ? c.text : "#f0f0f0", letterSpacing: "0.06em" }}
               >
                 APEX AUTO
               </span>
