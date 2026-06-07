@@ -545,7 +545,6 @@ export default function RoofingPage() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('scroll-animated');
-          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
@@ -634,7 +633,14 @@ export default function RoofingPage() {
   }
 
   return (
-    <div style={{ background: colors.bg, color: colors.text, fontFamily: dmSans.style.fontFamily, minHeight: "100vh", position: "relative", overflowX: "hidden" }}>
+    <div style={{
+        background: `linear-gradient(180deg, rgba(17,17,17,0.85) 0%, rgba(17,17,17,0.75) 40%, rgba(17,17,17,0.80) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80') center/cover no-repeat`,
+        color: colors.text,
+        fontFamily: dmSans.style.fontFamily,
+        minHeight: "100vh",
+        position: "relative",
+        overflowX: "hidden"
+      }}>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -650,17 +656,29 @@ export default function RoofingPage() {
         .faq-chevron { transition: transform 0.25s ease; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-up { animation: fadeUp 0.5s ease forwards; }
-        .scroll-animate { opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; }
-        .scroll-animate.scroll-animated { opacity: 1; }
-        .scroll-animate.scroll-left { transform: translateX(-40px); }
-        .scroll-animate.scroll-right { transform: translateX(40px); }
-        .scroll-animate.scroll-up { transform: translateY(40px); }
-        .scroll-animate.scroll-down { transform: translateY(-40px); }
-        .scroll-animate.scroll-animated { transform: translate(0); }
+        .scroll-animate { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .scroll-animate.scroll-animated { opacity: 1; transform: translateY(0); }
+        .shingle-overlay { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+        .shingle { position: absolute; width: 14px; height: 7px; background: linear-gradient(135deg, #b45309 0%, #d97706 40%, #fbbf24 80%); border-radius: 2px; opacity: 0.35; }
+        @keyframes shingleFall { 0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; } 8% { opacity: 0.35; } 90% { opacity: 0.35; } 100% { transform: translateY(110vh) translateX(40px) rotate(25deg); opacity: 0; } }
+        .shingle-1 { left: 8%;  animation: shingleFall 4s linear 0s infinite; }
+        .shingle-2 { left: 22%; animation: shingleFall 4.5s linear 0.8s infinite; }
+        .shingle-3 { left: 38%; animation: shingleFall 3.8s linear 1.4s infinite; }
+        .shingle-4 { left: 55%; animation: shingleFall 5s linear 0.3s infinite; }
+        .shingle-5 { left: 70%; animation: shingleFall 4.2s linear 2s infinite; }
+        .shingle-6 { left: 85%; animation: shingleFall 3.5s linear 1.1s infinite; }
       `}</style>
 
       {/* Canvas Background */}
       <canvas ref={canvasRef} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }} />
+      <div className="shingle-overlay" aria-hidden="true">
+        <div className="shingle shingle-1" />
+        <div className="shingle shingle-2" />
+        <div className="shingle shingle-3" />
+        <div className="shingle shingle-4" />
+        <div className="shingle shingle-5" />
+        <div className="shingle shingle-6" />
+      </div>
 
       {/* ─── NAVIGATION ─────────────────────────────────────────────────── */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: colors.nav, backdropFilter: "blur(16px)", borderBottom: `1px solid ${colors.border}` }}>
