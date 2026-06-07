@@ -83,28 +83,12 @@ export default function AutoRepair() {
       min-height: 100vh;
       overflow-x: hidden;
       color: ${c.text};
-      background:
-        repeating-linear-gradient(
-          -55deg,
-          transparent 0px,
-          transparent 60px,
-          rgba(220, 38, 38, 0.04) 60px,
-          rgba(220, 38, 38, 0.04) 62px,
-          transparent 62px,
-          transparent 120px
-        ),
-        repeating-linear-gradient(
-          -55deg,
-          transparent 0px,
-          transparent 100px,
-          rgba(200, 200, 200, 0.03) 100px,
-          rgba(200, 200, 200, 0.03) 102px,
-          transparent 102px,
-          transparent 200px
-        ),
-        radial-gradient(circle at 80% 20%, ${c.ambientA} 0%, transparent 35%),
-        radial-gradient(circle at 20% 80%, ${c.ambientB} 0%, transparent 35%),
-        linear-gradient(180deg, ${c.bg} 0%, ${c.bgAlt} 55%, ${c.bg} 100%);
+      background-color: ${c.bg};
+      background-image:
+        linear-gradient(180deg, rgba(15,15,15,0.82) 0%, rgba(15,15,15,0.75) 50%, rgba(15,15,15,0.88) 100%),
+        url('https://images.unsplash.com/photo-1626126525134-fbbc07afb32c?w=1920&q=80');
+      background-size: cover;
+      background-position: center;
       background-attachment: fixed;
       font-family: ${dmSans.style.fontFamily}, system-ui, sans-serif;
     }
@@ -329,33 +313,56 @@ export default function AutoRepair() {
       to   { opacity: 1; transform: translateX(0); }
     }
 
-    .gear-overlay {
+    .stripe-overlay {
       position: fixed;
       inset: 0;
       z-index: 1;
       pointer-events: none;
       overflow: hidden;
     }
-    .gear {
+    .stripe {
       position: absolute;
-      border-radius: 50%;
-      border: 2px solid rgba(220, 38, 38, 0.08);
-      opacity: 0;
-      animation: gearSpin linear infinite;
+      height: 4px;
+      border-radius: 2px;
+      opacity: 0.18;
+      animation: stripePulse 3s ease-in-out infinite;
     }
-    .gear-1 { width: 200px; height: 200px; left: -80px; top: 15%; animation-duration: 40s; animation-delay: 0s; }
-    .gear-2 { width: 320px; height: 320px; right: -120px; top: 40%; animation-duration: 60s; animation-delay: -20s; border-color: rgba(220,38,38,0.05); }
-    .gear-3 { width: 140px; height: 140px; left: 60%; top: 70%; animation-duration: 30s; animation-delay: -10s; }
-    .gear-4 { width: 240px; height: 240px; left: -60px; top: 65%; animation-duration: 50s; animation-delay: -35s; border-color: rgba(220,38,38,0.06); }
+    .stripe-1 { top: 18%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 0s; }
+    .stripe-2 { top: 22%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 0.4s; }
+    .stripe-3 { top: 26%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 0.8s; }
+    .stripe-4 { bottom: 18%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 1.2s; }
+    .stripe-5 { bottom: 22%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 1.6s; }
+    .stripe-6 { bottom: 26%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 2s; }
+    .stripe-7 { top: 45%; left: -5%; right: -5%; background: rgba(255,255,255,0.3); animation-delay: 0.6s; }
+    .stripe-8 { bottom: 45%; left: -5%; right: -5%; background: rgba(255,255,255,0.3); animation-delay: 1s; }
 
-    @keyframes gearSpin {
-      0%   { transform: rotate(0deg) scale(1); opacity: 0; }
-      5%   { opacity: 1; }
-      25%  { transform: rotate(90deg) scale(1.05); opacity: 0.8; }
-      50%  { transform: rotate(180deg) scale(1); opacity: 1; }
-      75%  { transform: rotate(270deg) scale(1.05); opacity: 0.8; }
-      95%  { opacity: 1; }
-      100% { transform: rotate(360deg) scale(1); opacity: 0; }
+    @keyframes stripePulse {
+      0%   { opacity: 0.08; transform: scaleX(0.4); }
+      50%  { opacity: 0.28; transform: scaleX(1); }
+      100% { opacity: 0.08; transform: scaleX(0.4); }
+    }
+
+    .wrench-svg {
+      position: absolute;
+      opacity: 0;
+      animation: wrenchFloat ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(220,38,38,0.6));
+    }
+    .wrench-1 { left: 4%; top: 8%; animation: wrenchFloat 12s ease-in-out 0s infinite, wrenchFade 3s ease-in-out 0s infinite; }
+    .wrench-2 { right: 6%; top: 20%; animation: wrenchFloat 10s ease-in-out 4s infinite, wrenchFade 3s ease-in-out 0.5s infinite; transform: scaleX(-1); }
+    .wrench-3 { left: 8%; bottom: 20%; animation: wrenchFloat 14s ease-in-out 2s infinite, wrenchFade 3s ease-in-out 1s infinite; }
+    .wrench-4 { right: 10%; bottom: 12%; animation: wrenchFloat 11s ease-in-out 6s infinite, wrenchFade 3s ease-in-out 1.5s infinite; transform: scaleX(-1); }
+
+    @keyframes wrenchFloat {
+      0%   { transform: translateY(0) rotate(0deg); }
+      50%  { transform: translateY(20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+    @keyframes wrenchFade {
+      0%   { opacity: 0; }
+      20%  { opacity: 0.8; }
+      80%  { opacity: 0.8; }
+      100% { opacity: 0; }
     }
   `;
 
@@ -419,11 +426,27 @@ export default function AutoRepair() {
     <>
       <style>{css}</style>
 
-      <div className="gear-overlay" aria-hidden="true">
-        <div className="gear gear-1" />
-        <div className="gear gear-2" />
-        <div className="gear gear-3" />
-        <div className="gear gear-4" />
+      <div className="stripe-overlay" aria-hidden="true">
+        <div className="stripe stripe-1" />
+        <div className="stripe stripe-2" />
+        <div className="stripe stripe-3" />
+        <div className="stripe stripe-4" />
+        <div className="stripe stripe-5" />
+        <div className="stripe stripe-6" />
+        <div className="stripe stripe-7" />
+        <div className="stripe stripe-8" />
+        <svg className="wrench-svg wrench-1" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <svg className="wrench-svg wrench-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <svg className="wrench-svg wrench-3" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <svg className="wrench-svg wrench-4" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
       </div>
 
       <div className="auto-root" style={{ position: "relative", zIndex: 2 }}>
