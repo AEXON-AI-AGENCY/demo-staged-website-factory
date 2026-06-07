@@ -85,8 +85,8 @@ export default function AutoRepair() {
       color: ${c.text};
       background-color: ${c.bg};
       background-image:
-        linear-gradient(180deg, rgba(15,15,15,0.82) 0%, rgba(15,15,15,0.75) 50%, rgba(15,15,15,0.88) 100%),
-        url('https://images.unsplash.com/photo-1626126525134-fbbc07afb32c?w=1920&q=80');
+        linear-gradient(180deg, rgba(15,15,15,0.85) 0%, rgba(15,15,15,0.78) 50%, rgba(15,15,15,0.90) 100%),
+        url('https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=1920&q=80');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -160,8 +160,8 @@ export default function AutoRepair() {
       gap: 0.5rem;
       padding: 0.75rem 1.75rem;
       background: transparent;
-      color: ${c.text};
-      border: 1.5px solid ${c.border};
+      color: ${isDark ? c.text : c.accent};
+      border: 1.5px solid ${isDark ? c.border : c.accent};
       border-radius: 6px;
       font-family: ${dmSans.style.fontFamily}, sans-serif;
       font-weight: 500;
@@ -333,8 +333,8 @@ export default function AutoRepair() {
     .stripe-4 { bottom: 18%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 1.2s; }
     .stripe-5 { bottom: 22%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 1.6s; }
     .stripe-6 { bottom: 26%; left: -5%; right: -5%; background: ${c.accent}; animation-delay: 2s; }
-    .stripe-7 { top: 45%; left: -5%; right: -5%; background: rgba(255,255,255,0.3); animation-delay: 0.6s; }
-    .stripe-8 { bottom: 45%; left: -5%; right: -5%; background: rgba(255,255,255,0.3); animation-delay: 1s; }
+    .stripe-7 { top: 45%; left: -5%; right: -5%; background: ${isDark ? "rgba(255,255,255,0.3)" : c.accent}; animation-delay: 0.6s; }
+    .stripe-8 { bottom: 45%; left: -5%; right: -5%; background: ${isDark ? "rgba(255,255,255,0.3)" : c.accent}; animation-delay: 1s; }
 
     @keyframes stripePulse {
       0%   { opacity: 0.08; transform: scaleX(0.4); }
@@ -346,12 +346,21 @@ export default function AutoRepair() {
       position: absolute;
       opacity: 0;
       animation: wrenchFloat ease-in-out infinite;
-      filter: drop-shadow(0 0 6px rgba(220,38,38,0.6));
+      filter: drop-shadow(0 0 8px rgba(220,38,38,0.8));
     }
     .wrench-1 { left: 4%; top: 8%; animation: wrenchFloat 12s ease-in-out 0s infinite, wrenchFade 3s ease-in-out 0s infinite; }
     .wrench-2 { right: 6%; top: 20%; animation: wrenchFloat 10s ease-in-out 4s infinite, wrenchFade 3s ease-in-out 0.5s infinite; transform: scaleX(-1); }
     .wrench-3 { left: 8%; bottom: 20%; animation: wrenchFloat 14s ease-in-out 2s infinite, wrenchFade 3s ease-in-out 1s infinite; }
     .wrench-4 { right: 10%; bottom: 12%; animation: wrenchFloat 11s ease-in-out 6s infinite, wrenchFade 3s ease-in-out 1.5s infinite; transform: scaleX(-1); }
+
+    .wrench-svg::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: ${isDark ? "transparent" : "rgba(15,15,15,0.25)"};
+      z-index: -1;
+    }
 
     @keyframes wrenchFloat {
       0%   { transform: translateY(0) rotate(0deg); }
@@ -555,7 +564,8 @@ export default function AutoRepair() {
               style={{
                 fontSize: "clamp(3.5rem, 8vw, 7rem)",
                 lineHeight: 0.92,
-                color: c.text,
+                color: isDark ? c.text : "#ffffff",
+                textShadow: isDark ? "none" : "0 2px 20px rgba(0,0,0,0.7)",
                 margin: "0 0 1.25rem",
               }}
             >
