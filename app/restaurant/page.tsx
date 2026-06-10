@@ -173,7 +173,7 @@ export default function RestaurantPage() {
             <h1 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(2.5rem, 5vw, 4.5rem)", lineHeight: 1.08, color: colors.text, margin: "0 0 1.5rem" }}>
               Where Every Meal <br /><span style={{ color: colors.accent }}>Becomes a Memory.</span>
             </h1>
-            <p style={{ fontSize: "1.1rem", color: bodyTextColor, lineHeight: 1.7, margin: "0 0 2.5rem", maxWidth: "480px", fontWeight: 500 }}>
+            <p style={{ fontSize: "1.15rem", color: bodyTextColor, lineHeight: 1.7, margin: "0 0 2.5rem", maxWidth: "480px", fontWeight: 600 }}>
               Farm-to-table fine dining in the heart of the city. Seasonal ingredients, thoughtful preparation, and an AI concierge that knows your preferences before you sit down.
             </p>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
@@ -205,7 +205,7 @@ export default function RestaurantPage() {
           ].map(item => (
             <div key={item.label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: "0.7rem", letterSpacing: "0.15em", color: eyebrowColor, fontWeight: 700, textTransform: "uppercase", marginBottom: "0.4rem" }}>{item.label}</div>
-              <div style={{ fontSize: "0.85rem", color: bodyTextColor, whiteSpace: "pre-line", lineHeight: 1.6, fontWeight: 500 }}>{item.value}</div>
+              <div style={{ fontSize: "0.9rem", color: bodyTextColor, whiteSpace: "pre-line", lineHeight: 1.6, fontWeight: 600 }}>{item.value}</div>
             </div>
           ))}
         </div>
@@ -222,7 +222,7 @@ export default function RestaurantPage() {
             <div key={s.number} className="scroll-animate card-hover" style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "14px", padding: "2rem", transition: "all 0.25s" }}>
               <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "2.8rem", color: colors.accent, opacity: 0.35, lineHeight: 1, marginBottom: "1rem" }}>{s.number}</div>
               <h3 style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.35rem", fontWeight: 700, color: colors.text, margin: "0 0 0.75rem" }}>{s.title}</h3>
-              <p style={{ fontSize: "0.9rem", color: bodyTextColor, lineHeight: 1.65, margin: "0 0 1.25rem", fontWeight: 500 }}>{s.description}</p>
+              <p style={{ fontSize: "0.95rem", color: bodyTextColor, lineHeight: 1.7, margin: "0 0 1.25rem", fontWeight: 600 }}>{s.description}</p>
               <div style={{ fontSize: "0.72rem", letterSpacing: "0.1em", color: eyebrowColor, fontWeight: 700, textTransform: "uppercase" }}>{s.tag}</div>
             </div>
           ))}
@@ -234,7 +234,7 @@ export default function RestaurantPage() {
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 700 }}>Powered by AI</div>
           <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: colors.text, margin: 0 }}>Your Personal Reservation Agent</h2>
-          <p style={{ fontSize: "1rem", color: bodyTextColor, marginTop: "1rem", maxWidth: "520px", margin: "1rem auto 0", fontWeight: 500, lineHeight: 1.65 }}>Describe your occasion, dietary needs, and preferences. Our AI builds a custom tasting and books your table — all in one conversation.</p>
+          <p style={{ fontSize: "1.05rem", color: bodyTextColor, marginTop: "1rem", maxWidth: "520px", margin: "1rem auto 0", fontWeight: 600, lineHeight: 1.7 }}>Describe your occasion, dietary needs, and preferences. Our AI builds a custom tasting and books your table — all in one conversation.</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "start" }}>
           <div style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "18px", padding: "2rem" }}>
@@ -280,7 +280,7 @@ export default function RestaurantPage() {
                 <div style={{ width: "2.5rem", height: "2.5rem", borderRadius: "10px", background: colors.accentGlow, display: "grid", placeItems: "center", flexShrink: 0, color: colors.accent, fontSize: "1.1rem" }}>✓</div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: "0.95rem", color: colors.text, marginBottom: "0.35rem" }}>{feat.title}</div>
-                  <div style={{ fontSize: "0.83rem", color: bodyTextColor, lineHeight: 1.6, fontWeight: 500 }}>{feat.desc}</div>
+                  <div style={{ fontSize: "0.9rem", color: bodyTextColor, lineHeight: 1.65, fontWeight: 600 }}>{feat.desc}</div>
                 </div>
               </div>
             ))}
@@ -299,7 +299,7 @@ export default function RestaurantPage() {
             <div key={step.step} className="scroll-animate" style={{ textAlign: "center", padding: "2rem 1.5rem", background: colors.card, borderRadius: "14px", border: `1px solid ${colors.border}` }}>
               <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "3.5rem", color: colors.accent, opacity: 0.45, lineHeight: 1, marginBottom: "1rem" }}>{step.step}</div>
               <h3 style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.1rem", fontWeight: 800, color: colors.text, margin: "0 0 0.75rem" }}>{step.title}</h3>
-              <p style={{ fontSize: "0.85rem", color: bodyTextColor, lineHeight: 1.65, fontWeight: 500 }}>{step.desc}</p>
+              <p style={{ fontSize: "0.9rem", color: bodyTextColor, lineHeight: 1.7, fontWeight: 600 }}>{step.desc}</p>
             </div>
           ))}
         </div>
@@ -324,7 +324,7 @@ export default function RestaurantPage() {
           <div>
             <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 700 }}>Get in Touch</div>
             <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: colors.text, margin: "0 0 1.25rem" }}>Reserve Your Table</h2>
-            <p style={{ fontSize: "0.95rem", color: bodyTextColor, lineHeight: 1.7, marginBottom: "2rem", fontWeight: 500 }}>For private events, large party reservations, or special dietary requirements, reach out directly and our team will personally curate your experience.</p>
+            <p style={{ fontSize: "1rem", color: bodyTextColor, lineHeight: 1.75, marginBottom: "2rem", fontWeight: 600 }}>For private events, large party reservations, or special dietary requirements, reach out directly and our team will personally curate your experience.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               {[
                 { label: "Address", value: "14 West 46th Street, New York, NY 10036" },
