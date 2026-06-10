@@ -17,6 +17,7 @@ const c = {
   light: {
     bg: "#fffbf5", nav: "rgba(255,251,245,0.92)", card: "rgba(255,255,255,0.96)", border: "rgba(245,158,11,0.18)",
     text: "#1a1209", textSoft: "rgba(26,18,9,0.6)", textMuted: "rgba(26,18,9,0.38)",
+    textWarm: "#3a2a1a",
     accent: "#d97706", accentDark: "#b45309", accentGlow: "rgba(217,119,6,0.2)",
     success: "#16a34a", error: "#dc2626", selection: "rgba(245,158,11,0.15)",
     onAccent: "#ffffff", borderStrong: "rgba(217,119,6,0.4)", inputBg: "rgba(0,0,0,0.04)",
@@ -34,7 +35,7 @@ export default function RestaurantPage() {
   }, []);
 
   const colors = c[theme];
-  const bodyTextColor = colors.text;
+  const bodyTextColor = theme === "dark" ? colors.text : c.light.textWarm;
   const eyebrowColor = theme === "light" ? colors.accentDark : colors.accent;
   const placeholderColor = theme === "dark" ? "rgba(254,243,226,0.5)" : "rgba(26,18,9,0.55)";
 
