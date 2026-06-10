@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
-const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700"] });
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700", "800"] });
 
 const c = {
   dark: {
@@ -34,6 +34,9 @@ export default function RestaurantPage() {
   }, []);
 
   const colors = c[theme];
+  const bodyTextColor = colors.text;
+  const eyebrowColor = theme === "light" ? colors.accentDark : colors.accent;
+  const placeholderColor = theme === "dark" ? "rgba(254,243,226,0.5)" : "rgba(26,18,9,0.55)";
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -121,6 +124,7 @@ export default function RestaurantPage() {
         .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
         .nav-link:hover { color: ${colors.accent} !important; }
         .gold-glow { box-shadow: 0 0 20px ${colors.accentGlow}; }
+        .restaurant-input::placeholder { color: ${placeholderColor}; font-weight: 500; opacity: 1; }
       `}</style>
 
       {/* Rising sparkle overlay */}
@@ -135,13 +139,13 @@ export default function RestaurantPage() {
             <div style={{ fontSize: "1.6rem" }}>🍴</div>
             <div>
               <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.05rem", fontWeight: 700, color: colors.text, lineHeight: 1 }}>The Golden Fork</div>
-              <div style={{ fontSize: "0.62rem", letterSpacing: "0.18em", color: colors.accent, textTransform: "uppercase", marginTop: "2px" }}>Farm to Table</div>
+              <div style={{ fontSize: "0.62rem", letterSpacing: "0.18em", color: eyebrowColor, textTransform: "uppercase", marginTop: "2px", fontWeight: 600 }}>Farm to Table</div>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
             {["Menu", "AI Reservation Agent", "About", "Contact"].map(link => (
               <a key={link} href={`#${link.toLowerCase().replace(/ /g, "-")}`}
-                style={{ color: colors.textMuted, textDecoration: "none", fontSize: "0.86rem", fontWeight: 500, letterSpacing: "0.04em", transition: "color 0.2s" }}
+                style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.86rem", fontWeight: 500, letterSpacing: "0.04em", transition: "color 0.2s" }}
                 className="nav-link">
                 {link}
               </a>
@@ -164,11 +168,11 @@ export default function RestaurantPage() {
       <section style={{ position: "relative", zIndex: 2, padding: "6rem 2rem 4rem", maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
           <div>
-            <div style={{ fontSize: "0.75rem", letterSpacing: "0.22em", color: colors.accent, textTransform: "uppercase", marginBottom: "1rem", fontWeight: 600 }}>New Spring Menu — Now Available</div>
+            <div style={{ fontSize: "0.75rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "1rem", fontWeight: 700 }}>New Spring Menu — Now Available</div>
             <h1 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(2.5rem, 5vw, 4.5rem)", lineHeight: 1.08, color: colors.text, margin: "0 0 1.5rem" }}>
               Where Every Meal <br /><span style={{ color: colors.accent }}>Becomes a Memory.</span>
             </h1>
-            <p style={{ fontSize: "1.1rem", color: colors.textSoft, lineHeight: 1.7, margin: "0 0 2.5rem", maxWidth: "480px" }}>
+            <p style={{ fontSize: "1.1rem", color: bodyTextColor, lineHeight: 1.7, margin: "0 0 2.5rem", maxWidth: "480px", fontWeight: 500 }}>
               Farm-to-table fine dining in the heart of the city. Seasonal ingredients, thoughtful preparation, and an AI concierge that knows your preferences before you sit down.
             </p>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
@@ -199,8 +203,8 @@ export default function RestaurantPage() {
             { label: "Reservations", value: "+1 (212) 555-0199\nor chat with our AI" },
           ].map(item => (
             <div key={item.label} style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "0.7rem", letterSpacing: "0.15em", color: colors.accent, fontWeight: 700, textTransform: "uppercase", marginBottom: "0.4rem" }}>{item.label}</div>
-              <div style={{ fontSize: "0.85rem", color: colors.textSoft, whiteSpace: "pre-line", lineHeight: 1.6 }}>{item.value}</div>
+              <div style={{ fontSize: "0.7rem", letterSpacing: "0.15em", color: eyebrowColor, fontWeight: 700, textTransform: "uppercase", marginBottom: "0.4rem" }}>{item.label}</div>
+              <div style={{ fontSize: "0.85rem", color: bodyTextColor, whiteSpace: "pre-line", lineHeight: 1.6, fontWeight: 500 }}>{item.value}</div>
             </div>
           ))}
         </div>
@@ -209,7 +213,7 @@ export default function RestaurantPage() {
       {/* ─── SERVICES ─────────────────────────────────────────────────── */}
       <section id="menu" style={{ position: "relative", zIndex: 2, padding: "4rem 2rem", maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: colors.accent, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 600 }}>What We Offer</div>
+          <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 700 }}>What We Offer</div>
           <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: colors.text, margin: 0 }}>Dining Experiences</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.5rem" }}>
@@ -217,8 +221,8 @@ export default function RestaurantPage() {
             <div key={s.number} className="scroll-animate card-hover" style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "14px", padding: "2rem", transition: "all 0.25s" }}>
               <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "2.8rem", color: colors.accent, opacity: 0.35, lineHeight: 1, marginBottom: "1rem" }}>{s.number}</div>
               <h3 style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.35rem", fontWeight: 700, color: colors.text, margin: "0 0 0.75rem" }}>{s.title}</h3>
-              <p style={{ fontSize: "0.9rem", color: colors.textSoft, lineHeight: 1.65, margin: "0 0 1.25rem" }}>{s.description}</p>
-              <div style={{ fontSize: "0.72rem", letterSpacing: "0.1em", color: colors.accent, fontWeight: 600, textTransform: "uppercase" }}>{s.tag}</div>
+              <p style={{ fontSize: "0.9rem", color: bodyTextColor, lineHeight: 1.65, margin: "0 0 1.25rem", fontWeight: 500 }}>{s.description}</p>
+              <div style={{ fontSize: "0.72rem", letterSpacing: "0.1em", color: eyebrowColor, fontWeight: 700, textTransform: "uppercase" }}>{s.tag}</div>
             </div>
           ))}
         </div>
@@ -227,9 +231,9 @@ export default function RestaurantPage() {
       {/* ─── AI CONCIERGE ──────────────────────────────────────────────── */}
       <section id="ai-reservation-agent" style={{ position: "relative", zIndex: 2, padding: "4rem 2rem", maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: colors.accent, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 600 }}>Powered by AI</div>
+          <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 700 }}>Powered by AI</div>
           <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: colors.text, margin: 0 }}>Your Personal Reservation Agent</h2>
-          <p style={{ fontSize: "1rem", color: colors.textSoft, marginTop: "1rem", maxWidth: "520px", margin: "1rem auto 0" }}>Describe your occasion, dietary needs, and preferences. Our AI builds a custom tasting and books your table — all in one conversation.</p>
+          <p style={{ fontSize: "1rem", color: bodyTextColor, marginTop: "1rem", maxWidth: "520px", margin: "1rem auto 0", fontWeight: 500, lineHeight: 1.65 }}>Describe your occasion, dietary needs, and preferences. Our AI builds a custom tasting and books your table — all in one conversation.</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "start" }}>
           <div style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "18px", padding: "2rem" }}>
@@ -260,7 +264,7 @@ export default function RestaurantPage() {
               ))}
             </div>
             <div style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem" }}>
-              <input type="text" placeholder="Describe your perfect dinner..." readOnly style={{ flex: 1, background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "999px", padding: "0.75rem 1.25rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily }} />
+              <input className="restaurant-input" type="text" placeholder="Describe your perfect dinner..." readOnly style={{ flex: 1, background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "999px", padding: "0.75rem 1.25rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily }} />
               <button style={{ background: colors.accent, color: colors.onAccent, border: "none", borderRadius: "999px", padding: "0.75rem 1.5rem", fontWeight: 700, cursor: "pointer", fontSize: "0.88rem" }}>Send</button>
             </div>
           </div>
@@ -274,8 +278,8 @@ export default function RestaurantPage() {
               <div key={i} className="scroll-animate" style={{ display: "flex", gap: "1rem", padding: "1.25rem", background: colors.card, borderRadius: "12px", border: `1px solid ${colors.border}` }}>
                 <div style={{ width: "2.5rem", height: "2.5rem", borderRadius: "10px", background: colors.accentGlow, display: "grid", placeItems: "center", flexShrink: 0, color: colors.accent, fontSize: "1.1rem" }}>✓</div>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: "0.95rem", color: colors.text, marginBottom: "0.35rem" }}>{feat.title}</div>
-                  <div style={{ fontSize: "0.83rem", color: colors.textSoft, lineHeight: 1.6 }}>{feat.desc}</div>
+                  <div style={{ fontWeight: 700, fontSize: "0.95rem", color: colors.text, marginBottom: "0.35rem" }}>{feat.title}</div>
+                  <div style={{ fontSize: "0.83rem", color: bodyTextColor, lineHeight: 1.6, fontWeight: 500 }}>{feat.desc}</div>
                 </div>
               </div>
             ))}
@@ -286,15 +290,15 @@ export default function RestaurantPage() {
       {/* ─── PROCESS ─────────────────────────────────────────────────── */}
       <section style={{ position: "relative", zIndex: 2, padding: "4rem 2rem", maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: colors.accent, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 600 }}>How It Works</div>
+          <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 700 }}>How It Works</div>
           <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: colors.text, margin: 0 }}>Your Evening, Perfected</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
           {processSteps.map((step, i) => (
             <div key={step.step} className="scroll-animate" style={{ textAlign: "center", padding: "2rem 1.5rem", background: colors.card, borderRadius: "14px", border: `1px solid ${colors.border}` }}>
               <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "3.5rem", color: colors.accent, opacity: 0.45, lineHeight: 1, marginBottom: "1rem" }}>{step.step}</div>
-              <h3 style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.1rem", fontWeight: 700, color: colors.text, margin: "0 0 0.75rem" }}>{step.title}</h3>
-              <p style={{ fontSize: "0.85rem", color: colors.textSoft, lineHeight: 1.65 }}>{step.desc}</p>
+              <h3 style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.1rem", fontWeight: 800, color: colors.text, margin: "0 0 0.75rem" }}>{step.title}</h3>
+              <p style={{ fontSize: "0.85rem", color: bodyTextColor, lineHeight: 1.65, fontWeight: 500 }}>{step.desc}</p>
             </div>
           ))}
         </div>
@@ -307,7 +311,7 @@ export default function RestaurantPage() {
             <div key={badge.label} className="scroll-animate" style={{ textAlign: "center", padding: "1.75rem 1rem", background: colors.card, borderRadius: "14px", border: `1px solid ${colors.border}` }}>
               <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>{badge.icon}</div>
               <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text, marginBottom: "0.35rem" }}>{badge.label}</div>
-              <div style={{ fontSize: "0.75rem", color: colors.textMuted }}>{badge.sub}</div>
+              <div style={{ fontSize: "0.75rem", color: colors.textSoft, fontWeight: 500 }}>{badge.sub}</div>
             </div>
           ))}
         </div>
@@ -317,9 +321,9 @@ export default function RestaurantPage() {
       <section id="contact" style={{ position: "relative", zIndex: 2, padding: "4rem 2rem", maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
           <div>
-            <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: colors.accent, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 600 }}>Get in Touch</div>
+            <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 700 }}>Get in Touch</div>
             <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: colors.text, margin: "0 0 1.25rem" }}>Reserve Your Table</h2>
-            <p style={{ fontSize: "0.95rem", color: colors.textSoft, lineHeight: 1.7, marginBottom: "2rem" }}>For private events, large party reservations, or special dietary requirements, reach out directly and our team will personally curate your experience.</p>
+            <p style={{ fontSize: "0.95rem", color: bodyTextColor, lineHeight: 1.7, marginBottom: "2rem", fontWeight: 500 }}>For private events, large party reservations, or special dietary requirements, reach out directly and our team will personally curate your experience.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               {[
                 { label: "Address", value: "14 West 46th Street, New York, NY 10036" },
@@ -328,30 +332,30 @@ export default function RestaurantPage() {
                 { label: "Email", value: "reservations@thegoldenfork.com" },
               ].map(item => (
                 <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: colors.accent, width: "70px", letterSpacing: "0.08em" }}>{item.label}</div>
-                  <div style={{ fontSize: "0.9rem", color: colors.textSoft }}>{item.value}</div>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: eyebrowColor, width: "70px", letterSpacing: "0.08em" }}>{item.label}</div>
+                  <div style={{ fontSize: "0.9rem", color: bodyTextColor, fontWeight: 500 }}>{item.value}</div>
                 </div>
               ))}
             </div>
           </div>
           <form onSubmit={e => { e.preventDefault(); alert("Reservation request received! We'll confirm within 2 hours."); }} style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "18px", padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-              <input required type="text" placeholder="Your Name" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily }} />
-              <input required type="email" placeholder="Email Address" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily }} />
+              <input className="restaurant-input" required type="text" placeholder="Your Name" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily }} />
+              <input className="restaurant-input" required type="email" placeholder="Email Address" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily }} />
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-              <input required type="tel" placeholder="Phone Number" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily }} />
-              <input required type="number" min="1" max="20" placeholder="Party size" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily }} />
+              <input className="restaurant-input" required type="tel" placeholder="Phone Number" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily }} />
+              <input className="restaurant-input" required type="number" min="1" max="20" placeholder="Party size" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily }} />
             </div>
-            <input required type="date" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily }} />
-            <select style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily }}>
+            <input required type="date" style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily }} />
+            <select style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily }}>
               <option value="">Experience preference</option>
               <option>Tasting Menu</option>
               <option>À La Carte</option>
               <option>Private Dining Room</option>
               <option>Full Restaurant Buyout</option>
             </select>
-            <textarea placeholder="Special requests, dietary needs, occasion details..." rows={3} style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontFamily: dmSans.style.fontFamily, resize: "vertical" }} />
+            <textarea className="restaurant-input" placeholder="Special requests, dietary needs, occasion details..." rows={3} style={{ background: colors.inputBg, border: `1px solid ${colors.border}`, borderRadius: "10px", padding: "0.85rem 1rem", color: colors.text, fontSize: "0.88rem", fontWeight: 500, fontFamily: dmSans.style.fontFamily, resize: "vertical" }} />
             <button type="submit" style={{ background: colors.accent, color: colors.onAccent, border: "none", borderRadius: "999px", padding: "1rem", fontWeight: 700, fontSize: "1rem", cursor: "pointer", boxShadow: `0 0 24px ${colors.accentGlow}`, fontFamily: dmSans.style.fontFamily }}>
               Request Reservation
             </button>
@@ -366,10 +370,10 @@ export default function RestaurantPage() {
             <span style={{ fontSize: "1.4rem" }}>🍴</span>
             <span style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text }}>The Golden Fork</span>
           </div>
-          <div style={{ fontSize: "0.8rem", color: colors.textMuted }}>14 West 46th St · New York · +1 (212) 555-0199</div>
-          <a href="#contact" style={{ color: colors.accent, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600 }}>Reserve a Table →</a>
+          <div style={{ fontSize: "0.8rem", color: colors.textSoft, fontWeight: 500 }}>14 West 46th St · New York · +1 (212) 555-0199</div>
+          <a href="#contact" style={{ color: eyebrowColor, textDecoration: "none", fontSize: "0.85rem", fontWeight: 700 }}>Reserve a Table →</a>
         </div>
-        <div style={{ maxWidth: "1200px", margin: "1.5rem auto 0", textAlign: "center", fontSize: "0.75rem", color: colors.textMuted }}>
+        <div style={{ maxWidth: "1200px", margin: "1.5rem auto 0", textAlign: "center", fontSize: "0.8rem", color: colors.text, fontWeight: 600 }}>
           © 2025 The Golden Fork. All rights reserved.
         </div>
       </footer>
