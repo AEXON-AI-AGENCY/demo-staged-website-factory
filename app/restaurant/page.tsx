@@ -319,7 +319,7 @@ export default function RestaurantPage() {
       </section>
 
       {/* ─── CONTACT ──────────────────────────────────────────────────── */}
-      <section id="contact" style={{ position: "relative", zIndex: 2, padding: "4rem 2rem", maxWidth: "1200px", margin: "0 auto" }}>
+      <section id="contact" style={{ position: "relative", zIndex: 2, padding: "5rem 2rem", maxWidth: "1200px", margin: "2rem auto", background: colors.bg, borderRadius: "20px", border: `1px solid ${colors.border}`, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
           <div>
             <div style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: eyebrowColor, textTransform: "uppercase", marginBottom: "0.75rem", fontWeight: 700 }}>Get in Touch</div>
