@@ -20,6 +20,7 @@ type Theme = "light" | "dark";
 const colors = {
   light: {
     bg: "#ffffff",
+    bgOverlay: "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0.78) 100%)",
     band: "#f4f4f4",
     layer: "#e0e0e0",
     text: "#161616",
@@ -35,6 +36,7 @@ const colors = {
   },
   dark: {
     bg: "#161616",
+    bgOverlay: "linear-gradient(180deg, rgba(22,22,22,0.78) 0%, rgba(22,22,22,0.62) 50%, rgba(22,22,22,0.78) 100%)",
     band: "#262626",
     layer: "#393939",
     text: "#f4f4f4",
@@ -48,7 +50,7 @@ const colors = {
     inverse: "#f4f4f4",
     inverseMuted: "#c6c6c6",
   },
-} as const;
+};
 
 const rates = [
   { carrier: "Progressive", annual: "$1,847", semi: "$947", monthly: "$167", deductible: "$500", coverage: "Liability + Collision", rating: "A+" },
@@ -146,6 +148,8 @@ export default function InsurancePage() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("scroll-animated");
+          } else {
+            entry.target.classList.remove("scroll-animated");
           }
         });
       },
@@ -186,7 +190,37 @@ export default function InsurancePage() {
   }
 
   return (
-    <main style={{ background: c.bg, color: c.text, fontFamily: plexSans.style.fontFamily, minHeight: "100vh", overflowX: "hidden" }}>
+    <main
+      style={{
+        background: `${c.bgOverlay}, url('https://images.unsplash.com/photo-1535498730771-e735b998cd64?w=1920&q=80') center/cover no-repeat fixed`,
+        color: c.text,
+        fontFamily: plexSans.style.fontFamily,
+        minHeight: "100vh",
+        overflowX: "hidden",
+        position: "relative",
+      }}
+    >
+      {/* Persistent background animation: slow-rising insurance particles */}
+      <div aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+        {Array.from({ length: 14 }).map((_, i) => (
+          <span
+            key={i}
+            className="shield-particle"
+            style={{
+              position: "absolute",
+              left: `${(i * 73) % 100}%`,
+              bottom: "-30px",
+              width: `${10 + (i % 4) * 6}px`,
+              height: `${10 + (i % 4) * 6}px`,
+              border: `1.5px solid ${c.accent}`,
+              opacity: 0.18,
+              transform: `rotate(45deg)`,
+              animation: `shieldRise ${14 + (i % 5) * 2}s linear ${(i * 0.9).toFixed(2)}s infinite`,
+            }}
+          />
+        ))}
+      </div>
+
       <style>{`
 /* Hallmark · macrostructure: Tool-Led Hero · tone: institutional-engineering
  * theme: IBM Carbon · accent: IBM Blue 60 (#0f62fe) · mono: IBM Plex Mono
@@ -202,10 +236,69 @@ export default function InsurancePage() {
         a, button, input, select { font: inherit; }
         button, input, select, .panel, .rate-table, .chat-card { border-radius: 0; }
         .mono { font-family: ${plexMono.style.fontFamily}; }
-        .container { width: min(1200px, calc(100vw - 48px)); margin: 0 auto; }
-        .scroll-animate { opacity: 1; transform: none; transition: opacity 560ms ease, transform 560ms ease; }
-        .insurance-js .scroll-animate { opacity: 1; transform: none; }
-        .scroll-animate.scroll-animated { opacity: 1; transform: translateY(0); }
+        .container { width: min(1200px, calc(100vw - 48px)); margin: 0 auto; position: relative; z-index: 1; }
+        /* Bidirectional scroll-in tile animation: tiles float up + scale-in from below */
+        .scroll-animate {
+          opacity: 0;
+          transform: translateY(36px) scale(0.96);
+          transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: opacity, transform;
+        }
+        .scroll-animate.scroll-animated {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        /* Staggered child tiles (used inside scroll-animate containers) */
+        .scroll-animate.scroll-animated > .tile-stagger {
+          animation: tileFloatIn 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes tileFloatIn {
+          from { opacity: 0; transform: translateY(28px) scale(0.94); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        /* Persistent background shield particles */
+        @keyframes shieldRise {
+          0%   { transform: translateY(0)        rotate(45deg); opacity: 0; }
+          8%   { opacity: 0.22; }
+          50%  { opacity: 0.18; }
+          92%  { opacity: 0.06; }
+          100% { transform: translateY(-110vh)  rotate(45deg); opacity: 0; }
+        }
+        /* Primary button hover animation */
+        .primary-button {
+          position: relative;
+          overflow: hidden;
+          transition: background-color 220ms ease, transform 180ms ease, box-shadow 220ms ease;
+        }
+        .primary-button::after {
+          content: "";
+          position: absolute;
+          top: 0; left: -120%;
+          width: 60%; height: 100%;
+          background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%);
+          transform: skewX(-18deg);
+          transition: left 600ms ease;
+          pointer-events: none;
+        }
+        .primary-button:hover { background: #0043ce; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(15, 98, 254, 0.32); }
+        .primary-button:hover::after { left: 130%; }
+        .primary-button:active { transform: translateY(0); box-shadow: none; }
+        /* Link button hover */
+        .link-button { transition: color 180ms ease, transform 180ms ease; }
+        .link-button:hover { color: #0043ce; transform: translateX(3px); }
+        /* Rate row hover */
+        .rate-row { transition: background-color 180ms ease, transform 180ms ease; }
+        .rate-row:hover { background: ${c.accentSoft}; transform: translateX(2px); }
+        .rate-row.selected { background: ${c.accentSoft}; border-left: 3px solid ${c.accent}; }
+        /* Carrier tile hover */
+        .carrier-tile { transition: background-color 180ms ease, color 180ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+        .carrier-tile:hover { background: ${c.accent}; color: #ffffff; transform: translateY(-2px); }
+        /* Product band link arrow */
+        .band-cta { transition: transform 200ms ease, color 200ms ease; display: inline-block; }
+        .band-cta:hover { transform: translateX(6px); color: #0043ce; }
+        /* Stat strip cell hover */
+        .stat-cell { transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+        .stat-cell:hover { transform: translateY(-3px); }
         .input-line, .select-line {
           width: 100%;
           height: 48px;
@@ -282,7 +375,7 @@ export default function InsurancePage() {
         </div>
       </nav>
 
-      <section id="quote" style={{ background: c.bg, minHeight: "70vh", display: "grid", alignItems: "center", padding: "96px 0 80px" }}>
+      <section id="quote" style={{ background: "transparent", minHeight: "70vh", display: "grid", alignItems: "center", padding: "96px 0 80px" }}>
         <div className="container hero-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 3fr) minmax(320px, 2fr)", gap: 48, alignItems: "stretch" }}>
           <div className="hero-copy scroll-animate" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <div className="mono" style={{ color: c.accent, fontSize: 12, letterSpacing: "0.32px", marginBottom: 24 }}>INDEPENDENT AGENCY · MIAMI FL</div>
@@ -318,7 +411,7 @@ export default function InsurancePage() {
         </div>
       </section>
 
-      <section id="rates" ref={tableRef} style={{ background: c.band, padding: "88px 0" }}>
+      <section id="rates" ref={tableRef} style={{ background: "transparent", padding: "88px 0" }}>
         <div className="container scroll-animate">
           <div style={{ display: "flex", justifyContent: "space-between", gap: 24, alignItems: "end", marginBottom: 32 }}>
             <div>
@@ -334,10 +427,24 @@ export default function InsurancePage() {
                   <div role="columnheader" key={heading} style={{ padding: "14px 16px", fontSize: 12, letterSpacing: "0.32px", color: c.muted }}>{heading}</div>
                 ))}
               </div>
-              {rates.map((rate) => {
+              {rates.map((rate, idx) => {
                 const selected = selectedCarrier === rate.carrier;
                 return (
-                  <div role="row" key={rate.carrier} style={{ display: "grid", gridTemplateColumns: "1.35fr repeat(6, 1fr) 0.9fr", minHeight: 56, alignItems: "center", background: selected ? c.accentSoft : c.bg, borderLeft: selected ? `2px solid ${c.accent}` : "2px solid transparent", borderTop: `1px solid ${c.band}` }}>
+                  <div
+                    role="row"
+                    key={rate.carrier}
+                    className="rate-row tile-stagger"
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1.35fr repeat(6, 1fr) 0.9fr",
+                      minHeight: 56,
+                      alignItems: "center",
+                      background: selected ? c.accentSoft : c.bg,
+                      borderLeft: selected ? `2px solid ${c.accent}` : "2px solid transparent",
+                      borderTop: `1px solid ${c.band}`,
+                      animationDelay: `${idx * 70}ms`,
+                    }}
+                  >
                     <div role="cell" style={{ padding: "14px 16px", fontWeight: 500 }}>{rate.carrier}</div>
                     {[rate.annual, rate.semi, rate.monthly, rate.deductible].map((value) => (
                       <div role="cell" className="mono" key={value} style={{ padding: "14px 16px", fontSize: 14 }}>{value}</div>
@@ -368,13 +475,13 @@ export default function InsurancePage() {
                   ))}
                 </ul>
               </div>
-              <a href="#contact" style={{ color: "#4589ff", textDecoration: "none", justifySelf: "end", fontSize: 16 }}>{line.cta} →</a>
+              <a className="band-cta" href="#contact" style={{ color: "#4589ff", textDecoration: "none", justifySelf: "end", fontSize: 16 }}>{line.cta} →</a>
             </div>
           </div>
         ))}
       </section>
 
-      <section id="ai-advisor" style={{ background: c.bg, padding: "88px 0" }}>
+      <section id="ai-advisor" style={{ background: "transparent", padding: "88px 0" }}>
         <div className="container scroll-animate chat-card" style={{ background: "#161616", color: "#f4f4f4", padding: 40 }}>
           <div className="mono" style={{ color: "#4589ff", fontSize: 12, letterSpacing: "0.32px", marginBottom: 12 }}>AI ADVISOR</div>
           <h2 style={{ fontSize: 18, fontWeight: 400, margin: "0 0 32px" }}>Ask anything. We respond in 60 seconds.</h2>
@@ -404,20 +511,33 @@ export default function InsurancePage() {
         </div>
       </section>
 
-      <section style={{ background: c.bg, padding: "0 0 88px" }}>
+      <section style={{ background: "transparent", padding: "0 0 88px" }}>
         <div className="container scroll-animate">
           <div className="mono" style={{ color: c.accent, fontSize: 12, letterSpacing: "0.32px", marginBottom: 12 }}>RATED & CERTIFIED</div>
           <h2 style={{ fontSize: 32, lineHeight: 1.2, fontWeight: 300, margin: "0 0 32px" }}>Carriers & Ratings</h2>
           <div className="trust-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {carriers.map((carrier, index) => (
-              <div key={carrier} style={{ minHeight: 84, display: "grid", placeItems: "center", background: index % 2 === 0 ? c.band : c.bg, color: c.text, fontWeight: 600, fontSize: 14 }}>
+              <div
+                key={carrier}
+                className="carrier-tile tile-stagger"
+                style={{
+                  minHeight: 84,
+                  display: "grid",
+                  placeItems: "center",
+                  background: index % 2 === 0 ? c.band : c.bg,
+                  color: c.text,
+                  fontWeight: 600,
+                  fontSize: 14,
+                  animationDelay: `${index * 50}ms`,
+                }}
+              >
                 {carrier}
               </div>
             ))}
           </div>
           <div className="stat-strip" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", background: c.band, marginTop: 32 }}>
-            {[["A+", "BBB Rating"], ["A++", "AM Best"], ["4.8★", "Google Reviews"]].map(([value, label]) => (
-              <div key={label} style={{ padding: 32 }}>
+            {[["A+", "BBB Rating"], ["A++", "AM Best"], ["4.8★", "Google Reviews"]].map(([value, label], idx) => (
+              <div key={label} className="stat-cell tile-stagger" style={{ padding: 32, animationDelay: `${idx * 90}ms` }}>
                 <div className="mono" style={{ fontSize: 48, lineHeight: 1, color: c.text }}>{value}</div>
                 <div style={{ color: c.muted, fontSize: 12, marginTop: 10 }}>{label}</div>
               </div>
@@ -441,7 +561,7 @@ export default function InsurancePage() {
         </div>
       </section>
 
-      <section id="contact" style={{ background: c.band, padding: "88px 0" }}>
+      <section id="contact" style={{ background: "transparent", padding: "88px 0" }}>
         <div className="container panel scroll-animate" style={{ background: c.bg, color: c.text, padding: 48 }}>
           <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "4rem" }}>
             <div>
