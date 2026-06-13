@@ -20,6 +20,7 @@ type Theme = "light" | "dark";
 const themes = {
   light: {
     page: "#ffffff",
+    bgOverlay: "linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.68) 50%, rgba(255,255,255,0.86) 100%)",
     text: "#111827",
     muted: "#52525b",
     subtle: "#71717a",
@@ -39,6 +40,7 @@ const themes = {
   },
   dark: {
     page: "#0a0a0a",
+    bgOverlay: "linear-gradient(180deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.65) 50%, rgba(10,10,10,0.82) 100%)",
     text: "#f8fafc",
     muted: "#d4d4d8",
     subtle: "#a1a1aa",
@@ -234,7 +236,7 @@ export default function TechCompanyPage() {
     <main
       className={`${inter.className} nexus-page ${theme}`}
       style={{
-        background: c.page,
+        background: `${c.bgOverlay}, url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=80') center/cover no-repeat fixed`,
         color: c.text,
         minHeight: "100vh",
         width: "100%",
@@ -392,7 +394,7 @@ export default function TechCompanyPage() {
         .footerCol a:hover { color: #22d3ee; }
         .footerBottom { border-top: 1px solid rgba(255,255,255,.12); margin-top: 46px; padding-top: 22px; color: #71717a; font: 12px var(--mono); }
         .particles { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
-        .hexParticle { position: absolute; bottom: -40px; width: 16px; height: 14px; opacity: .16; animation: hexRise linear infinite; }
+        .hexParticle { position: absolute; bottom: -40px; width: 16px; height: 14px; opacity: .22; animation: hexRise linear infinite; }
         .hexParticle::before { content: ""; position: absolute; inset: 0; border: 1px solid var(--accent); clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
         .scroll-animate { opacity: 0; transform: translateY(36px) scale(.96); transition: opacity 620ms ease, transform 620ms cubic-bezier(.2,.8,.2,1); transition-delay: var(--delay, 0ms); }
         .scroll-animate.scroll-animated { opacity: 1; transform: translateY(0) scale(1); }
