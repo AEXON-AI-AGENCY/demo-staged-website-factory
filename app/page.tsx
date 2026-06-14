@@ -77,6 +77,37 @@ const icons: Record<string, React.ReactNode> = {
       <polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
   ),
+  "recording-studio": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+  ),
+  streetwear: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <path d="M16 10a4 4 0 0 1-8 0"/>
+    </svg>
+  ),
+  "influencer-brand": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M23 7l-7 5 7 5V7z"/>
+      <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+    </svg>
+  ),
+  "health-supplements": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10.5 20.5a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"/>
+      <path d="M10.5 13.5L13 11M10.5 9.5L13 7"/>
+    </svg>
+  ),
+  "food-brand": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2C8 6 5 9 5 13a7 7 0 0 0 14 0c0-4-3-7-7-11z"/>
+    </svg>
+  ),
 };
 
 // ─── Vertical data ────────────────────────────────────────────────────────────
@@ -94,18 +125,50 @@ const VERTICALS = {
   insurance:      { name: "Shield Insurance Partners",   industry: "Insurance",      accent: "#22d3ee", description: "Insurance agency website with carrier comparisons, quote request forms, and trust-building testimonials from satisfied clients.", demoUrl: "/insurance" },
   ecommerce:      { name: "Vitality Nutrition",           industry: "E-Commerce",     accent: "#84cc16", description: "Clean supplement e-commerce website with ingredient transparency, customer reviews, and subscription options for recurring revenue.", demoUrl: "/ecommerce" },
   "tech-company":{ name: "Nexus AI",                      industry: "Tech Company",   accent: "#a78bfa", description: "Enterprise AI platform demo with agentic workflows, data intelligence, and scalable automation showcase.", demoUrl: "/tech-company" },
+  // ─── Staged verticals (added 2026-06-13, not yet built — see "Coming soon" badge in card) ───
+  "recording-studio":   { name: "Backblock Studioz",     industry: "Recording Studio",   accent: "#ef4444", description: "Recording studio website with session booking, beat store, mix/master service tiers, and artist roster showcase.", demoUrl: "/recording-studio" },
+  "streetwear":         { name: "NOIR Apparel",          industry: "Streetwear Brand",   accent: "#facc15", description: "Drop-driven streetwear brand site with countdown timers, restock alerts, and lookbook storytelling that converts hype to checkout.", demoUrl: "/streetwear" },
+  "influencer-brand":   { name: "Maya Cole Skincare",    industry: "Influencer Brand",   accent: "#f472b6", description: "Creator-led brand site with founder story, product education, reviews, and email capture that builds a real DTC list (not just Linktree).", demoUrl: "/influencer-brand" },
+  "health-supplements": { name: "Vitality Nutrition",    industry: "Health / Supplements", accent: "#22c55e", description: "DTC supplement brand with ingredient transparency, subscription tiers, and review-driven trust that lifts AOV.", demoUrl: "/health-supplements" },
+  "food-brand":         { name: "Ember & Oak Hot Sauce", industry: "Food / Beverage Brand", accent: "#f97316", description: "DTC food brand with stockist map, recipe content, subscription bundles, and wholesale inquiry form.", demoUrl: "/food-brand" },
 } as const;
 
 type VerticalKey = keyof typeof VERTICALS;
+
+// Verticals that are staged for the prospect pipeline but not yet built as live demos.
+// These appear on the landing page as "Coming soon" cards (lower opacity, badge).
+const STAGED: Record<VerticalKey, boolean> = {
+  hvac: false,
+  electrician: false,
+  salon: false,
+  plumbing: false,
+  "auto-repair": false,
+  roofer: false,
+  clothing: false,
+  restaurant: false,
+  "real-estate": false,
+  "law-firm": false,
+  insurance: false,
+  ecommerce: false,
+  "tech-company": false,
+  "recording-studio": true,
+  streetwear: true,
+  "influencer-brand": true,
+  "health-supplements": true,
+  "food-brand": true,
+};
 
 // ─── Vertical card ─────────────────────────────────────────────────────────────
 function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
   id: string; name: string; industry: string; accent: string;
   description: string; demoUrl: string;
 }) {
+  const isStaged = (STAGED as Record<string, boolean>)[id] ?? false;
   return (
     <a
-      href={demoUrl}
+      href={isStaged ? "#" : demoUrl}
+      onClick={isStaged ? (e) => e.preventDefault() : undefined}
+      aria-disabled={isStaged}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -119,7 +182,9 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
         color: "#f4f4f5",
         minHeight: "160px",
         transition: "all 0.3s ease",
-        cursor: "pointer",
+        cursor: isStaged ? "not-allowed" : "pointer",
+        opacity: isStaged ? 0.55 : 1,
+        position: "relative",
       }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 0 60px ${accent}30`;
@@ -132,6 +197,25 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
     >
       {/* Accent bar */}
       <div style={{ width: "40px", height: "3px", borderRadius: "99px", background: accent, marginBottom: "16px", opacity: 0.85 }} />
+
+      {/* Coming soon badge (staged verticals only) */}
+      {isStaged && (
+        <div style={{
+          position: "absolute",
+          top: "12px",
+          right: "12px",
+          padding: "3px 8px",
+          borderRadius: "99px",
+          background: `${accent}30`,
+          color: accent,
+          fontSize: "9px",
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}>
+          Coming soon
+        </div>
+      )}
 
       {/* Icon + industry */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
@@ -160,10 +244,12 @@ function VerticalCard({ id, name, industry, accent, description, demoUrl }: {
 
       {/* CTA */}
       <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 500, color: accent, marginTop: "auto" }}>
-        <span>View demo</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
+        <span>{isStaged ? "In pipeline" : "View demo"}</span>
+        {!isStaged && (
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        )}
       </div>
     </a>
   );
@@ -208,7 +294,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(16,185,129,0.1)", color: "#10b981", border: "1px solid rgba(16,185,129,0.2)" }}>
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
-            13 live Demos
+            13 live · 5 coming soon
           </span>
           <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#a1a1aa", textDecoration: "none" }}>
             aexonai.com →
@@ -257,7 +343,7 @@ export default function Home() {
 
         <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
           <a href="#demos" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 28px", borderRadius: "99px", fontSize: "14px", fontWeight: 600, background: "#22d3ee", color: "#09090b", textDecoration: "none", transition: "opacity 0.2s" }}>
-            Browse 13 demos
+            Browse 18 demos
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 5v14M5 12l7 7 7-7"/>
             </svg>
@@ -273,7 +359,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "48px" }}>
           <h2 style={{ fontSize: "24px", fontWeight: 700, color: "#f4f4f5", whiteSpace: "nowrap" }}>Industry demos</h2>
           <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.06)" }} />
-          <span style={{ fontSize: "12px", color: "#52525b", whiteSpace: "nowrap" }}>13 verticals</span>
+          <span style={{ fontSize: "12px", color: "#52525b", whiteSpace: "nowrap" }}>18 verticals</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -281,7 +367,8 @@ export default function Home() {
           <Row keys={["plumbing", "auto-repair", "roofer"]} />
           <Row keys={["clothing", "restaurant", "real-estate"]} />
           <Row keys={["law-firm", "insurance", "ecommerce"]} />
-          <Row keys={["tech-company"]} />
+          <Row keys={["tech-company", "recording-studio", "streetwear"]} />
+          <Row keys={["influencer-brand", "health-supplements", "food-brand"]} />
         </div>
       </section>
 
