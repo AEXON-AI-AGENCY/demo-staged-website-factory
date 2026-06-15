@@ -15,32 +15,28 @@ const PROSPECTS: Record<string, ProspectData & { expires: string }> = {
     state: "AZ",
     address: "Phoenix, AZ",
     vertical: "salon",
-    heroImage:
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80",
+    heroImage: "/prospects/ani-african-hair-braiding/hero-braids.png",
     services: [
       {
         eyebrow: "Protective styling",
         title: "Box Braids",
         copy: "Knotless or box, any length. Long-lasting, low-maintenance.",
         tag: "Any length",
-        image:
-          "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=1200&q=80",
+        image: "/prospects/ani-african-hair-braiding/box-braids.png",
       },
       {
         eyebrow: "Gentle install",
         title: "Knotless Braids",
         copy: "Sleeker, gentler on your edges. The braid that started a movement.",
         tag: "Edge-friendly",
-        image:
-          "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=1200&q=80",
+        image: "/prospects/ani-african-hair-braiding/knotless-braids.png",
       },
       {
         eyebrow: "Clean parts",
         title: "Cornrows & Twists",
         copy: "Straight-backs, designs, lemonade braids. Clean parts, no shortcuts.",
         tag: "Design-ready",
-        image:
-          "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?auto=format&fit=crop&w=1200&q=80",
+        image: "/prospects/ani-african-hair-braiding/cornrows-twists.png",
       },
     ],
     expires: "2026-06-20",
