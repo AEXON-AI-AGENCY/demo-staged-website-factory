@@ -1,11 +1,11 @@
-Updated /salon so URL params can switch the page between Glow Studio, hair-braiding, barber, and beauty/spa content while preserving the existing canvas animation, typography, color system, theme toggle, service cards, and AI Concierge layout.
-The page now reads industry/city/state/tagline locally, swaps services/prices/trust badges/CTAs/address copy, and keeps the prospect name/phone/email path through the existing prospect hook.
+Refactored the salon demo so /salon keeps the original Glow Studio page while /d/[slug] renders the same template with prospect-specific business data. Added the dynamic prospect route and removed the rejected static HTML prospect pages.
+
+npm run build passed.
 
 Test URLs:
-http://localhost:3053/salon?name=Ani+African+Hair+Braiding&phone=6025550199&email=ani@x.com&industry=hair-braiding&city=Phoenix&state=AZ&expires=2026-06-20
-http://localhost:3053/salon?name=Bayside+Barbershop&phone=7185550100&email=bay@x.com&industry=barber&city=Brooklyn&state=NY&expires=2026-06-20
-http://localhost:3053/salon
+- https://demo.aexonai.com/salon
+- https://demo.aexonai.com/d/ani-african-hair-braiding/
+- https://demo.aexonai.com/d/bayside-barbershop/
+- https://demo.aexonai.com/d/glow-studio-salon/
 
-npm run build passed cleanly.
-
-Design decisions: kept the Glow Studio DNA and motion system intact, reused the same card and badge language, changed only content/images/CTAs/address details by industry, and added a Suspense boundary for Next 16 useSearchParams behavior.
+Design decisions: none. The salon visual design, services, animations, canvas, and imagery were preserved; only prospect identity/contact fields are data-driven.

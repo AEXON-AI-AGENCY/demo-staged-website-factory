@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Suspense,
   useEffect,
   useRef,
   useState,
@@ -10,8 +9,6 @@ import {
   type ReactNode,
 } from "react";
 import { Cinzel, Cormorant_Garamond, DM_Sans } from "next/font/google";
-import { useSearchParams } from "next/navigation";
-import { useProspectParams } from "../_hooks/useProspectParams";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -70,6 +67,28 @@ type Theme = {
   accentRgb: string;
   secondaryRgb: string;
   textRgb: string;
+};
+
+export type ProspectData = {
+  name: string;
+  phone: string;
+  phoneHref: string;
+  email: string;
+  city: string;
+  state: string;
+  address: string;
+  tagline?: string;
+};
+
+export const DEFAULT_SALON_PROSPECT: ProspectData = {
+  name: "Glow Studio Salon",
+  phone: "(212) 555-0123",
+  phoneHref: "tel:+12125550123",
+  email: "hello@glowstudiosalon.com",
+  city: "New York",
+  state: "NY",
+  address: "18 Mercer Row, Studio 4, New York, NY",
+  tagline: "Quiet luxury beauty studio",
 };
 
 const darkTheme: Theme = {
@@ -160,211 +179,39 @@ const lightTheme: Theme = {
   textRgb: "46,22,49",
 };
 
-type SalonService = {
-  eyebrow: string;
-  title: string;
-  copy: string;
-  tag: string;
-  price: string;
-  image: string;
-};
+const services = [
+  {
+    eyebrow: "Cut + style",
+    title: "Signature Hair Appointments",
+    copy: "Precision cuts, soft-layer refreshes, and event styling designed around how you actually wear your hair.",
+    tag: "Stylist match first",
+    image:
+      "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    eyebrow: "Color studio",
+    title: "Gloss, Tone, and Dimensional Color",
+    copy: "Consult-first blonding, gloss maintenance, and rich brunettes finished with a shine plan that lasts past the first wash.",
+    tag: "Consultation led",
+    image:
+      "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    eyebrow: "Hands + detail",
+    title: "Editorial Nail Care",
+    copy: "High-finish manicures, modern nail art, and repair-focused prep for clients who want polish that reads clean, not loud.",
+    tag: "Detail-driven finish",
+    image:
+      "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=80",
+  },
+];
 
-type IndustryContent = {
-  navDescriptor: string;
-  badge: string;
-  headline: string;
-  defaultSubhead: string;
-  servicesHeading: string;
-  aiSummary: string;
-  chatPills: string[];
-  liveOutcome: string;
-  liveNote: string;
-  contactHeading: string;
-  contactCopy: string;
-  primaryCta: string;
-  secondaryCta: string;
-  requestCta: string;
-  heroStats: { value: string; label: string }[];
-  services: SalonService[];
-  trustBadges: string[];
-  footerNotes: string[];
-  heroImage: string;
-  heroImageAlt: string;
-};
-
-const INDUSTRY_CONTENT: Record<"nail-salon" | "hair-braiding" | "barber" | "beauty", IndustryContent> = {
-  "nail-salon": {
-    navDescriptor: "Quiet luxury beauty studio",
-    badge: "Appointment-led beauty studio",
-    headline: "Glow.\nGlam.\nGo.",
-    defaultSubhead:
-      "Editorial styling, consult-first color, and detail-driven nail work in a plum-dark studio built for clients who want polish without noise.",
-    servicesHeading:
-      "Image-first treatments with enough restraint to still feel expensive.",
-    aiSummary:
-      "The demo below shows the salon agent holding a haircut slot, honoring a preferred stylist, and saving appointment notes without sending the client through a form maze.",
-    chatPills: [
-      "Preferred stylist memory",
-      "Evening slot lookup",
-      "Text confirmation ready",
-    ],
-    liveOutcome: "Hair appointment held with Maya at 6:30 PM.",
-    liveNote: "Quiet service note saved. Text confirmation queued.",
-    contactHeading: "Start with the service, then shape the details together.",
-    contactCopy:
-      "Use the form for first-time visits, color corrections, or any appointment where timing matters. We reply with a real plan, not a generic autoresponder.",
-    primaryCta: "Reserve your time",
-    secondaryCta: "Chat with our concierge",
-    requestCta: "Request a slot",
-    heroStats: [
-      { value: "Thu 6:30", label: "Maya open" },
-      { value: "Quiet note", label: "Saved" },
-      { value: "Text reply", label: "Enabled" },
-    ],
-    services: [
-      {
-        eyebrow: "Cut + style",
-        title: "Manicure",
-        copy: "Clean prep, careful shaping, and a high-shine finish for everyday polish or event-ready hands.",
-        tag: "from $45",
-        price: "from $45",
-        image:
-          "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        eyebrow: "Color studio",
-        title: "Pedicure",
-        copy: "Softening soak, detailed cuticle work, and color that feels composed from sandal season to special nights.",
-        tag: "from $60",
-        price: "from $60",
-        image:
-          "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        eyebrow: "Hands + detail",
-        title: "Nail Art",
-        copy: "Modern accents, fine-line details, and repair-focused prep for clients who want polish that reads clean, not loud.",
-        tag: "from $75",
-        price: "from $75",
-        image:
-          "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=80",
-      },
-    ],
-    trustBadges: ["15+ Years", "4.9 Google", "8K+ Clients", "Consult First"],
-    footerNotes: ["Tue-Fri 10-8", "Sat 9-6", "Sun 10-4", "By appointment for color work"],
-    heroImage:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80",
-    heroImageAlt: "Salon chair and editorial beauty styling",
-  },
-  "hair-braiding": {
-    navDescriptor: "Protective styling and braid studio",
-    badge: "Protective style booking studio",
-    headline: "Crown your confidence.\nBraids crafted with love.",
-    defaultSubhead: "Built for {prospectName} by AEXON AI",
-    servicesHeading:
-      "Braids, twists, loc care, and protective styles planned around your hair goals.",
-    aiSummary:
-      "The demo below shows the braiding agent matching a style request, checking same-day availability, and saving appointment notes before the client ever fills out a long form.",
-    chatPills: ["Style preference saved", "Same-day lookup", "Prep notes ready"],
-    liveOutcome: "Knotless braid appointment held for Thursday at 6:30 PM.",
-    liveNote: "Hair length, color, and prep notes saved. Text confirmation queued.",
-    contactHeading: "Choose the style, then let the details get handled.",
-    contactCopy:
-      "Use the form for braids, twists, loc care, or wig work. We collect style notes, timing, and contact details so the appointment starts prepared.",
-    primaryCta: "Book Your Braids",
-    secondaryCta: "View Our Work",
-    requestCta: "Request a braid slot",
-    heroStats: [
-      { value: "Today", label: "Same-day" },
-      { value: "All textures", label: "Welcome" },
-      { value: "Text reply", label: "Enabled" },
-    ],
-    services: [
-      { eyebrow: "Protective style", title: "Box Braids", copy: "Classic sectioning, clean parts, and a comfortable finish for long-wear protective styling.", tag: "from $85", price: "from $85", image: "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Lightweight finish", title: "Knotless Braids", copy: "Tension-aware installs with a natural start and polished movement from day one.", tag: "from $120", price: "from $120", image: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Clean pattern", title: "Cornrows", copy: "Straight-back, stitch, or custom braid patterns finished with neat edges and hold.", tag: "from $60", price: "from $60", image: "https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Soft texture", title: "Twists", copy: "Two-strand, passion, or Senegalese-inspired twists shaped for the length and fullness you want.", tag: "from $70", price: "from $70", image: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Care plan", title: "Loc Maintenance", copy: "Retwist and maintenance appointments that keep your parts clean and your locs healthy.", tag: "from $50", price: "from $50", image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Custom unit", title: "Braided Wigs", copy: "Consult-led braided wig work for clients who want protective styling with flexible wear.", tag: "from $200", price: "from $200", image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1200&q=80" },
-    ],
-    trustBadges: ["5★ Google", "Licensed & Insured", "Same-Day Appointments", "All Hair Types Welcome"],
-    footerNotes: ["Tue-Fri 10-7", "Sat 8-6", "Sun by appointment", "Deposit may be required for long styles"],
-    heroImage: "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=1400&q=80",
-    heroImageAlt: "Protective braiding studio styling detail",
-  },
-  barber: {
-    navDescriptor: "Barber chair and grooming studio",
-    badge: "Chair-ready grooming studio",
-    headline: "Sharp cuts.\nClean fades.\nReal conversation.",
-    defaultSubhead: "Built for {prospectName} by AEXON AI",
-    servicesHeading:
-      "Cuts, fades, shaves, and line work with timing tight enough for repeat clients.",
-    aiSummary:
-      "The demo below shows the barber agent finding an open chair, saving cut preferences, and confirming the visit by text.",
-    chatPills: ["Cut preference saved", "Chair lookup", "Walk-in routing"],
-    liveOutcome: "Fade and beard trim held for Thursday at 6:30 PM.",
-    liveNote: "Preferred barber, guard length, and text confirmation saved.",
-    contactHeading: "Book the chair, keep the cut notes ready.",
-    contactCopy:
-      "Use the form for cuts, fades, shaves, or kids appointments. The concierge keeps preferences attached so repeat visits feel easy.",
-    primaryCta: "Book a Chair",
-    secondaryCta: "Walk In Today",
-    requestCta: "Request a chair",
-    heroStats: [
-      { value: "Next chair", label: "Available" },
-      { value: "Hot towel", label: "Ready" },
-      { value: "Text reply", label: "Enabled" },
-    ],
-    services: [
-      { eyebrow: "Signature cut", title: "Classic Cut", copy: "Clean scissor or clipper work shaped around your routine and preferred finish.", tag: "from $25", price: "from $25", image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Blend work", title: "Fade", copy: "Low, mid, high, or skin fades with balanced weight and a crisp final shape.", tag: "from $30", price: "from $30", image: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Beard detail", title: "Beard Trim", copy: "Shape, taper, and clean-up work for beards that need structure without overcutting.", tag: "from $15", price: "from $15", image: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Razor service", title: "Hot Towel Shave", copy: "Warm towel prep, close razor work, and a calm finish for a clean reset.", tag: "from $35", price: "from $35", image: "https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Edges", title: "Line-Up", copy: "Sharp perimeter work for hairline, neckline, and beard edges between full cuts.", tag: "from $20", price: "from $20", image: "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Young clients", title: "Kids Cut", copy: "Patient, efficient cuts for school weeks, picture days, and family appointments.", tag: "from $18", price: "from $18", image: "https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=1200&q=80" },
-    ],
-    trustBadges: ["Master Barbers", "Walk-Ins Welcome", "Est. 2018", "Hot Towel Service"],
-    footerNotes: ["Mon-Fri 9-7", "Sat 8-5", "Walk-ins welcome", "Appointments recommended for shaves"],
-    heroImage: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80",
-    heroImageAlt: "Barbershop chair and grooming tools",
-  },
-  beauty: {
-    navDescriptor: "Beauty ritual and treatment studio",
-    badge: "Treatment-led beauty studio",
-    headline: "Beauty rituals,\nyour way.",
-    defaultSubhead: "Built for {prospectName} by AEXON AI",
-    servicesHeading:
-      "Skin, lashes, brows, and beauty rituals booked with the right prep notes.",
-    aiSummary:
-      "The demo below shows the beauty agent pairing a treatment request with availability, capturing preferences, and confirming the appointment by text.",
-    chatPills: ["Treatment match", "Prep notes saved", "Text confirmation ready"],
-    liveOutcome: "Facial appointment held for Thursday at 6:30 PM.",
-    liveNote: "Skin goals, product sensitivities, and confirmation saved.",
-    contactHeading: "Start with the treatment, then personalize the visit.",
-    contactCopy:
-      "Use the form for facials, waxing, lashes, brows, makeup, or skincare. The concierge keeps preferences organized before the appointment.",
-    primaryCta: "Book a Treatment",
-    secondaryCta: "Explore Services",
-    requestCta: "Request a treatment",
-    heroStats: [
-      { value: "Skin notes", label: "Saved" },
-      { value: "Clean care", label: "Products" },
-      { value: "Text reply", label: "Enabled" },
-    ],
-    services: [
-      { eyebrow: "Skin care", title: "Facials", copy: "Goal-led skin treatments for reset, glow, hydration, or barrier support.", tag: "from $65", price: "from $65", image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Smooth finish", title: "Waxing", copy: "Efficient waxing appointments with clean prep, aftercare notes, and careful timing.", tag: "from $35", price: "from $35", image: "https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Lash studio", title: "Lashes", copy: "Lift, tint, or extension appointments shaped around the look and upkeep you want.", tag: "from $85", price: "from $85", image: "https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Brow shape", title: "Brows", copy: "Shape, tint, lamination, and maintenance for brows that frame without overpowering.", tag: "from $45", price: "from $45", image: "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Event ready", title: "Makeup", copy: "Soft glam, event makeup, and camera-ready looks with timing built into the booking.", tag: "from $95", price: "from $95", image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80" },
-      { eyebrow: "Skin plan", title: "Skincare", copy: "Consult-led regimens and treatment plans for clients who want progress between visits.", tag: "from $120", price: "from $120", image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1200&q=80" },
-    ],
-    trustBadges: ["Licensed Estheticians", "Clean Products", "Est. 2018", "Gift Cards"],
-    footerNotes: ["Tue-Fri 10-7", "Sat 9-5", "Sun by appointment", "Gift cards available"],
-    heroImage: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1400&q=80",
-    heroImageAlt: "Beauty spa facial treatment room",
-  },
-};
+const trustBadges = [
+  "15+ Years",
+  "4.9 Google",
+  "8K+ Clients",
+  "Consult First",
+];
 
 const navItems = [
   { label: "Services", href: "#services" },
@@ -395,48 +242,12 @@ const demoMessages = [
   },
 ];
 
-function getIndustryKey(industry: string | null): keyof typeof INDUSTRY_CONTENT {
-  const normalized = (industry || "").trim().toLowerCase();
-
-  if (!normalized) return "nail-salon";
-  if (normalized.includes("barber")) return "barber";
-  if (
-    normalized.includes("braid") ||
-    normalized.includes("hair") ||
-    normalized.includes("loc")
-  ) {
-    return "hair-braiding";
-  }
-  if (
-    normalized.includes("spa") ||
-    normalized.includes("beauty") ||
-    normalized.includes("esthetic") ||
-    normalized.includes("skin") ||
-    normalized.includes("lash") ||
-    normalized.includes("brow")
-  ) {
-    return "beauty";
-  }
-  if (normalized.includes("nail")) return "nail-salon";
-
-  return "beauty";
-}
-
-function getProspectContent(searchParams: URLSearchParams) {
-  return INDUSTRY_CONTENT[getIndustryKey(searchParams.get("industry"))];
-}
-
-function readParam(searchParams: URLSearchParams, key: string) {
-  return (searchParams.get(key) || "").trim();
-}
-
-function formatWithProspect(value: string, prospectName: string) {
-  return value.replaceAll("{prospectName}", prospectName);
-}
-
-function getFirstBusinessWord(name: string) {
-  return name.trim().split(/\s+/)[0] || "Glow";
-}
+const footerNotes = [
+  "Tue-Fri 10-8",
+  "Sat 9-6",
+  "Sun 10-4",
+  "By appointment for color work",
+];
 
 function alpha(rgb: string, value: number) {
   return `rgba(${rgb},${value})`;
@@ -837,45 +648,11 @@ function ContactField({
   );
 }
 
-export default function SalonPage() {
-  return (
-    <Suspense fallback={null}>
-      <SalonExperience />
-    </Suspense>
-  );
-}
-
-function SalonExperience() {
-  const TEMPLATE = { name: 'Hallmark Salon', phone: '(555) 010-4455', email: '' };
-  const prospect = useProspectParams(TEMPLATE);
-  const searchParams = useSearchParams();
-  const content = getProspectContent(searchParams);
-  const city = readParam(searchParams, "city");
-  const state = readParam(searchParams, "state");
-  const customTagline = readParam(searchParams, "tagline");
-  const hasCustomLocation = Boolean(city && state);
-  const addressHeader = hasCustomLocation
-    ? `Proudly serving ${city}, ${state}`
-    : "Visit the studio";
-  const addressLine = hasCustomLocation
-    ? `Central ${city}, ${city}, ${state}`
-    : "18 Mercer Row, Studio 4, New York, NY";
-  const heroSubhead = customTagline || formatWithProspect(content.defaultSubhead, prospect.name);
-  const firstBusinessWord = getFirstBusinessWord(prospect.name);
-  const demoMessagesForProspect = [
-    {
-      role: "assistant",
-      label: "Aura AI",
-      text: `Welcome to ${firstBusinessWord}! I can help with services, timing, and appointment notes. What would you like to book?`,
-    },
-    ...demoMessages,
-  ];
-  const trustBadgesForProspect = [
-    ...content.trustBadges.map((badge) =>
-      hasCustomLocation && badge === "5★ Google" ? `5★ Google ${city}` : badge,
-    ),
-    `${prospect.name} — Live demo for 5 days`,
-  ];
+export default function SalonPage({
+  prospect = DEFAULT_SALON_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
   const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(true);
   const [hoveredService, setHoveredService] = useState<number | null>(null);
@@ -886,7 +663,7 @@ function SalonExperience() {
     name: "",
     phone: "",
     email: "",
-    service: content.services[0]?.title || "Manicure",
+    service: "Signature Hair Appointment",
     date: "",
     note: "",
   });
@@ -939,7 +716,7 @@ function SalonExperience() {
     return () => {
       observers.forEach((obs) => obs.disconnect());
     };
-  }, [mounted, content.services.length]);
+  }, [mounted, services.length]);
 
   const c = isDark ? darkTheme : lightTheme;
 
@@ -1094,7 +871,7 @@ function SalonExperience() {
                     color: c.textMuted,
                   }}
                 >
-                  {content.navDescriptor}
+                  {prospect.tagline ?? DEFAULT_SALON_PROSPECT.tagline}
                 </div>
               </div>
             </div>
@@ -1210,7 +987,7 @@ function SalonExperience() {
                 onMouseEnter={() => setHoveredButton("hero-primary")}
                 onMouseLeave={() => setHoveredButton(null)}
               >
-                {content.primaryCta}
+                Reserve your time
                 <ArrowIcon />
               </a>
             </div>
@@ -1232,7 +1009,7 @@ function SalonExperience() {
               }}
             >
               <div style={{ display: "grid", gap: "1.35rem" }}>
-                <Badge theme={c}>{content.badge}</Badge>
+                <Badge theme={c}>Appointment-led beauty studio</Badge>
                 <h1
                   style={{
                     margin: 0,
@@ -1243,12 +1020,11 @@ function SalonExperience() {
                     fontWeight: 600,
                   }}
                 >
-                  {content.headline.split("\n").map((line) => (
-                    <span key={line}>
-                      {line}
-                      <br />
-                    </span>
-                  ))}
+                  Glow.
+                  <br />
+                  Glam.
+                  <br />
+                  Go.
                 </h1>
                 <p
                   style={{
@@ -1259,7 +1035,9 @@ function SalonExperience() {
                     lineHeight: 1.8,
                   }}
                 >
-                  {heroSubhead}
+                  Editorial styling, consult-first color, and detail-driven nail
+                  work in a plum-dark studio built for clients who want polish
+                  without noise.
                 </p>
                 <div
                   style={{
@@ -1290,7 +1068,7 @@ function SalonExperience() {
                     onMouseEnter={() => setHoveredButton("hero-cta")}
                     onMouseLeave={() => setHoveredButton(null)}
                   >
-                    {content.primaryCta}
+                    Reserve your time
                     <ArrowIcon />
                   </a>
                   <a
@@ -1307,7 +1085,7 @@ function SalonExperience() {
                       background: c.surfaceMuted,
                     }}
                   >
-                    {content.secondaryCta}
+                    Chat with our concierge
                   </a>
                 </div>
               </div>
@@ -1324,8 +1102,8 @@ function SalonExperience() {
                 }}
               >
                 <img
-                  src={content.heroImage}
-                  alt={content.heroImageAlt}
+                  src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80"
+                  alt="Salon chair and editorial beauty styling"
                   style={{
                     width: "100%",
                     height: "100%",
@@ -1357,7 +1135,11 @@ function SalonExperience() {
                       gap: "0.75rem",
                     }}
                   >
-                    {content.heroStats.map((item) => (
+                    {[
+                      { value: "Thu 6:30", label: "Maya open" },
+                      { value: "Quiet note", label: "Saved" },
+                      { value: "Text reply", label: "Enabled" },
+                    ].map((item) => (
                       <div
                         key={item.label}
                         style={{
@@ -1473,7 +1255,8 @@ function SalonExperience() {
                     fontWeight: 600,
                   }}
                 >
-                  {content.servicesHeading}
+                  Image-first treatments with enough restraint to still feel
+                  expensive.
                 </h2>
               </div>
 
@@ -1484,7 +1267,7 @@ function SalonExperience() {
                   gap: "1.2rem",
                 }}
               >
-                {content.services.map((service, index) => {
+                {services.map((service, index) => {
                   const isActive = hoveredService === index;
                   const isVisible = visibleTiles.has(index);
                   return (
@@ -1626,7 +1409,7 @@ function SalonExperience() {
                               textTransform: "uppercase",
                             }}
                           >
-                            {service.price}
+                            {service.tag}
                           </span>
                           <a
                             href="#contact"
@@ -1638,7 +1421,7 @@ function SalonExperience() {
                               gap: "0.45rem",
                             }}
                           >
-                            {content.requestCta}
+                            Request a slot
                             <ArrowIcon />
                           </a>
                         </div>
@@ -1706,7 +1489,9 @@ function SalonExperience() {
                     lineHeight: 1.75,
                   }}
                 >
-                  {content.aiSummary}
+                  The demo below shows the salon agent holding a haircut slot,
+                  honoring a preferred stylist, and saving appointment notes
+                  without sending the client through a form maze.
                 </p>
                 <div
                   style={{
@@ -1715,7 +1500,11 @@ function SalonExperience() {
                     gap: "0.85rem",
                   }}
                 >
-                  {content.chatPills.map((item) => (
+                  {[
+                    "Preferred stylist memory",
+                    "Evening slot lookup",
+                    "Text confirmation ready",
+                  ].map((item) => (
                     <div
                       key={item}
                       style={{
@@ -1771,7 +1560,7 @@ function SalonExperience() {
                         lineHeight: 1,
                       }}
                     >
-                      {`${prospect.name} AI`} concierge
+                      Aura AI concierge
                     </div>
                   </div>
                   <span
@@ -1797,7 +1586,7 @@ function SalonExperience() {
                     padding: "1.1rem",
                   }}
                 >
-                  {demoMessagesForProspect.map((message) => {
+                  {demoMessages.map((message) => {
                     const isAssistant = message.role === "assistant";
                     return (
                       <div
@@ -1869,10 +1658,10 @@ function SalonExperience() {
                         lineHeight: 1,
                       }}
                     >
-                      {content.liveOutcome}
+                      Hair appointment held with Maya at 6:30 PM.
                     </div>
                     <div style={{ color: c.textSoft }}>
-                      {content.liveNote}
+                      Quiet service note saved. Text confirmation queued.
                     </div>
                   </div>
                 </div>
@@ -1894,7 +1683,7 @@ function SalonExperience() {
                 flexWrap: "wrap",
               }}
             >
-              {trustBadgesForProspect.map((badge) => (
+              {trustBadges.map((badge) => (
                 <div
                   key={badge}
                   style={{
@@ -1963,7 +1752,7 @@ function SalonExperience() {
                     fontWeight: 600,
                   }}
                 >
-                  {content.contactHeading}
+                  Start with the service, then shape the details together.
                 </h2>
                 <p
                   style={{
@@ -1972,7 +1761,9 @@ function SalonExperience() {
                     lineHeight: 1.75,
                   }}
                 >
-                  {content.contactCopy}
+                  Use the form for first-time visits, color corrections, or any
+                  appointment where timing matters. We reply with a real plan,
+                  not a generic autoresponder.
                 </p>
 
                 <div
@@ -1984,16 +1775,22 @@ function SalonExperience() {
                     gap: "0.7rem",
                   }}
                 >
-                  {content.footerNotes.map((note) => (
+                  {footerNotes.map((note) => (
                     <div key={note} style={{ color: c.text }}>
                       {note}
                     </div>
                   ))}
                   <div style={{ color: c.textMuted }}>
-                    <strong style={{ color: c.text }}>{addressHeader}</strong>
-                    <br />
-                    {addressLine}
+                    {prospect.address}
                   </div>
+                  {prospect.email ? (
+                    <a
+                      href={`mailto:${prospect.email}`}
+                      style={{ color: c.textMuted, textDecoration: "none" }}
+                    >
+                      {prospect.email}
+                    </a>
+                  ) : null}
                 </div>
               </div>
 
@@ -2082,9 +1879,9 @@ function SalonExperience() {
                         fontSize: "0.95rem",
                       }}
                     >
-                      {content.services.map((service) => (
-                        <option key={service.title}>{service.title}</option>
-                      ))}
+                      <option>Signature Hair Appointment</option>
+                      <option>Color Consultation</option>
+                      <option>Editorial Nail Care</option>
                     </select>
                   </label>
                 </div>
@@ -2220,7 +2017,7 @@ function SalonExperience() {
                     marginBottom: "0.6rem",
                   }}
                 >
-                  Hallmark studio
+                  {prospect.name}
                 </div>
                 <div
                   style={{
