@@ -78,6 +78,9 @@ export type ProspectData = {
   state: string;
   address: string;
   tagline?: string;
+  vertical?: "salon" | "barber";
+  heroImage?: string;
+  services?: SalonService[];
 };
 
 export const DEFAULT_SALON_PROSPECT: ProspectData = {
@@ -179,7 +182,15 @@ const lightTheme: Theme = {
   textRgb: "46,22,49",
 };
 
-const services = [
+export type SalonService = {
+  eyebrow: string;
+  title: string;
+  copy: string;
+  tag: string;
+  image: string;
+};
+
+const services: SalonService[] = [
   {
     eyebrow: "Cut + style",
     title: "Signature Hair Appointments",
@@ -663,11 +674,15 @@ export default function SalonPage({
     name: "",
     phone: "",
     email: "",
-    service: "Signature Hair Appointment",
+    service: prospect.services?.[0]?.title ?? "Signature Hair Appointment",
     date: "",
     note: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const activeServices = prospect.services ?? services;
+  const heroImage =
+    prospect.heroImage ??
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80";
 
   useEffect(() => {
     setMounted(true);
@@ -716,7 +731,7 @@ export default function SalonPage({
     return () => {
       observers.forEach((obs) => obs.disconnect());
     };
-  }, [mounted, services.length]);
+  }, [mounted, activeServices.length]);
 
   const c = isDark ? darkTheme : lightTheme;
 
@@ -1102,7 +1117,7 @@ export default function SalonPage({
                 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80"
+                  src={heroImage}
                   alt="Salon chair and editorial beauty styling"
                   style={{
                     width: "100%",
@@ -1267,7 +1282,7 @@ export default function SalonPage({
                   gap: "1.2rem",
                 }}
               >
-                {services.map((service, index) => {
+                {activeServices.map((service, index) => {
                   const isActive = hoveredService === index;
                   const isVisible = visibleTiles.has(index);
                   return (
@@ -1879,9 +1894,9 @@ export default function SalonPage({
                         fontSize: "0.95rem",
                       }}
                     >
-                      <option>Signature Hair Appointment</option>
-                      <option>Color Consultation</option>
-                      <option>Editorial Nail Care</option>
+                      {activeServices.map((service) => (
+                        <option key={service.title}>{service.title}</option>
+                      ))}
                     </select>
                   </label>
                 </div>
