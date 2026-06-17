@@ -479,14 +479,33 @@
   background-size: 100% 100%, 240% 100%;
   color: var(--barber-deep-walnut);
   box-shadow: 0 1px 2px rgba(43, 29, 18, 0.06);
-  opacity: 0.6;
+  opacity: 0;
   transform: translateY(24px);
-  animation:
-    plateReveal 600ms cubic-bezier(0.16, 1, 0.3, 1) var(--plate-delay) forwards,
-    plateFloat 4s ease-in-out calc(var(--plate-delay) + 800ms) infinite;
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 200ms ease,
+    background 200ms ease;
+  transition-delay: var(--plate-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.servicePlate[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.servicePlate[data-visible="true"]:not(:hover) {
+  animation: plateFloat 4s ease-in-out infinite;
+  animation-delay: var(--plate-delay, 0ms);
+}
+
+.servicePlate:not([data-visible]) {
+  animation: plateFallbackReveal 800ms ease 1.2s forwards;
 }
 
 .servicePlate:hover {
+  animation: none;
   background-position: 0 0, 100% 0;
   transform: translateY(-2px) scale(1.02);
 }
@@ -896,17 +915,8 @@
   to { transform: translateX(-33.333%); }
 }
 
-@keyframes plateReveal {
-  from {
-    opacity: 0.6;
-    transform: translateY(24px);
-    background-position: 0 0, 0 0;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    background-position: 0 0, 100% 0;
-  }
+@keyframes plateFallbackReveal {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes plateFloat {
@@ -1027,6 +1037,9 @@
   .ghostButton,
   .servicePlate,
   .iconButton {
-    transition-duration: 150ms;
+    animation: none;
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

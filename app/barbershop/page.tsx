@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ChangeEvent, type FormEvent } from "react";
 import Image from "next/image";
 import { Bodoni_Moda, DM_Serif_Text, IBM_Plex_Mono } from "next/font/google";
 import { CalendarDays, Clock3, Moon, Phone, Scissors, Send, Sparkles, Sun } from "lucide-react";
@@ -91,6 +91,7 @@ export default function BarbershopPage({
   const [darkMode, setDarkMode] = useState(false);
   const [chatOpen, setChatOpen] = useState(true);
   const [submitted, setSubmitted] = useState(false);
+  const servicePlateRefs = useRef<HTMLElement[]>([]);
   const [formState, setFormState] = useState({
     name: "",
     phone: "",
@@ -108,6 +109,44 @@ export default function BarbershopPage({
   useEffect(() => {
     window.localStorage.setItem("bayside-barber-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
+
+  useEffect(() => {
+    const plates = servicePlateRefs.current.filter(Boolean);
+    if (!plates.length) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      plates.forEach((plate) => {
+        plate.dataset.visible = "true";
+      });
+      return;
+    }
+
+    let visibleCount = 0;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || entry.target.getAttribute("data-visible") === "true") {
+            return;
+          }
+
+          entry.target.setAttribute("data-visible", "true");
+          visibleCount += 1;
+          observer.unobserve(entry.target);
+        });
+
+        if (visibleCount >= plates.length) {
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" },
+    );
+
+    plates.forEach((plate) => observer.observe(plate));
+
+    return () => observer.disconnect();
+  }, []);
 
   const tickerLoop = useMemo(() => [...tickerItems, ...tickerItems, ...tickerItems], []);
   const trustLoop = useMemo(() => [...trustBadges, ...trustBadges, ...trustBadges, ...trustBadges], []);
@@ -210,7 +249,16 @@ export default function BarbershopPage({
           </div>
           <div className={styles.serviceGrid}>
             {services.map((service, index) => (
-              <article className={styles.servicePlate} style={{ "--plate-delay": `${index * 120}ms` } as CSSProperties} key={service.title}>
+              <article
+                className={styles.servicePlate}
+                ref={(element) => {
+                  if (element) {
+                    servicePlateRefs.current[index] = element;
+                  }
+                }}
+                style={{ "--plate-delay": `${index * 120}ms` } as CSSProperties}
+                key={service.title}
+              >
                 <div>
                   <span className={styles.priceTag}>${service.price}</span>
                   <h3>{service.title}</h3>
