@@ -1,31 +1,51 @@
 "use client";
 
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { Bebas_Neue, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
-import type { ProspectData } from "../salon/page";
+import { useEffect, useMemo, useState, type CSSProperties, type ChangeEvent, type FormEvent } from "react";
+import Image from "next/image";
+import { Bodoni_Moda, DM_Serif_Text, IBM_Plex_Mono } from "next/font/google";
+import { CalendarDays, Clock3, Moon, Phone, Scissors, Send, Sparkles, Sun } from "lucide-react";
 
-const bebas = Bebas_Neue({
+import { AnimatedNumber } from "@/components/ui/animated-number";
+
+import styles from "./page.module.css";
+
+const bodoni = Bodoni_Moda({
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-barber-display",
+  display: "swap",
+});
+
+const dmSerif = DM_Serif_Text({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-bebas",
+  style: ["normal", "italic"],
+  variable: "--font-barber-body",
   display: "swap",
 });
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
-  display: "swap",
-});
-
-const plexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-plex-sans",
+  variable: "--font-barber-mono",
   display: "swap",
 });
 
-const DEFAULT_BARBERSHOP_PROSPECT: ProspectData = {
+type BarbershopProspect = {
+  name?: string;
+  phone?: string;
+  phoneHref?: string;
+  email?: string;
+  city?: string;
+  state?: string;
+  address?: string;
+  tagline?: string;
+  vertical?: string;
+  expires?: string;
+};
+
+const DEFAULT_BARBERSHOP_PROSPECT: BarbershopProspect = {
   name: "Bayside Barbershop",
   phone: "(718) 555-0100",
   phoneHref: "tel:+17185550100",
@@ -38,57 +58,61 @@ const DEFAULT_BARBERSHOP_PROSPECT: ProspectData = {
 };
 
 const services = [
-  { title: "Classic Cut", price: "$25", copy: "Scissor or clipper cut finished sharp, clean, and ready for the week." },
-  { title: "Skin Fade", price: "$30", copy: "Low, mid, or high fade with tight blend work and a crisp neck finish." },
-  { title: "Beard Trim", price: "$15", copy: "Shape, taper, and detail work for clean lines without overdoing it." },
-  { title: "Hot Towel Shave", price: "$35", copy: "Warm towel prep, straight razor detail, and a calm finish." },
-  { title: "Kids Cut", price: "$18", copy: "Fast, patient cuts for kids who need clean style without the fuss." },
-  { title: "Line-Up Only", price: "$20", copy: "Edges, neck, beard perimeter, and quick polish between full cuts." },
+  { title: "Classic Cut", price: 25, copy: "Scissor or clipper work finished with a clean neck shave." },
+  { title: "Skin Fade", price: 30, copy: "Low, mid, or high fade with steady blend work and sharp edges." },
+  { title: "Beard Trim", price: 15, copy: "Shape, taper, and detail lines without taking the character out." },
+  { title: "Hot Towel Shave", price: 35, copy: "Steam towel prep, straight razor detail, and a brass-clean finish." },
+  { title: "Kids Cut", price: 18, copy: "Patient chair time for clean school cuts and weekend shape-ups." },
+  { title: "Line-Up Only", price: 20, copy: "Edges, neck, beard perimeter, and quick polish between full cuts." },
 ];
 
+const barberTeam = [
+  { name: "Marcus Vale", specialty: "Skin fades and tight tapers" },
+  { name: "Eli Brooks", specialty: "Classic scissor cuts" },
+  { name: "Jonah Reed", specialty: "Beards and hot towels" },
+];
+
+const tickerItems = services.map((service) => `${service.title} $${service.price}`);
 const trustBadges = ["Master Barbers", "Walk-Ins Welcome", "Hot Towel Service", "Est. 2014"];
 
 const demoMessages = [
-  ["Guest", "Can I get a skin fade and beard trim after 5 today?"],
-  ["Bayside AI", "Marcus has 5:40 open. I can hold a fade, beard trim, and hot towel finish."],
-  ["Guest", "Book it and text me the address."],
-  ["Bayside AI", "You're set for 5:40. Confirmation and directions are on the way."],
+  { speaker: "Guest", text: "I need a skin fade and beard trim after 5 today." },
+  { speaker: "Bayside AI", text: "Marcus has 5:40 open. I can hold a fade, beard trim, and hot towel finish." },
+  { speaker: "Guest", text: "Book it and send the address." },
+  { speaker: "Bayside AI", text: "Done. You are set for 5:40, and the confirmation text is on the way." },
 ];
-
-function ScissorIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.2rem", height: "1.2rem" }}>
-      <circle cx="6" cy="7" r="3" />
-      <circle cx="6" cy="17" r="3" />
-      <path d="M8.3 8.7 21 3" />
-      <path d="M8.3 15.3 21 21" />
-      <path d="m11.5 12 3-1.35" />
-      <path d="m11.5 12 3 1.35" />
-    </svg>
-  );
-}
 
 export default function BarbershopPage({
   prospect = DEFAULT_BARBERSHOP_PROSPECT,
 }: {
-  prospect?: ProspectData;
+  prospect?: BarbershopProspect;
 }) {
+  const shop = { ...DEFAULT_BARBERSHOP_PROSPECT, ...prospect };
+  const [darkMode, setDarkMode] = useState(false);
+  const [chatOpen, setChatOpen] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
   const [formState, setFormState] = useState({
     name: "",
     phone: "",
+    barber: barberTeam[0].name,
     service: services[0].title,
-    time: "",
-    note: "",
   });
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    document.body.style.backgroundColor = "#0A0A0B";
+    const stored = window.localStorage.getItem("bayside-barber-theme");
+    if (stored === "dark") {
+      setDarkMode(true);
+    }
   }, []);
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => {
+  useEffect(() => {
+    window.localStorage.setItem("bayside-barber-theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
+  const tickerLoop = useMemo(() => [...tickerItems, ...tickerItems, ...tickerItems], []);
+  const trustLoop = useMemo(() => [...trustBadges, ...trustBadges, ...trustBadges, ...trustBadges], []);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormState((current) => ({ ...current, [name]: value }));
   };
@@ -100,174 +124,236 @@ export default function BarbershopPage({
 
   return (
     <div
-      className={`${bebas.variable} ${plexMono.variable} ${plexSans.variable}`}
-      style={{
-        minHeight: "100vh",
-        background: "#0A0A0B",
-        color: "#F8F5EC",
-        fontFamily: "var(--font-plex-sans), sans-serif",
-        overflow: "hidden",
-      }}
+      className={`${styles.page} ${darkMode ? styles.dark : ""} ${bodoni.variable} ${dmSerif.variable} ${plexMono.variable}`}
     >
-      <style>{`
-        @keyframes barberSlide { from { background-position: 0 0; } to { background-position: 120px 0; } }
-        @keyframes scissorPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(228, 232, 235, 0)); } 50% { transform: scale(1.14); filter: drop-shadow(0 0 18px rgba(228, 232, 235, 0.5)); } }
-        @keyframes cardRise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-      `}</style>
+      <div className={styles.paperGrain} aria-hidden="true" />
+      <div className={styles.fixedPole} aria-hidden="true" />
 
-      <div
-        aria-hidden="true"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "0.65rem",
-          zIndex: 80,
-          background:
-            "repeating-linear-gradient(115deg, #B91C1C 0 18px, #F8F5EC 18px 36px, #F4B400 36px 54px, #F8F5EC 54px 72px)",
-          animation: "barberSlide 7s linear infinite",
-          boxShadow: "0 0 28px rgba(244,180,0,0.36)",
-        }}
-      />
-
-      <nav
-        style={{
-          position: "sticky",
-          top: "0.65rem",
-          zIndex: 60,
-          background: "rgba(10,10,11,0.86)",
-          borderBottom: "1px solid rgba(244,180,0,0.2)",
-          backdropFilter: "blur(18px)",
-          padding: "1rem clamp(1rem, 4vw, 3rem)",
-        }}
-      >
-        <div style={{ maxWidth: "76rem", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
-          <a href="#" style={{ color: "#F8F5EC", textDecoration: "none", display: "grid", gap: "0.1rem" }}>
-            <span style={{ fontFamily: "var(--font-bebas), sans-serif", fontSize: "1.8rem", letterSpacing: "0.04em" }}>{prospect.name}</span>
-            <span style={{ color: "#B8B3A6", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.72rem", textTransform: "uppercase" }}>{prospect.city}, {prospect.state}</span>
-          </a>
-          <div style={{ display: "flex", gap: "0.9rem", alignItems: "center", flexWrap: "wrap", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.78rem", textTransform: "uppercase" }}>
-            <a href="#services" style={{ color: "#B8B3A6", textDecoration: "none" }}>Services</a>
-            <a href="#ai-demo" style={{ color: "#B8B3A6", textDecoration: "none" }}>Book by chat</a>
-            <a href={prospect.phoneHref} style={{ color: "#0A0A0B", background: "#F4B400", textDecoration: "none", padding: "0.72rem 1rem", borderRadius: "999px", fontWeight: 700 }}>{prospect.phone}</a>
-          </div>
+      <nav className={styles.nav} aria-label="Bayside barbershop navigation">
+        <a className={styles.wordmark} href="#top" aria-label="Bayside Barbershop home">
+          Bayside
+          <span>{shop.city}, {shop.state}</span>
+        </a>
+        <div className={styles.navLinks}>
+          <a href="#services">Services</a>
+          <a href="#concierge">Concierge</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div className={styles.navActions}>
+          <button
+            className={styles.iconButton}
+            type="button"
+            onClick={() => setDarkMode((current) => !current)}
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <a className={styles.shineButton} href="#contact">Book</a>
         </div>
       </nav>
 
-      <main>
-        <section style={{ padding: "clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem) 3rem" }}>
-          <div style={{ maxWidth: "76rem", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(19rem, 1fr))", gap: "clamp(2rem, 5vw, 4rem)", alignItems: "center" }}>
-            <div style={{ display: "grid", gap: "1.3rem" }}>
-              <div style={{ color: "#F4B400", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.78rem", letterSpacing: "0.16em", textTransform: "uppercase" }}>Walk-ins, appointments, real chair time</div>
-              <h1 style={{ margin: 0, fontFamily: "var(--font-bebas), sans-serif", fontSize: "clamp(4.4rem, 14vw, 9rem)", lineHeight: 0.84, letterSpacing: "0.02em" }}>
-                Sharp cuts.
-                <br />
-                Clean fades.
-                <br />
-                Real conversation.
-              </h1>
-              <p style={{ margin: 0, maxWidth: "35rem", color: "#D6D0C4", fontSize: "1.08rem", lineHeight: 1.75 }}>
+      <main id="top">
+        <section className={styles.hero}>
+          <Image
+            className={styles.heroImage}
+            src="/barbershop/hero-vintage.jpg"
+            alt="Warm vintage barbershop interior with barber chairs and mirrors"
+            fill
+            priority
+            sizes="100vw"
+          />
+          <div className={styles.heroOverlay} aria-hidden="true" />
+          <div className={styles.heroContent}>
+            <div className={styles.heroCopy}>
+              <p className={styles.eyebrow}>Est. 2014 / neighborhood chair house</p>
+              <h1>Sharp cuts.<br />Clean fades.<br />Real conversation.</h1>
+              <p className={styles.heroText}>
                 A modern neighborhood barbershop built for clean blends, steady hands, and booking that gets you in the chair without phone tag.
               </p>
-              <div style={{ display: "flex", gap: "0.85rem", flexWrap: "wrap" }}>
-                <a href="#contact" style={{ color: "#0A0A0B", background: "#F4B400", textDecoration: "none", padding: "0.95rem 1.2rem", borderRadius: "999px", fontWeight: 800 }}>Book a chair</a>
-                <a href="#services" style={{ color: "#F8F5EC", border: "1px solid rgba(248,245,236,0.18)", textDecoration: "none", padding: "0.95rem 1.2rem", borderRadius: "999px" }}>See prices</a>
+              <div className={styles.ctaRow}>
+                <a className={styles.shineButton} href="#contact">Book a chair</a>
+                <a className={styles.ghostButton} href="#services">See prices</a>
               </div>
             </div>
-            <div style={{ position: "relative", minHeight: "34rem", border: "1px solid rgba(244,180,0,0.22)", background: "#151516", overflow: "hidden", boxShadow: "0 30px 90px rgba(0,0,0,0.42)" }}>
-              <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80" alt="Barber cutting hair in a barbershop" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.74) contrast(1.08)" }} />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,10,11,0.04) 0%, rgba(10,10,11,0.78) 100%)" }} />
-              <div style={{ position: "absolute", left: "1.2rem", right: "1.2rem", bottom: "1.2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(8rem, 1fr))", gap: "0.75rem" }}>
-                {trustBadges.map((badge) => (
-                  <div key={badge} style={{ background: "rgba(10,10,11,0.72)", border: "1px solid rgba(248,245,236,0.14)", padding: "0.9rem", backdropFilter: "blur(12px)", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.72rem", textTransform: "uppercase", color: "#F8F5EC" }}>{badge}</div>
-                ))}
-              </div>
+            <div className={styles.heroPoster} aria-label="Bayside service highlights">
+              <div className={styles.rotatingPole} aria-hidden="true" />
+              <p>Today&apos;s board</p>
+              <strong><AnimatedNumber value={18} format={(value) => `$${value}`} /> walk-in line-ups</strong>
+              <span>Hot towels ready until 7 PM</span>
             </div>
           </div>
         </section>
 
-        <section aria-label="Trust bar" style={{ borderTop: "1px solid rgba(244,180,0,0.2)", borderBottom: "1px solid rgba(244,180,0,0.2)", background: "#111112", padding: "1rem clamp(1rem, 4vw, 3rem)" }}>
-          <div style={{ maxWidth: "76rem", margin: "0 auto", display: "flex", alignItems: "center", gap: "1rem", justifyContent: "space-between", flexWrap: "wrap" }}>
-            <div style={{ color: "#E4E8EB", animation: "scissorPulse 2.8s ease-in-out infinite" }}><ScissorIcon /></div>
-            {trustBadges.map((badge) => (
-              <span key={badge} style={{ color: "#D6D0C4", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.78rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>{badge}</span>
+        <section className={styles.priceTicker} aria-label="Scrolling service price ticker">
+          <div className={styles.tickerStripe} aria-hidden="true" />
+          <div className={styles.tickerTrack}>
+            {tickerLoop.map((item, index) => (
+              <span key={`${item}-${index}`}>{item}</span>
             ))}
           </div>
         </section>
 
-        <section id="services" style={{ padding: "4rem clamp(1rem, 4vw, 3rem)" }}>
-          <div style={{ maxWidth: "76rem", margin: "0 auto", display: "grid", gap: "1.5rem" }}>
-            <div>
-              <div style={{ color: "#F4B400", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.78rem", letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Menu board</div>
-              <h2 style={{ margin: 0, fontFamily: "var(--font-bebas), sans-serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", lineHeight: 0.9 }}>Cuts priced clean.</h2>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(16rem, 1fr))", gap: "1rem" }}>
-              {services.map((service, index) => (
-                <article key={service.title} style={{ border: "1px solid rgba(244,180,0,0.2)", background: index % 2 ? "rgba(255,255,255,0.04)" : "rgba(244,180,0,0.07)", padding: "1.2rem", minHeight: "13rem", display: "grid", alignContent: "space-between", gap: "1rem", animation: `cardRise 520ms ease ${index * 70}ms both` }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", alignItems: "start" }}>
-                    <h3 style={{ margin: 0, fontFamily: "var(--font-bebas), sans-serif", fontSize: "2.4rem", lineHeight: 0.92 }}>{service.title}</h3>
-                    <span style={{ color: "#F4B400", fontFamily: "var(--font-plex-mono), monospace", fontWeight: 700 }}>{service.price}</span>
-                  </div>
-                  <p style={{ margin: 0, color: "#C9C2B6", lineHeight: 1.65 }}>{service.copy}</p>
-                </article>
-              ))}
-            </div>
+        <section className={styles.introBand} aria-label="Shop promise">
+          <div>
+            <p className={styles.eyebrow}>Walnut, chrome, steady hands</p>
+            <h2>Old-shop ritual, modern booking.</h2>
           </div>
+          <p>
+            Bayside keeps the chair moving without making the room feel rushed: clean consultation, real barber timing, and an AI concierge that handles the back-and-forth before guests arrive.
+          </p>
         </section>
 
-        <section id="ai-demo" style={{ padding: "1rem clamp(1rem, 4vw, 3rem) 4rem" }}>
-          <div style={{ maxWidth: "76rem", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(19rem, 1fr))", gap: "1.2rem" }}>
-            <div style={{ border: "1px solid rgba(244,180,0,0.2)", background: "#121213", padding: "1.4rem", display: "grid", gap: "1rem" }}>
-              <div style={{ color: "#F4B400", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.78rem", letterSpacing: "0.16em", textTransform: "uppercase" }}>Book by chat</div>
-              <h2 style={{ margin: 0, fontFamily: "var(--font-bebas), sans-serif", fontSize: "clamp(3rem, 8vw, 5rem)", lineHeight: 0.9 }}>Your chair, held.</h2>
-              <p style={{ margin: 0, color: "#D6D0C4", lineHeight: 1.7 }}>Guests can text for a fade, beard trim, kids cut, or hot towel shave. The concierge confirms the service, time, and barber before the shop has to pick up the phone.</p>
-            </div>
-            <div style={{ border: "1px solid rgba(248,245,236,0.14)", background: "#171718", padding: "1rem", display: "grid", gap: "0.8rem" }}>
-              {demoMessages.map(([label, text]) => (
-                <div key={text} style={{ justifySelf: label === "Guest" ? "end" : "start", maxWidth: "88%", background: label === "Guest" ? "rgba(244,180,0,0.14)" : "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", padding: "0.85rem 0.95rem" }}>
-                  <div style={{ color: "#F4B400", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.68rem", textTransform: "uppercase", marginBottom: "0.35rem" }}>{label}</div>
-                  <div style={{ color: "#F8F5EC", lineHeight: 1.55 }}>{text}</div>
+        <section className={styles.services} id="services">
+          <div className={styles.sectionHeader}>
+            <p className={styles.eyebrow}>Menu board</p>
+            <h2>Chrome plates. Clean prices.</h2>
+          </div>
+          <div className={styles.serviceGrid}>
+            {services.map((service, index) => (
+              <article className={styles.servicePlate} style={{ "--plate-delay": `${index * 120}ms` } as CSSProperties} key={service.title}>
+                <div>
+                  <span className={styles.priceTag}>${service.price}</span>
+                  <h3>{service.title}</h3>
+                  <p>{service.copy}</p>
                 </div>
-              ))}
+                <a href="#contact">Book</a>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.posterCallout} aria-label="Walk-ins welcome">
+          <div className={styles.posterRule} aria-hidden="true" />
+          <p>Walk-ins welcome</p>
+          <h2>Come in rough. Leave sharp.</h2>
+          <div className={styles.posterMeta}>
+            <span><Clock3 size={16} /> Mon-Sat / 9-7</span>
+            <span><Phone size={16} /> {shop.phone}</span>
+          </div>
+        </section>
+
+        <section className={styles.teamSection} aria-label="Meet the barbers">
+          <div className={styles.sectionHeader}>
+            <p className={styles.eyebrow}>Chair roster</p>
+            <h2>Three barbers, no guesswork.</h2>
+          </div>
+          <div className={styles.teamGrid}>
+            {barberTeam.map((barber) => (
+              <article className={styles.teamCard} key={barber.name}>
+                <Scissors size={28} />
+                <h3>{barber.name}</h3>
+                <p>{barber.specialty}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.concierge} id="concierge" aria-label="Bayside AI concierge">
+          <div>
+            <p className={styles.eyebrow}>Bayside AI</p>
+            <h2>Booking that talks like the front desk.</h2>
+            <p>
+              The concierge qualifies the service, checks timing, suggests the right barber, and sends the confirmation before the phone interrupts a cut.
+            </p>
+          </div>
+          <div className={`${styles.chatPanel} ${chatOpen ? styles.chatOpen : ""}`}>
+            <button className={styles.chatToggle} type="button" onClick={() => setChatOpen((current) => !current)}>
+              <Sparkles size={17} />
+              Bayside AI
+            </button>
+            <div className={styles.chatBody}>
+              <header>
+                <Image src="/barbershop/scissors-icon.svg" alt="" width={32} height={32} />
+                <div>
+                  <strong>Bayside AI</strong>
+                  <span>Chair finder / booking assistant</span>
+                </div>
+              </header>
+              <div className={styles.messages}>
+                {demoMessages.map((message) => (
+                  <div
+                    className={`${styles.message} ${message.speaker === "Guest" ? styles.guestMessage : ""}`}
+                    key={message.text}
+                  >
+                    <span>{message.speaker}</span>
+                    <p>{message.text}</p>
+                  </div>
+                ))}
+              </div>
+              <form className={styles.telegramForm}>
+                <input aria-label="Ask Bayside AI" readOnly value="Need a fade this afternoon" />
+                <button type="button" aria-label="Send demo message"><Send size={16} /></button>
+              </form>
             </div>
           </div>
         </section>
 
-        <section id="contact" style={{ padding: "0 clamp(1rem, 4vw, 3rem) 5rem" }}>
-          <div style={{ maxWidth: "76rem", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(19rem, 1fr))", gap: "1.2rem" }}>
-            <div style={{ background: "#111112", border: "1px solid rgba(244,180,0,0.2)", padding: "1.4rem", display: "grid", alignContent: "start", gap: "1rem" }}>
-              <h2 style={{ margin: 0, fontFamily: "var(--font-bebas), sans-serif", fontSize: "clamp(3rem, 8vw, 5rem)", lineHeight: 0.9 }}>Pull up clean.</h2>
-              <p style={{ margin: 0, color: "#D6D0C4", lineHeight: 1.7 }}>{prospect.address}</p>
-              <a href={prospect.phoneHref} style={{ color: "#F4B400", textDecoration: "none", fontWeight: 700 }}>{prospect.phone}</a>
-              <a href={`mailto:${prospect.email}`} style={{ color: "#B8B3A6", textDecoration: "none" }}>{prospect.email}</a>
-            </div>
-            <form onSubmit={handleSubmit} style={{ background: "#171718", border: "1px solid rgba(248,245,236,0.14)", padding: "1.4rem", display: "grid", gap: "0.9rem" }}>
-              {[
-                ["name", "Name", "text"],
-                ["phone", "Phone", "tel"],
-                ["time", "Preferred time", "text"],
-              ].map(([name, label, type]) => (
-                <label key={name} style={{ display: "grid", gap: "0.45rem" }}>
-                  <span style={{ color: "#B8B3A6", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.72rem", textTransform: "uppercase" }}>{label}</span>
-                  <input name={name} type={type} value={formState[name as "name" | "phone" | "time"]} onChange={handleChange} style={{ background: "#0A0A0B", border: "1px solid rgba(244,180,0,0.18)", color: "#F8F5EC", padding: "0.9rem 1rem", font: "inherit" }} />
-                </label>
-              ))}
-              <label style={{ display: "grid", gap: "0.45rem" }}>
-                <span style={{ color: "#B8B3A6", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.72rem", textTransform: "uppercase" }}>Service</span>
-                <select name="service" value={formState.service} onChange={handleChange} style={{ background: "#0A0A0B", border: "1px solid rgba(244,180,0,0.18)", color: "#F8F5EC", padding: "0.9rem 1rem", font: "inherit" }}>
-                  {services.map((service) => <option key={service.title}>{service.title}</option>)}
-                </select>
-              </label>
-              <label style={{ display: "grid", gap: "0.45rem" }}>
-                <span style={{ color: "#B8B3A6", fontFamily: "var(--font-plex-mono), monospace", fontSize: "0.72rem", textTransform: "uppercase" }}>Notes</span>
-                <textarea name="note" value={formState.note} onChange={handleChange} rows={4} style={{ background: "#0A0A0B", border: "1px solid rgba(244,180,0,0.18)", color: "#F8F5EC", padding: "0.9rem 1rem", font: "inherit", resize: "vertical" }} />
-              </label>
-              <button type="submit" style={{ border: 0, background: "#F4B400", color: "#0A0A0B", padding: "0.95rem 1.1rem", fontWeight: 800, cursor: "pointer" }}>{submitted ? "Request received" : "Request a barber appointment"}</button>
-            </form>
+        <section className={styles.trustMarquee} aria-label="Scrolling trust badges">
+          <div className={styles.trustTrack}>
+            {trustLoop.map((badge, index) => (
+              <span key={`${badge}-${index}`}>{badge}</span>
+            ))}
           </div>
+        </section>
+
+        <section className={styles.testimonials} aria-label="Customer notes">
+          <blockquote>&ldquo;The fade was exact, the beard line was clean, and I booked the next one before I left the chair.&rdquo;</blockquote>
+          <blockquote>&ldquo;Feels like a classic shop, runs like a modern one.&rdquo;</blockquote>
+        </section>
+
+        <section className={styles.contact} id="contact">
+          <div className={styles.contactCopy}>
+            <p className={styles.eyebrow}>Request a chair</p>
+            <h2>Step into the chair.</h2>
+            <p>{shop.address}</p>
+            <a href={shop.phoneHref}>{shop.phone}</a>
+            <a href={`mailto:${shop.email}`}>{shop.email}</a>
+          </div>
+          <form className={styles.contactForm} onSubmit={handleSubmit}>
+            <label>
+              Name
+              <input name="name" value={formState.name} onChange={handleChange} autoComplete="name" />
+            </label>
+            <label>
+              Phone
+              <input name="phone" value={formState.phone} onChange={handleChange} autoComplete="tel" />
+            </label>
+            <label>
+              Preferred barber
+              <select name="barber" value={formState.barber} onChange={handleChange}>
+                {barberTeam.map((barber) => <option key={barber.name}>{barber.name}</option>)}
+              </select>
+            </label>
+            <label>
+              Preferred service
+              <select name="service" value={formState.service} onChange={handleChange}>
+                {services.map((service) => <option key={service.title}>{service.title}</option>)}
+              </select>
+            </label>
+            <button className={styles.shineButton} type="submit">
+              {submitted ? "Request received" : "Send request"}
+            </button>
+          </form>
         </section>
       </main>
+
+      <footer className={styles.footer}>
+        <div className={styles.footerStripe} aria-hidden="true" />
+        <div>
+          <h2>Bayside Barbershop</h2>
+          <p>{shop.tagline}</p>
+          <a href="https://aexonai.com">Talk to AEXON AI</a>
+        </div>
+        <div className={styles.hours}>
+          <span><CalendarDays size={16} /> Mon-Fri / 9 AM-7 PM</span>
+          <span>Sat / 9 AM-6 PM</span>
+          <span>Sun / Closed</span>
+        </div>
+        <address>
+          {shop.address}<br />
+          <a href={shop.phoneHref}>{shop.phone}</a>
+        </address>
+      </footer>
     </div>
   );
 }

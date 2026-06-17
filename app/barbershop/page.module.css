@@ -1,0 +1,1032 @@
+.page {
+  --barber-paper: #faf9f7;
+  --barber-paper-rgb: 250, 249, 247;
+  --barber-walnut: #2b1d12;
+  --barber-walnut-rgb: 43, 29, 18;
+  --barber-deep-walnut: #1a1108;
+  --barber-cream: #fff7ea;
+  --barber-chrome: #c8c2b6;
+  --barber-chrome-bright: #e6e0d2;
+  --barber-red: #c0392b;
+  --barber-brass: #a07a3c;
+  --barber-ink: #0a0a0a;
+  --barber-border: rgba(43, 29, 18, 0.16);
+  --barber-shadow: rgba(43, 29, 18, 0.18);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--barber-paper);
+  color: var(--barber-walnut);
+  font-family: var(--font-barber-body), Georgia, serif;
+  transition: background 350ms ease, color 350ms ease;
+}
+
+.dark {
+  --barber-paper: #1a1108;
+  --barber-paper-rgb: 26, 17, 8;
+  --barber-walnut: #fff7ea;
+  --barber-walnut-rgb: 255, 247, 234;
+  --barber-border: rgba(230, 224, 210, 0.18);
+  --barber-shadow: rgba(0, 0, 0, 0.32);
+  background: var(--barber-paper);
+  color: var(--barber-cream);
+}
+
+.page * {
+  box-sizing: border-box;
+}
+
+.page a {
+  color: inherit;
+}
+
+.paperGrain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.72;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(var(--barber-walnut-rgb), 0.055) 0 1px, transparent 1px),
+    radial-gradient(circle at 80% 10%, rgba(160, 122, 60, 0.07) 0 1px, transparent 1px);
+  background-size: 34px 34px, 47px 47px;
+  animation: paperDrift 28s linear infinite;
+}
+
+.fixedPole {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  height: 10px;
+  background-image: url("/barbershop/marquee-stripe.svg");
+  background-size: 96px 10px;
+  animation: poleRotate 1.2s linear infinite;
+  box-shadow: 0 2px 18px rgba(43, 29, 18, 0.22);
+}
+
+.nav {
+  position: sticky;
+  top: 10px;
+  z-index: 70;
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) auto minmax(9rem, 1fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem clamp(1rem, 4vw, 3.5rem);
+  border-bottom: 1px solid var(--barber-border);
+  background: rgba(var(--barber-paper-rgb), 0.86);
+  backdrop-filter: blur(18px);
+}
+
+.wordmark {
+  width: fit-content;
+  text-decoration: none;
+  font-family: var(--font-barber-display), Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-style: italic;
+  font-weight: 800;
+  line-height: 0.9;
+}
+
+.wordmark span {
+  display: block;
+  margin-top: 0.25rem;
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.navLinks,
+.navActions,
+.ctaRow,
+.posterMeta,
+.hours {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navLinks a {
+  text-decoration: none;
+  font-family: var(--font-barber-body), Georgia, serif;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.navLinks a:hover,
+.footer a:hover,
+.contact a:hover {
+  color: var(--barber-red);
+}
+
+.navActions {
+  justify-content: end;
+}
+
+.iconButton {
+  display: grid;
+  width: 2.65rem;
+  height: 2.65rem;
+  place-items: center;
+  border: 1px solid var(--barber-border);
+  border-radius: 999px;
+  background: rgba(var(--barber-paper-rgb), 0.72);
+  color: var(--barber-walnut);
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.iconButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--barber-shadow);
+}
+
+.shineButton,
+.ghostButton,
+.servicePlate a,
+.chatToggle,
+.telegramForm button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.shineButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.8rem 1.25rem;
+  background: linear-gradient(135deg, var(--barber-chrome), var(--barber-cream) 42%, var(--barber-brass));
+  color: var(--barber-deep-walnut);
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 1px 2px rgba(43, 29, 18, 0.06);
+}
+
+.shineButton::after,
+.servicePlate::after,
+.ghostButton::after,
+.telegramForm button::after {
+  content: "";
+  position: absolute;
+  inset: -40% auto -40% -70%;
+  z-index: -1;
+  width: 50%;
+  transform: skewX(-18deg) translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.78), transparent);
+  transition: transform 600ms ease-out;
+}
+
+.shineButton:hover,
+.ghostButton:hover,
+.servicePlate:hover,
+.servicePlate a:hover,
+.chatToggle:hover,
+.telegramForm button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--barber-shadow);
+}
+
+.shineButton:hover::after,
+.ghostButton:hover::after,
+.servicePlate:hover::after,
+.telegramForm button:hover::after {
+  transform: skewX(-18deg) translateX(360%);
+}
+
+.shineButton:active,
+.ghostButton:active,
+.servicePlate a:active,
+.telegramForm button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 1px 8px rgba(43, 29, 18, 0.18);
+}
+
+.ghostButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.8rem 1.25rem;
+  border-color: rgba(255, 247, 234, 0.5);
+  color: var(--barber-cream);
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ghostButton:hover {
+  border-color: var(--barber-red);
+}
+
+.hero {
+  position: relative;
+  min-height: min(820px, calc(100vh - 10px));
+  overflow: hidden;
+  color: var(--barber-cream);
+}
+
+.heroImage {
+  object-fit: cover;
+  transform-origin: center;
+  animation: kenBurns 30s ease-in-out infinite alternate;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 10, 10, 0.78), rgba(10, 10, 10, 0.32) 58%, rgba(10, 10, 10, 0.68)),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.1), rgba(10, 10, 10, 0.6));
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 24rem);
+  align-items: end;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  width: min(1180px, calc(100% - 2rem));
+  min-height: min(820px, calc(100vh - 10px));
+  margin: 0 auto;
+  padding: clamp(5rem, 10vw, 8rem) 0 clamp(2rem, 6vw, 4rem);
+}
+
+.heroCopy {
+  max-width: 52rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--barber-red);
+  font-family: var(--font-barber-mono), monospace;
+  font-size: clamp(0.68rem, 2.5vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.introBand h2,
+.sectionHeader h2,
+.posterCallout h2,
+.concierge h2,
+.contact h2,
+.footer h2 {
+  margin: 0;
+  font-family: var(--font-barber-display), Georgia, serif;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.hero h1 {
+  max-width: 11ch;
+  font-size: clamp(4rem, 13vw, 8rem);
+  line-height: 0.95;
+}
+
+.heroText {
+  max-width: 40rem;
+  margin: 1.25rem 0 0;
+  color: var(--barber-cream);
+  font-size: clamp(1.05rem, 2.4vw, 1.24rem);
+  line-height: 1.55;
+}
+
+.ctaRow {
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+
+.heroPoster {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(255, 247, 234, 0.28);
+  border-radius: 8px;
+  background: rgba(26, 17, 8, 0.72);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+}
+
+.heroPoster p,
+.heroPoster span {
+  margin: 0;
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.heroPoster strong {
+  font-family: var(--font-barber-display), Georgia, serif;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  line-height: 0.95;
+}
+
+.rotatingPole {
+  width: 100%;
+  height: 1rem;
+  border-radius: 999px;
+  background-image: url("/barbershop/marquee-stripe.svg");
+  background-size: 104px 16px;
+  animation: poleRotate 1.2s linear infinite;
+}
+
+.priceTicker,
+.trustMarquee {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--barber-border);
+  border-bottom: 1px solid var(--barber-border);
+  background: var(--barber-walnut);
+  color: var(--barber-cream);
+}
+
+.priceTicker {
+  padding: 1.2rem 0 1rem;
+}
+
+.tickerStripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.45rem;
+  background-image: url("/barbershop/marquee-stripe.svg");
+  background-size: 90px 8px;
+  animation: poleRotate 1.2s linear infinite;
+}
+
+.tickerTrack,
+.trustTrack {
+  display: flex;
+  width: max-content;
+  gap: 2rem;
+  font-family: var(--font-barber-mono), monospace;
+  font-size: clamp(0.8rem, 2.8vw, 1rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: marqueeRight 40s linear infinite;
+}
+
+.priceTicker:hover .tickerTrack {
+  animation-play-state: paused;
+}
+
+.tickerTrack span,
+.trustTrack span {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.tickerTrack span::after,
+.trustTrack span::after {
+  content: "/";
+  color: var(--barber-red);
+}
+
+.introBand,
+.services,
+.teamSection,
+.concierge,
+.testimonials,
+.contact,
+.footer {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.introBand {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(3rem, 7vw, 5rem) 0;
+}
+
+.introBand h2,
+.sectionHeader h2,
+.concierge h2,
+.contact h2 {
+  font-size: clamp(2.7rem, 8vw, 5.25rem);
+  line-height: 0.96;
+}
+
+.introBand p:not(.eyebrow),
+.concierge p,
+.contactCopy p {
+  margin: 0;
+  color: var(--barber-ink);
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.dark .introBand p:not(.eyebrow),
+.dark .concierge p,
+.dark .contactCopy p {
+  color: var(--barber-cream);
+}
+
+.services,
+.teamSection {
+  padding: 0 0 clamp(3.5rem, 8vw, 5.5rem);
+}
+
+.sectionHeader {
+  max-width: 42rem;
+  margin-bottom: 1.4rem;
+}
+
+.serviceGrid,
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.servicePlate {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  align-content: space-between;
+  gap: 1.1rem;
+  min-height: 18rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(43, 29, 18, 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(200, 194, 182, 0.85) 44%, rgba(160, 122, 60, 0.28)),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  background-size: 100% 100%, 240% 100%;
+  color: var(--barber-deep-walnut);
+  box-shadow: 0 1px 2px rgba(43, 29, 18, 0.06);
+  opacity: 0.6;
+  transform: translateY(24px);
+  animation:
+    plateReveal 600ms cubic-bezier(0.16, 1, 0.3, 1) var(--plate-delay) forwards,
+    plateFloat 4s ease-in-out calc(var(--plate-delay) + 800ms) infinite;
+}
+
+.servicePlate:hover {
+  background-position: 0 0, 100% 0;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.priceTag {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.servicePlate h3,
+.teamCard h3 {
+  margin: 0;
+  font-family: var(--font-barber-display), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 0.92;
+  letter-spacing: 0;
+}
+
+.servicePlate p,
+.teamCard p {
+  margin: 0.85rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.servicePlate a {
+  width: fit-content;
+  padding: 0.6rem 0.95rem;
+  background: var(--barber-deep-walnut);
+  color: var(--barber-cream);
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.servicePlate:hover a {
+  opacity: 1;
+}
+
+.posterCallout {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: clamp(3rem, 10vw, 7rem) 1rem;
+  margin: 0 0 clamp(3rem, 7vw, 5rem);
+  border-top: 1px solid var(--barber-border);
+  border-bottom: 1px solid var(--barber-border);
+  background: var(--barber-deep-walnut);
+  color: var(--barber-cream);
+  text-align: center;
+}
+
+.posterRule {
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid rgba(255, 247, 234, 0.26);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.posterCallout p {
+  margin: 0;
+  color: var(--barber-red);
+  font-family: var(--font-barber-mono), monospace;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.posterCallout h2 {
+  max-width: 12ch;
+  font-size: clamp(3.2rem, 11vw, 8rem);
+  line-height: 0.9;
+}
+
+.posterMeta {
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.posterMeta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.teamCard {
+  min-height: 13rem;
+  padding: 1.2rem;
+  border: 1px solid var(--barber-border);
+  border-radius: 8px;
+  background: rgba(var(--barber-paper-rgb), 0.72);
+  box-shadow: 0 1px 2px rgba(43, 29, 18, 0.06);
+}
+
+.teamCard svg {
+  color: var(--barber-red);
+  margin-bottom: 1rem;
+}
+
+.concierge {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 26rem);
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  padding: 0 0 clamp(3.5rem, 8vw, 5.5rem);
+}
+
+.chatPanel {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 25rem);
+  min-height: 15rem;
+}
+
+.chatToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--barber-border);
+  padding: 0.7rem 1rem;
+  background: var(--barber-walnut);
+  color: var(--barber-paper);
+  font-family: var(--font-barber-display), Georgia, serif;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.chatBody {
+  overflow: hidden;
+  margin-top: 0.8rem;
+  border: 1px solid var(--barber-border);
+  border-radius: 8px;
+  background: rgba(var(--barber-paper-rgb), 0.95);
+  box-shadow: 0 20px 50px var(--barber-shadow);
+  transform: translateY(100%);
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chatOpen .chatBody {
+  transform: translateY(0);
+}
+
+.chatBody header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--barber-border);
+  background: var(--barber-walnut);
+  color: var(--barber-paper);
+}
+
+.chatBody img {
+  width: 2rem;
+  height: 2rem;
+}
+
+.chatBody strong {
+  display: block;
+  font-family: var(--font-barber-display), Georgia, serif;
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1;
+}
+
+.chatBody span {
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+}
+
+.messages {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.message {
+  max-width: 88%;
+  padding: 0.75rem;
+  border: 1px solid var(--barber-border);
+  border-radius: 8px;
+  background: var(--barber-chrome-bright);
+  color: var(--barber-deep-walnut);
+}
+
+.guestMessage {
+  justify-self: end;
+  background: var(--barber-deep-walnut);
+  color: var(--barber-cream);
+}
+
+.message span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--barber-red);
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.message p {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.35;
+}
+
+.telegramForm {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+
+.telegramForm input,
+.contactForm input,
+.contactForm select {
+  width: 100%;
+  border: 1px solid var(--barber-border);
+  border-radius: 6px;
+  background: var(--barber-paper);
+  color: var(--barber-walnut);
+  font: inherit;
+}
+
+.telegramForm input {
+  padding: 0.75rem;
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.76rem;
+}
+
+.telegramForm button {
+  display: grid;
+  width: 2.75rem;
+  place-items: center;
+  border-color: var(--barber-border);
+  background: var(--barber-chrome);
+  color: var(--barber-deep-walnut);
+}
+
+.trustMarquee {
+  padding: 1rem 0;
+  background: var(--barber-red);
+}
+
+.trustTrack {
+  animation: marqueeLeft 30s linear infinite;
+}
+
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: clamp(3rem, 7vw, 5rem) 0;
+}
+
+.testimonials blockquote {
+  margin: 0;
+  padding: 1.3rem;
+  border: 1px solid var(--barber-border);
+  border-radius: 8px;
+  background: rgba(200, 194, 182, 0.32);
+  font-family: var(--font-barber-display), Georgia, serif;
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  font-style: italic;
+  line-height: 1.05;
+}
+
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 31rem);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(2rem, 6vw, 4rem);
+  border-radius: 8px;
+  background: var(--barber-walnut);
+  color: var(--barber-cream);
+}
+
+.contactCopy {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+}
+
+.contactCopy p {
+  color: var(--barber-cream);
+}
+
+.contactCopy a {
+  width: fit-content;
+  color: var(--barber-cream);
+  font-family: var(--font-barber-mono), monospace;
+  text-decoration: none;
+}
+
+.contactForm {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.contactForm label {
+  display: grid;
+  gap: 0.35rem;
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.contactForm input,
+.contactForm select {
+  min-height: 2.9rem;
+  padding: 0.8rem;
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(12rem, auto);
+  gap: 1.5rem;
+  align-items: end;
+  width: 100%;
+  margin-top: clamp(3rem, 7vw, 5rem);
+  padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 4vw, 3.5rem) 2rem;
+  background: var(--barber-deep-walnut);
+  color: var(--barber-cream);
+}
+
+.footerStripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.75rem;
+  background-image: url("/barbershop/marquee-stripe.svg");
+  background-size: 98px 12px;
+  animation: poleRotate 1.2s linear infinite;
+}
+
+.footer h2 {
+  font-size: clamp(2.2rem, 7vw, 4.6rem);
+  line-height: 0.95;
+}
+
+.footer p {
+  margin: 0.6rem 0;
+}
+
+.footer a,
+.footer address,
+.hours {
+  font-family: var(--font-barber-mono), monospace;
+  font-size: 0.78rem;
+  font-style: normal;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.hours {
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.hours span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+@keyframes paperDrift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 140px 70px, -120px 90px; }
+}
+
+@keyframes poleRotate {
+  from { background-position: 0 0; }
+  to { background-position: 96px 0; }
+}
+
+@keyframes kenBurns {
+  from { transform: scale(1); }
+  to { transform: scale(1.05) translate3d(-1.4%, 1.2%, 0); }
+}
+
+@keyframes marqueeRight {
+  from { transform: translateX(-33.333%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes marqueeLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+
+@keyframes plateReveal {
+  from {
+    opacity: 0.6;
+    transform: translateY(24px);
+    background-position: 0 0, 0 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    background-position: 0 0, 100% 0;
+  }
+}
+
+@keyframes plateFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@media (max-width: 900px) {
+  .nav {
+    grid-template-columns: 1fr auto;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .heroContent,
+  .introBand,
+  .concierge,
+  .contact,
+  .footer {
+    grid-template-columns: 1fr;
+  }
+
+  .heroContent {
+    align-items: end;
+  }
+
+  .serviceGrid,
+  .teamGrid,
+  .testimonials {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chatPanel {
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 520px) {
+  .nav {
+    gap: 0.65rem;
+    padding-inline: 0.75rem;
+  }
+
+  .wordmark {
+    font-size: 1.65rem;
+  }
+
+  .navActions {
+    gap: 0.4rem;
+  }
+
+  .shineButton,
+  .ghostButton {
+    padding-inline: 0.9rem;
+    font-size: 0.7rem;
+  }
+
+  .hero {
+    min-height: 720px;
+  }
+
+  .heroContent {
+    width: min(100% - 1rem, 1180px);
+    min-height: 720px;
+    padding-top: 4.7rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(3.25rem, 17vw, 4.5rem);
+  }
+
+  .heroPoster {
+    padding: 0.95rem;
+  }
+
+  .serviceGrid,
+  .teamGrid,
+  .testimonials {
+    grid-template-columns: 1fr;
+  }
+
+  .servicePlate {
+    min-height: 15.5rem;
+  }
+
+  .posterCallout h2 {
+    font-size: clamp(3rem, 17vw, 4.8rem);
+  }
+
+  .contact {
+    width: min(100% - 1rem, 1180px);
+    padding: 1rem;
+  }
+
+  .footer {
+    padding-inline: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paperGrain,
+  .fixedPole,
+  .heroImage,
+  .rotatingPole,
+  .tickerStripe,
+  .tickerTrack,
+  .trustTrack,
+  .footerStripe,
+  .servicePlate {
+    animation-duration: 150ms;
+    animation-iteration-count: 1;
+  }
+
+  .chatBody,
+  .shineButton,
+  .ghostButton,
+  .servicePlate,
+  .iconButton {
+    transition-duration: 150ms;
+  }
+}

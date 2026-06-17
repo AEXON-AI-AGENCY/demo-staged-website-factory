@@ -1,20 +1,10 @@
-npm run build passed.
+What changed:
+- Rebuilt /barbershop as a vintage Bayside Barbershop page with Bodoni Moda display type, DM Serif Text body copy, IBM Plex Mono prices, warm paper/walnut/chrome/red/brass palette, full-bleed local hero photo, animated barber-pole stripe, marquee price ticker, chrome service plates, Bayside AI slide-up concierge, trust marquee, walnut contact form, and deep-walnut footer.
+- Added local barbershop assets under public/barbershop/ so the page does not hotlink the hero image or icons.
+- Verified the prospect route still renders through /d/bayside-barbershop/.
 
-Test URLs:
-- http://localhost:3053/barbershop
-- http://localhost:3053/d/ani-african-hair-braiding/
-- http://localhost:3053/d/bayside-barbershop/
-- http://localhost:3053/salon
-- http://localhost:3053/d/glow-studio-salon/
+Local preview URL:
+http://localhost:3001/barbershop
 
-Verification:
-- Production build completed successfully with Next.js 16.2.6.
-- Local dev smoke checks returned HTTP 200 for all five requested URLs.
-- Content probes confirmed /barbershop and /d/bayside-barbershop/ render the new barbershop vertical.
-- Content probes confirmed /d/ani-african-hair-braiding/ keeps the salon visual system while using braids hero imagery, braiding service tiles, and matching form options.
-- Content probes confirmed /salon and /d/glow-studio-salon/ still render the original Glow Studio salon content and imagery.
-
-Design decisions:
-- Built /barbershop as its own client page with Bebas Neue, IBM Plex Mono, and IBM Plex Sans, a charcoal/amber industrial palette, a persistent barber-pole stripe, scissor pulse trust bar, six priced service cards, barber-specific AI chat copy, and a dedicated contact form.
-- Extended the shared salon prospect data with optional vertical, heroImage, and services fields so prospect-specific swaps do not alter the default /salon experience.
-- Routed prospects with vertical: "barber" to the new BarbershopPage; kept Ani on the salon page with only hero/service/form-option overrides.
+Demo route for prospects:
+http://localhost:3001/d/bayside-barbershop/
