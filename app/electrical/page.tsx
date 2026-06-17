@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bebas_Neue, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -509,6 +510,8 @@ const trustBadges = [
 ];
 
 export default function ElectricalPage() {
+  const TEMPLATE = { name: 'Current Electric', phone: '(512) 555-0128', email: 'intake@current-electric.example' };
+  const prospect = useProspectParams(TEMPLATE);
   const [isDark, setIsDark] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -1050,7 +1053,7 @@ export default function ElectricalPage() {
               </div>
               <div>
                 <div className="display-font" style={{ fontSize: "1.7rem", letterSpacing: "0.08em", lineHeight: 0.92 }}>
-                  Current Electric
+                  {prospect.name}
                 </div>
                 <div className="mono-font" style={{ fontSize: "0.66rem", letterSpacing: "0.18em", color: c.textSoft }}>
                   PANEL WORK / TROUBLESHOOTING / POWER PLANNING
@@ -1069,7 +1072,7 @@ export default function ElectricalPage() {
                 Contact
               </a>
               <a
-                href="tel:+15125550128"
+                href={prospect.phoneHref}
                 className="plain-link mono-font"
                 style={{
                   display: "inline-flex",
@@ -1082,7 +1085,7 @@ export default function ElectricalPage() {
                 }}
               >
                 <PhoneIcon />
-                (512) 555-0128
+                {prospect.phone}
               </a>
             </div>
           </div>
@@ -1833,11 +1836,11 @@ export default function ElectricalPage() {
                   Reach
                 </div>
                 <div style={{ display: "grid", gap: "0.4rem", color: c.textMuted }}>
-                  <a className="plain-link" href="tel:+15125550128">
-                    (512) 555-0128
+                  <a className="plain-link" href={prospect.phoneHref}>
+                    {prospect.phone}
                   </a>
-                  <a className="plain-link" href="mailto:intake@current-electric.example">
-                    intake@current-electric.example
+                  <a className="plain-link" href={`mailto:${prospect.email}`}>
+                    {prospect.email}
                   </a>
                   <a className="plain-link" href="#contact">
                     Start inspection request

@@ -9,6 +9,7 @@ import {
   type FormEvent,
 } from "react";
 import { Inter } from "next/font/google";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const interDisplay = Inter({
   subsets: ["latin"],
@@ -440,7 +441,7 @@ function MoonIcon({ size = 18 }: IconProps) {
   );
 }
 
-function CoolingLogo({ accent, textColor }: { accent: string; textColor: string }) {
+function CoolingLogo({ accent, textColor, name }: { accent: string; textColor: string; name: string }) {
   return (
     <div
       style={{
@@ -475,7 +476,7 @@ function CoolingLogo({ accent, textColor }: { accent: string; textColor: string 
             textTransform: "uppercase",
           }}
         >
-          CoolPro HVAC
+          {name}
         </span>
         <span
           style={{
@@ -494,6 +495,8 @@ function CoolingLogo({ accent, textColor }: { accent: string; textColor: string 
 }
 
 export default function HvacPage() {
+  const TEMPLATE = { name: 'CoolPro HVAC', phone: '(555) 014-2247', email: 'dispatch@coolprohvac.demo' };
+  const prospect = useProspectParams(TEMPLATE);
   const [theme, setTheme] = useState<ThemeMode>("dark");
   const [mounted, setMounted] = useState(false);
   const [hoveredService, setHoveredService] = useState<number | null>(null);
@@ -954,8 +957,8 @@ export default function HvacPage() {
               paddingBottom: "0.8rem",
             }}
           >
-            <a href="#top" aria-label="CoolPro HVAC home">
-              <CoolingLogo accent={c.accent} textColor={c.text} />
+            <a href="#top" aria-label={`${prospect.name} home`}>
+              <CoolingLogo accent={c.accent} textColor={c.text} name={prospect.name} />
             </a>
 
             <div
@@ -968,7 +971,7 @@ export default function HvacPage() {
               }}
             >
               <a
-                href="tel:+1-555-014-2247"
+                href={prospect.phoneHref}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -982,7 +985,7 @@ export default function HvacPage() {
               >
                 <PhoneIcon />
                 <span style={{ letterSpacing: "0.06em", fontSize: "0.88rem" }}>
-                  (555) 014-2247
+                  {prospect.phone}
                 </span>
               </a>
 
@@ -1436,7 +1439,7 @@ export default function HvacPage() {
                           letterSpacing: "-0.03em",
                         }}
                       >
-                        CoolPro AI Dispatch
+                        {`${prospect.name} AI`} Dispatch
                       </div>
                       <div style={{ color: c.textMuted, fontSize: "0.88rem" }}>
                         Maintenance scheduling flow
@@ -1748,14 +1751,14 @@ export default function HvacPage() {
                     {
                       icon: PhoneIcon,
                       label: "Call",
-                      value: "(555) 014-2247",
-                      href: "tel:+1-555-014-2247",
+                      value: prospect.phone,
+                      href: prospect.phoneHref,
                     },
                     {
                       icon: MailIcon,
                       label: "Email",
-                      value: "dispatch@coolprohvac.demo",
-                      href: "mailto:dispatch@coolprohvac.demo",
+                      value: prospect.email,
+                      href: `mailto:${prospect.email}`,
                     },
                     {
                       icon: PinIcon,
@@ -2082,7 +2085,7 @@ export default function HvacPage() {
             }}
           >
             <div style={{ display: "grid", gap: "0.75rem" }}>
-              <CoolingLogo accent={c.accent} textColor={c.text} />
+              <CoolingLogo accent={c.accent} textColor={c.text} name={prospect.name} />
               <p
                 style={{
                   margin: 0,
@@ -2128,8 +2131,8 @@ export default function HvacPage() {
               >
                 Contact
               </span>
-              <a href="tel:+1-555-014-2247">(555) 014-2247</a>
-              <a href="mailto:dispatch@coolprohvac.demo">dispatch@coolprohvac.demo</a>
+              <a href={prospect.phoneHref}>{prospect.phone}</a>
+              <a href={`mailto:${prospect.email}`}>{prospect.email}</a>
               <span style={{ color: c.textSoft }}>Metro comfort coverage</span>
             </div>
           </div>

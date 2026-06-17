@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import { VERTICALS } from "@/lib/verticals";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700", "800"] });
@@ -27,6 +28,15 @@ const c = {
 };
 
 export default function LawFirmPage() {
+  const TEMPLATE = { name: VERTICALS["law-firm"].name, phone: VERTICALS["law-firm"].phone, email: VERTICALS["law-firm"].email };
+  const prospect = useProspectParams(TEMPLATE);
+  const vertical = {
+    ...VERTICALS["law-firm"],
+    name: prospect.name,
+    phone: prospect.phone,
+    email: prospect.email,
+  };
+  const phoneHref = prospect.phoneHref;
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -204,7 +214,7 @@ export default function LawFirmPage() {
             ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <a className="nav-phone" href={`tel:${vertical.phone.replace(/[^0-9]/g, "")}`} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>{vertical.phone}</a>
+            <a className="nav-phone" href={phoneHref} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>{vertical.phone}</a>
             <button className="theme-button" onClick={toggleTheme} aria-label="Toggle color theme" style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "8px", padding: "0.45rem 0.85rem", cursor: "pointer", color: colors.text, fontSize: "0.8rem", fontFamily: dmSans.style.fontFamily, display: "flex", alignItems: "center", gap: "0.4rem", transition: "transform 0.2s" }}>
               {theme === "dark" ? "☀" : "☾"} {theme === "dark" ? "Light" : "Dark"}
             </button>
@@ -278,7 +288,7 @@ export default function LawFirmPage() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem", paddingBottom: "1rem", borderBottom: `1px solid ${colors.border}` }}>
               <div style={{ width: "2.2rem", height: "2.2rem", borderRadius: "50%", background: colors.accent, display: "grid", placeItems: "center", color: colors.onAccent, fontSize: "1rem", fontWeight: 800 }}>AI</div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: "0.9rem", color: colors.text }}>Morrison AI Intake</div>
+                <div style={{ fontWeight: 700, fontSize: "0.9rem", color: colors.text }}>{`${prospect.name.split(' ')[0]} AI Intake`}</div>
                 <div style={{ fontSize: "0.75rem", color: colors.success, fontWeight: 700 }}>● Online - confidential case review</div>
               </div>
             </div>

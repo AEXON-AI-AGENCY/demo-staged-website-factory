@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -182,6 +183,8 @@ function ThemeToggle({ theme, toggle }: { theme: Theme; toggle: () => void }) {
 }
 
 export default function TechCompanyPage() {
+  const TEMPLATE = { name: "Nexus AI", phone: "", email: "contact@nexus-ai.com" };
+  const prospect = useProspectParams(TEMPLATE);
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
   const [openFaq, setOpenFaq] = useState(0);
@@ -426,7 +429,7 @@ export default function TechCompanyPage() {
         <div className="navInner">
           <a className="brand" href="#top">
             <span className="brandMark">N</span>
-            <span>Nexus AI</span>
+            <span>{prospect.name}</span>
           </a>
           <div className="navLinks" aria-label="Primary navigation">
             {navLinks.map((link, i) => (
@@ -670,7 +673,7 @@ const agent = await Nexus.create({
         <div className="nexus-shell">
           <div className="footerGrid">
             <div className="footerLead">
-              <div className="footerBrand">Nexus AI</div>
+              <div className="footerBrand">{prospect.name}</div>
               <div className="footerTag">Intelligent automation for modern enterprises.</div>
             </div>
             {footerColumns.map(([heading, ...links]) => (
@@ -680,7 +683,7 @@ const agent = await Nexus.create({
               </div>
             ))}
           </div>
-          <div className="footerBottom">© 2026 Nexus AI · Made in Austin, TX · SOC 2 Type II · GDPR · HIPAA</div>
+          <div className="footerBottom">© 2026 {prospect.name} · Made in Austin, TX · SOC 2 Type II · GDPR · HIPAA</div>
         </div>
       </footer>
     </main>

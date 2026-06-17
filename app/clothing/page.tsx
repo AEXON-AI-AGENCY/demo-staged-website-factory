@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { DM_Sans, Playfair_Display, Bebas_Neue } from "next/font/google";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700"] });
@@ -25,6 +26,8 @@ const c = {
 };
 
 export default function ClothingPage() {
+  const TEMPLATE = { name: 'Thread & Third', phone: '(800) 555-0199', email: 'hello@threadandthird.com' };
+  const prospect = useProspectParams(TEMPLATE);
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -152,7 +155,7 @@ export default function ClothingPage() {
             ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-            <a href="tel:+18005550199" style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 500 }}>+1 (800) 555-0199</a>
+            <a href={prospect.phoneHref} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 500 }}>{`+1 ${prospect.phone}`}</a>
             <button onClick={toggleTheme} style={{
               background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "8px",
               padding: "0.45rem 0.9rem", cursor: "pointer", color: colors.text, fontSize: "0.8rem",
@@ -320,7 +323,7 @@ export default function ClothingPage() {
             <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: colors.text, margin: "0 0 1.25rem" }}>Let&apos;s Build Something Great</h2>
             <p style={{ fontSize: "0.95rem", color: colors.textSoft, lineHeight: 1.7, marginBottom: "2rem" }}>Whether you need custom blanks, private label, or AI-curated inventory — tell us about your brand and we&apos;ll build a plan that works.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              {[{ label: "Email", value: "hello@threadandthird.com" }, { label: "Phone", value: "+1 (800) 555-0199" }, { label: "Location", value: "Los Angeles, CA — New York, NY" }].map(item => (
+              {[{ label: "Email", value: prospect.email }, { label: "Phone", value: `+1 ${prospect.phone}` }, { label: "Location", value: "Los Angeles, CA — New York, NY" }].map(item => (
                 <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                   <div style={{ fontSize: "0.75rem", fontWeight: 600, color: colors.accent, width: "70px", letterSpacing: "0.08em" }}>{item.label}</div>
                   <div style={{ fontSize: "0.9rem", color: colors.textSoft }}>{item.value}</div>
@@ -357,9 +360,9 @@ export default function ClothingPage() {
             <div style={{ width: "2rem", height: "2rem", borderRadius: "50%", background: colors.accent, display: "grid", placeItems: "center" }}>
               <span style={{ color: "white", fontSize: "0.85rem" }}>⊛</span>
             </div>
-            <span style={{ fontFamily: bebas.style.fontFamily, fontSize: "0.95rem", letterSpacing: "0.1em", color: colors.text }}>THREAD & THIRD</span>
+            <span style={{ fontFamily: bebas.style.fontFamily, fontSize: "0.95rem", letterSpacing: "0.1em", color: colors.text }}>{prospect.name.toUpperCase()}</span>
           </div>
-          <div style={{ fontSize: "0.8rem", color: colors.textMuted }}>hello@threadandthird.com · +1 (800) 555-0199</div>
+          <div style={{ fontSize: "0.8rem", color: colors.textMuted }}>{`${prospect.email} · +1 ${prospect.phone}`}</div>
           <a href="#contact" style={{ color: colors.accent, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600 }}>Get Started →</a>
         </div>
         <div style={{ maxWidth: "1200px", margin: "1.5rem auto 0", textAlign: "center", fontSize: "0.75rem", color: colors.textMuted }}>

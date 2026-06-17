@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { DM_Sans, Playfair_Display } from "next/font/google";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700", "800"] });
@@ -25,6 +26,8 @@ const c = {
 };
 
 export default function RestaurantPage() {
+  const TEMPLATE = { name: 'The Golden Fork', phone: '(212) 555-0199', email: 'reservations@thegoldenfork.com' };
+  const prospect = useProspectParams(TEMPLATE);
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -139,7 +142,7 @@ export default function RestaurantPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <div style={{ fontSize: "1.6rem" }}>🍴</div>
             <div>
-              <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.05rem", fontWeight: 700, color: colors.text, lineHeight: 1 }}>The Golden Fork</div>
+              <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.05rem", fontWeight: 700, color: colors.text, lineHeight: 1 }}>{prospect.name}</div>
               <div style={{ fontSize: "0.62rem", letterSpacing: "0.18em", color: eyebrowColor, textTransform: "uppercase", marginTop: "2px", fontWeight: 600 }}>Farm to Table</div>
             </div>
           </div>
@@ -153,7 +156,7 @@ export default function RestaurantPage() {
             ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-            <a href="tel:+12125550199" style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 500 }}>+1 (212) 555-0199</a>
+            <a href={prospect.phoneHref} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 500 }}>{`+1 ${prospect.phone}`}</a>
             <button onClick={toggleTheme} style={{
               background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "8px",
               padding: "0.45rem 0.9rem", cursor: "pointer", color: colors.text, fontSize: "0.8rem",
@@ -328,9 +331,9 @@ export default function RestaurantPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               {[
                 { label: "Address", value: "14 West 46th Street, New York, NY 10036" },
-                { label: "Phone", value: "+1 (212) 555-0199" },
+                { label: "Phone", value: `+1 ${prospect.phone}` },
                 { label: "Hours", value: "Tue–Sun: 5pm–11pm · Mon: Closed" },
-                { label: "Email", value: "reservations@thegoldenfork.com" },
+                { label: "Email", value: prospect.email },
               ].map(item => (
                 <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                   <div style={{ fontSize: "0.75rem", fontWeight: 700, color: eyebrowColor, width: "70px", letterSpacing: "0.08em" }}>{item.label}</div>
@@ -369,9 +372,9 @@ export default function RestaurantPage() {
         <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ fontSize: "1.4rem" }}>🍴</span>
-            <span style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text }}>The Golden Fork</span>
+            <span style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text }}>{prospect.name}</span>
           </div>
-          <div style={{ fontSize: "0.8rem", color: colors.textSoft, fontWeight: 500 }}>14 West 46th St · New York · +1 (212) 555-0199</div>
+          <div style={{ fontSize: "0.8rem", color: colors.textSoft, fontWeight: 500 }}>{`14 West 46th St · New York · +1 ${prospect.phone}`}</div>
           <a href="#contact" style={{ color: eyebrowColor, textDecoration: "none", fontSize: "0.85rem", fontWeight: 700 }}>Reserve a Table →</a>
         </div>
         <div style={{ maxWidth: "1200px", margin: "1.5rem auto 0", textAlign: "center", fontSize: "0.8rem", color: colors.text, fontWeight: 600 }}>

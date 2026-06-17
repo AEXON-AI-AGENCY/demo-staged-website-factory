@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { DM_Sans, Fraunces, JetBrains_Mono } from "next/font/google";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -285,6 +286,8 @@ function Stars({ rating, color }: { rating: string; color: string }) {
 }
 
 export default function EcommercePage() {
+  const TEMPLATE = { name: "Vitality Nutrition", phone: "(971) 555-0674", email: "support@vitalitynutrition.co" };
+  const prospect = useProspectParams(TEMPLATE);
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -501,7 +504,7 @@ export default function EcommercePage() {
               </span>
               <span>
                 <span className="display" style={{ display: "block", fontSize: "1.28rem", fontWeight: 700, lineHeight: 1 }}>
-                  Vitality Nutrition
+                  {prospect.name}
                 </span>
                 <span style={{ display: "block", color: colors.muted, fontSize: "0.78rem", marginTop: 3 }}>
                   Fuel Your Best Self.
@@ -520,10 +523,10 @@ export default function EcommercePage() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <a
                 className="desktop-phone"
-                href="tel:+19715550674"
+                href={prospect.phoneHref}
                 style={{ color: colors.muted, textDecoration: "none", fontSize: "0.86rem", fontWeight: 700 }}
               >
-                (971) 555-0674
+                {prospect.phone}
               </a>
               <button
                 type="button"
@@ -995,7 +998,7 @@ export default function EcommercePage() {
             <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "1.2fr repeat(4, 1fr)", gap: "2rem" }}>
               <div>
                 <div className="display" style={{ fontSize: "1.5rem", fontWeight: 700 }}>
-                  Vitality Nutrition
+                  {prospect.name}
                 </div>
                 <p style={{ color: "#c6c6c6", lineHeight: 1.65, maxWidth: 260 }}>Fuel Your Best Self. Science-backed supplements made in Portland, OR.</p>
                 <div style={{ display: "flex", gap: "0.95rem", marginTop: "1.1rem" }}>
@@ -1037,8 +1040,8 @@ export default function EcommercePage() {
                 fontSize: "0.9rem",
               }}
             >
-              <span>© 2026 Vitality Nutrition · Made in Portland, OR · NSF Certified</span>
-              <span>support@vitalitynutrition.co · 2100 SE Burnside Rd</span>
+              <span>© 2026 {prospect.name} · Made in Portland, OR · NSF Certified</span>
+              <span>{prospect.email} · 2100 SE Burnside Rd</span>
             </div>
           </div>
         </footer>

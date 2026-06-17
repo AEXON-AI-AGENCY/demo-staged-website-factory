@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { DM_Sans, Bebas_Neue, JetBrains_Mono } from "next/font/google";
+import { useProspectParams } from "../_hooks/useProspectParams";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: ["400"] });
@@ -38,6 +39,8 @@ const cLight = {
 };
 
 export default function AutoRepair() {
+  const TEMPLATE = { name: 'Apex Auto', phone: '(555) 742-9911', email: 'intake@apexauto.example' };
+  const prospect = useProspectParams(TEMPLATE);
   const [isDark, setIsDark] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -479,7 +482,7 @@ export default function AutoRepair() {
                 className="display-font"
                 style={{ fontSize: "1.3rem", color: isDark ? c.text : "#f0f0f0", letterSpacing: "0.06em" }}
               >
-                APEX AUTO
+                {prospect.name}
               </span>
             </div>
 
@@ -524,7 +527,7 @@ export default function AutoRepair() {
                 Contact
               </a>
               <a
-                href="tel:+15557429911"
+                href={prospect.phoneHref}
                 style={{
                   color: c.accent,
                   textDecoration: "none",
@@ -534,7 +537,7 @@ export default function AutoRepair() {
                   letterSpacing: "0.04em",
                 }}
               >
-                (555) 742-9911
+                {prospect.phone}
               </a>
               <button
                 type="button"
@@ -868,7 +871,7 @@ export default function AutoRepair() {
         {/* ── TRUST BADGES ─────────────────────────────────────── */}
         <section style={{ maxWidth: 1100, margin: "0 auto", padding: "3rem 1.5rem" }}>
           <div ref={obs(5)} className="scroll-hidden" style={{ marginBottom: "2rem" }}>
-            <p className="section-eyebrow">Why Apex</p>
+            <p className="section-eyebrow">{`Why ${prospect.name}`}</p>
             <h2
               className="display-font"
               style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: isDark ? c.text : "#f0f0f0", margin: 0 }}
@@ -1163,7 +1166,7 @@ export default function AutoRepair() {
               }}
             >
               <a
-                href="tel:+15557429911"
+                href={prospect.phoneHref}
                 style={{
                   color: c.accent,
                   textDecoration: "none",
@@ -1172,17 +1175,17 @@ export default function AutoRepair() {
                   fontFamily: jetbrainsMono.style.fontFamily,
                 }}
               >
-                (555) 742-9911
+                {prospect.phone}
               </a>
               <a
-                href="mailto:intake@apexauto.example"
+                href={`mailto:${prospect.email}`}
                 style={{
                   color: c.textMuted,
                   textDecoration: "none",
                   fontSize: "0.88rem",
                 }}
               >
-                intake@apexauto.example
+                {prospect.email}
               </a>
               <a
                 href="#contact"
