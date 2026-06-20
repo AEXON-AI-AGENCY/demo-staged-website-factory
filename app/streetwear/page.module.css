@@ -84,7 +84,7 @@
     linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
 }
 
-/* ─── Persistent atmosphere: halftone + paper grain + barcode strip ─────────── */
+/* ─── Persistent atmosphere: streetwear photo + halftone + paper grain + barcode strip ─────────── */
 .page::before {
   content: "";
   position: fixed;
@@ -92,19 +92,23 @@
   z-index: -2;
   pointer-events: none;
   background-image:
-    /* Halftone dot field */
+    url("/streetwear/bg-streetwear.jpg"),
     radial-gradient(circle at 1px 1px, rgba(244, 241, 234, 0.06) 1px, transparent 1.2px),
-    /* Soft vignette */
     radial-gradient(ellipse 100% 60% at 50% 0%, transparent, rgba(0, 0, 0, 0.55) 100%);
-  background-size: 6px 6px, 100% 100%;
-  background-position: 0 0, 0 0;
+  background-size: cover, 6px 6px, 100% 100%;
+  background-position: center, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, no-repeat;
+  filter: grayscale(0.55) contrast(1.05) saturate(0.85);
   mix-blend-mode: normal;
 }
 
 .page[data-theme="light"]::before {
   background-image:
+    url("/streetwear/bg-streetwear.jpg"),
     radial-gradient(circle at 1px 1px, rgba(20, 20, 15, 0.08) 1px, transparent 1.2px),
     radial-gradient(ellipse 100% 60% at 50% 0%, transparent, rgba(20, 20, 15, 0.18) 100%);
+  background-size: cover, 6px 6px, 100% 100%;
+  filter: grayscale(0.7) contrast(1.0) saturate(0.7) brightness(1.05);
 }
 
 /* Animated barcode strip — always visible vertical-specific motion */
@@ -594,13 +598,15 @@
 
 .dropCard {
   position: relative;
-  background: var(--bg-grain);
+  background: color-mix(in srgb, var(--bg-grain) 88%, transparent);
   border: 1px solid var(--line-soft);
   padding: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: transform 0.25s ease, border-color 0.25s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .dropCard:hover {
@@ -638,6 +644,22 @@
   place-items: center;
   color: var(--ink);
   opacity: 0.55;
+}
+
+.dropCardImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(1.05) saturate(0.95);
+  z-index: 0;
+}
+
+.dropCardBadge,
+.dropCardTag {
+  z-index: 2;
 }
 
 .dropCardBadge {
@@ -1130,6 +1152,26 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 12px;
+}
+
+.lookFrameImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(0.4) contrast(1.1) saturate(0.85);
+  z-index: 0;
+}
+
+.lookFrame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(10, 10, 11, 0.78) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .lookFrame::before {

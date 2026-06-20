@@ -16,6 +16,8 @@ const drops = [
     sizes: "XS – XXL",
     badge: "Limited 200",
     tag: "FW26",
+    image: "/streetwear/hoodie.jpg",
+    imageAlt: "Concrete heavyweight hoodie on a flat lay",
   },
   {
     code: "DROP 03 / NO. 015",
@@ -26,6 +28,8 @@ const drops = [
     sizes: "S – XL",
     badge: "Almost gone",
     tag: "FW26",
+    image: "/streetwear/jacket.jpg",
+    imageAlt: "Volt utility jacket with cargo pockets",
   },
   {
     code: "DROP 03 / NO. 016",
@@ -36,6 +40,8 @@ const drops = [
     sizes: "XS – XXL",
     badge: "Restocked",
     tag: "FW26",
+    image: "/streetwear/tee.jpg",
+    imageAlt: "Asphalt graphic tee with streetwear print",
   },
   {
     code: "DROP 03 / NO. 017",
@@ -46,6 +52,8 @@ const drops = [
     sizes: "28 – 38",
     badge: "New in",
     tag: "FW26",
+    image: "/streetwear/cargo.jpg",
+    imageAlt: "Cargo wide-leg pant with multi-pocket layout",
   },
 ];
 
@@ -86,10 +94,10 @@ const chat = [
 ];
 
 const lookbook = [
-  { label: "Look 01 — Concrete", num: "01" },
-  { label: "Look 02 — Volt", num: "02" },
-  { label: "Look 03 — Asphalt", num: "03" },
-  { label: "Look 04 — Cargo", num: "04" },
+  { label: "Look 01 — Concrete", num: "01", image: "/streetwear/look-01.jpg", imageAlt: "Concrete hoodie lookbook frame" },
+  { label: "Look 02 — Volt", num: "02", image: "/streetwear/look-02.jpg", imageAlt: "Volt jacket lookbook frame" },
+  { label: "Look 03 — Asphalt", num: "03", image: "/streetwear/look-03.jpg", imageAlt: "Asphalt tee lookbook frame" },
+  { label: "Look 04 — Cargo", num: "04", image: "/streetwear/look-04.jpg", imageAlt: "Cargo pant lookbook frame" },
 ];
 
 const initialForm = {
@@ -409,9 +417,13 @@ export default function StreetwearPage() {
                   <span className={`${styles.dropCardTag} ${styles.tagSwing}`}>
                     {d.tag}
                   </span>
-                  <div className={styles.dropCardSilhouette}>
-                    <Silhouette kind={d.silhouette} />
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={d.image}
+                    alt={d.imageAlt}
+                    className={styles.dropCardImage}
+                    loading="lazy"
+                  />
                 </div>
                 <div className={styles.dropCardBody}>
                   <span className={styles.dropCardCode}>{d.code}</span>
@@ -447,6 +459,13 @@ export default function StreetwearPage() {
           <div className={`${styles.lookbook} ${styles.revealTarget}`}>
             {lookbook.map((l) => (
               <div className={styles.lookFrame} key={l.num}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={l.image}
+                  alt={l.imageAlt}
+                  className={styles.lookFrameImage}
+                  loading="lazy"
+                />
                 <span className={styles.lookFrameNum}>{l.num}</span>
                 <span className={styles.lookFrameLabel}>{l.label}</span>
               </div>
