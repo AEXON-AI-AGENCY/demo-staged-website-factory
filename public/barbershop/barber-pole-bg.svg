@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="1200" viewBox="0 0 220 1200" role="img" aria-label="Subtle vintage barber pole cylinder">
+  <defs>
+    <pattern id="helix" width="220" height="220" patternUnits="userSpaceOnUse" patternTransform="rotate(-28 110 110)">
+      <rect width="220" height="220" fill="#fff7ea"/>
+      <rect x="-40" y="0" width="78" height="260" fill="#b93a2f"/>
+      <rect x="92" y="-20" width="78" height="260" fill="#b93a2f"/>
+      <rect x="224" y="-20" width="78" height="260" fill="#b93a2f"/>
+    </pattern>
+    <linearGradient id="cylinder" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#0a0a0a" stop-opacity="0.58"/>
+      <stop offset="0.16" stop-color="#c8c2b6" stop-opacity="0.22"/>
+      <stop offset="0.48" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="0.72" stop-color="#a07a3c" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="brass" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#5c3a16"/>
+      <stop offset="0.45" stop-color="#d9b66a"/>
+      <stop offset="1" stop-color="#6f461a"/>
+    </linearGradient>
+  </defs>
+  <rect width="220" height="1200" fill="none"/>
+  <g opacity="0.86">
+    <rect x="52" y="34" width="116" height="1132" rx="58" fill="url(#helix)"/>
+    <rect x="52" y="34" width="116" height="1132" rx="58" fill="url(#cylinder)"/>
+    <rect x="42" y="24" width="136" height="26" rx="13" fill="url(#brass)"/>
+    <rect x="42" y="1150" width="136" height="26" rx="13" fill="url(#brass)"/>
+    <circle cx="110" cy="17" r="15" fill="url(#brass)"/>
+    <rect x="70" y="34" width="8" height="1132" rx="4" fill="#ffffff" opacity="0.18"/>
+    <rect x="145" y="34" width="10" height="1132" rx="5" fill="#0a0a0a" opacity="0.14"/>
+  </g>
+</svg>

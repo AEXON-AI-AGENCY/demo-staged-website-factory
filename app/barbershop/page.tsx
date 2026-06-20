@@ -116,6 +116,8 @@ export default function BarbershopPage({
       return;
     }
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     if (!("IntersectionObserver" in window)) {
       plates.forEach((plate) => {
         plate.dataset.visible = "true";
@@ -145,7 +147,29 @@ export default function BarbershopPage({
 
     plates.forEach((plate) => observer.observe(plate));
 
-    return () => observer.disconnect();
+    if (reduceMotion) {
+      return () => observer.disconnect();
+    }
+
+    const emphasisObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio >= 0.6) {
+            entry.target.setAttribute("data-emphasis", "true");
+          } else {
+            entry.target.removeAttribute("data-emphasis");
+          }
+        });
+      },
+      { threshold: [0.1, 0.6], rootMargin: "-22% 0px -22% 0px" },
+    );
+
+    plates.forEach((plate) => emphasisObserver.observe(plate));
+
+    return () => {
+      observer.disconnect();
+      emphasisObserver.disconnect();
+    };
   }, []);
 
   const tickerLoop = useMemo(() => [...tickerItems, ...tickerItems, ...tickerItems], []);
@@ -165,8 +189,8 @@ export default function BarbershopPage({
     <div
       className={`${styles.page} ${darkMode ? styles.dark : ""} ${bodoni.variable} ${dmSerif.variable} ${plexMono.variable}`}
     >
+      <div className={styles.persistentPole} aria-hidden="true" />
       <div className={styles.paperGrain} aria-hidden="true" />
-      <div className={styles.fixedPole} aria-hidden="true" />
 
       <nav className={styles.nav} aria-label="Bayside barbershop navigation">
         <a className={styles.wordmark} href="#top" aria-label="Bayside Barbershop home">
@@ -215,7 +239,6 @@ export default function BarbershopPage({
               </div>
             </div>
             <div className={styles.heroPoster} aria-label="Bayside service highlights">
-              <div className={styles.rotatingPole} aria-hidden="true" />
               <p>Today&apos;s board</p>
               <strong><AnimatedNumber value={18} format={(value) => `$${value}`} /> walk-in line-ups</strong>
               <span>Hot towels ready until 7 PM</span>
@@ -224,7 +247,6 @@ export default function BarbershopPage({
         </section>
 
         <section className={styles.priceTicker} aria-label="Scrolling service price ticker">
-          <div className={styles.tickerStripe} aria-hidden="true" />
           <div className={styles.tickerTrack}>
             {tickerLoop.map((item, index) => (
               <span key={`${item}-${index}`}>{item}</span>
@@ -245,7 +267,7 @@ export default function BarbershopPage({
         <section className={styles.services} id="services">
           <div className={styles.sectionHeader}>
             <p className={styles.eyebrow}>Menu board</p>
-            <h2>Chrome plates. Clean prices.</h2>
+            <h2>The menu. Clean prices.</h2>
           </div>
           <div className={styles.serviceGrid}>
             {services.map((service, index) => (
@@ -386,7 +408,6 @@ export default function BarbershopPage({
       </main>
 
       <footer className={styles.footer}>
-        <div className={styles.footerStripe} aria-hidden="true" />
         <div>
           <h2>Bayside Barbershop</h2>
           <p>{shop.tagline}</p>
