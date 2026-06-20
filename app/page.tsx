@@ -91,6 +91,13 @@ const icons: Record<string, React.ReactNode> = {
       <path d="M16 10a4 4 0 0 1-8 0"/>
     </svg>
   ),
+  barbershop: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="6" r="3"/>
+      <circle cx="6" cy="18" r="3"/>
+      <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/>
+    </svg>
+  ),
   "influencer-brand": (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M23 7l-7 5 7 5V7z"/>
@@ -131,6 +138,7 @@ const VERTICALS = {
   "influencer-brand":   { name: "Maya Cole Skincare",    industry: "Influencer Brand",   accent: "#f472b6", description: "Creator-led brand site with founder story, product education, reviews, and email capture that builds a real DTC list (not just Linktree).", demoUrl: "/influencer-brand" },
   "health-supplements": { name: "Vitality Nutrition",    industry: "Health / Supplements", accent: "#22c55e", description: "DTC supplement brand with ingredient transparency, subscription tiers, and review-driven trust that lifts AOV.", demoUrl: "/health-supplements" },
   "food-brand":         { name: "Ember & Oak Hot Sauce", industry: "Food / Beverage Brand", accent: "#f97316", description: "DTC food brand with stockist map, recipe content, subscription bundles, and wholesale inquiry form.", demoUrl: "/food-brand" },
+  barbershop:        { name: "Bayside Barbershop",      industry: "Barbershop",         accent: "#dc2626", description: "Neighborhood barbershop website with service menu, barber profiles, online booking, and a vibe that turns first-timers into regulars.", demoUrl: "/barbershop" },
 } as const;
 
 type VerticalKey = keyof typeof VERTICALS;
@@ -156,6 +164,7 @@ const STAGED: Record<VerticalKey, boolean> = {
   "influencer-brand": true,
   "health-supplements": true,
   "food-brand": true,
+  barbershop: false,
 };
 
 // ─── Vertical card ─────────────────────────────────────────────────────────────
@@ -294,7 +303,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(16,185,129,0.1)", color: "#10b981", border: "1px solid rgba(16,185,129,0.2)" }}>
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
-            13 live · 5 coming soon
+            14 live · 5 coming soon
           </span>
           <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#a1a1aa", textDecoration: "none" }}>
             aexonai.com →
@@ -369,6 +378,7 @@ export default function Home() {
           <Row keys={["law-firm", "insurance", "ecommerce"]} />
           <Row keys={["tech-company", "recording-studio", "streetwear"]} />
           <Row keys={["influencer-brand", "health-supplements", "food-brand"]} />
+          <Row keys={["barbershop"]} />
         </div>
       </section>
 
