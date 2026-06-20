@@ -159,7 +159,7 @@ const STAGED: Record<VerticalKey, boolean> = {
   insurance: false,
   ecommerce: false,
   "tech-company": false,
-  "recording-studio": true,
+  "recording-studio": false,
   streetwear: true,
   "influencer-brand": true,
   "health-supplements": true,
@@ -303,7 +303,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(16,185,129,0.1)", color: "#10b981", border: "1px solid rgba(16,185,129,0.2)" }}>
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
-            14 live · 5 coming soon
+            15 live · 4 coming soon
           </span>
           <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#a1a1aa", textDecoration: "none" }}>
             aexonai.com →
