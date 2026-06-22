@@ -5,7 +5,53 @@ import styles from "./page.module.css";
 
 type ThemeMode = "dark" | "light";
 
-const services = [
+export type RecordingStudioService = {
+  code: string;
+  title: string;
+  body: string;
+  image?: string;
+  imageAlt?: string;
+};
+
+export type RecordingStudioProspect = {
+  name: string;
+  shortName?: string;
+  phone: string;
+  phoneHref: string;
+  email: string;
+  emailHref?: string;
+  city: string;
+  state: string;
+  tagline?: string;
+  heroKicker?: string;
+  heroHeadline?: string;
+  heroLede?: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+  liveRoomLabel?: string;
+  aiLabel?: string;
+  footerLine?: string;
+  services?: RecordingStudioService[];
+};
+
+export const DEFAULT_RECORDING_STUDIO_PROSPECT: RecordingStudioProspect = {
+  name: "Backblock Studioz",
+  shortName: "Backblock",
+  phone: "(718) 555-0192",
+  phoneHref: "tel:+171****0192",
+  email: "bookings@backblockstudioz.demo",
+  city: "Brooklyn",
+  state: "NY",
+  tagline: "Brooklyn rooms. Clean booking. Warm records.",
+  heroKicker: "Brooklyn rooms. Clean booking. Warm records.",
+  heroHeadline: "Turn late-night ideas into booked studio time.",
+  heroLede: "Backblock Studioz gives artists, podcasters, and managers a premium room to hear the vibe, check the services, and reserve a session without a messy DM thread.",
+  liveRoomLabel: "BACKBLOCK LIVE ROOM",
+  aiLabel: "Backblock AI",
+  footerLine: "Backblock Studioz is ready for the next take.",
+};
+
+const defaultServices: RecordingStudioService[] = [
   {
     code: "CH 01",
     title: "Recording sessions",
@@ -65,11 +111,11 @@ const initialForm = {
   notes: "",
 };
 
-function TapeDeck() {
+function TapeDeck({ liveRoomLabel }: { liveRoomLabel: string }) {
   return (
     <div className={styles.deck} aria-label="Animated tape deck and studio meters">
       <div className={styles.deckHeader}>
-        <span>BACKBLOCK LIVE ROOM</span>
+        <span>{liveRoomLabel}</span>
         <span className={styles.recLight}>REC</span>
       </div>
       <div className={styles.reels} aria-hidden="true">
@@ -123,7 +169,14 @@ function TapeDeck() {
   );
 }
 
-export default function RecordingStudioPage() {
+export default function RecordingStudioPage({
+  prospect = DEFAULT_RECORDING_STUDIO_PROSPECT,
+}: {
+  prospect?: RecordingStudioProspect;
+}) {
+  const shop = { ...DEFAULT_RECORDING_STUDIO_PROSPECT, ...prospect };
+  const services = shop.services ?? defaultServices;
+  const emailHref = shop.emailHref ?? `mailto:${shop.email}`;
   const [theme, setTheme] = useState<ThemeMode>("dark");
   const [form, setForm] = useState(initialForm);
 
@@ -155,10 +208,10 @@ export default function RecordingStudioPage() {
   return (
     <main className={styles.page} data-theme={theme}>
       <header className={styles.navWrap}>
-        <nav className={styles.nav} aria-label="Backblock Studioz navigation">
-          <a className={styles.brand} href="#top" aria-label="Backblock Studioz home">
+        <nav className={styles.nav} aria-label={`${shop.name} navigation`}>
+          <a className={styles.brand} href="#top" aria-label={`${shop.name} home`}>
             <span className={styles.brandMark} aria-hidden="true" />
-            <span>Backblock Studioz</span>
+            <span>{shop.name}</span>
           </a>
           <div className={styles.navLinks}>
             <a href="#services">Services</a>
@@ -166,7 +219,7 @@ export default function RecordingStudioPage() {
             <a href="#book">Book Session</a>
           </div>
           <div className={styles.navActions}>
-            <a className={styles.phone} href="tel:+17185550192">(718) 555-0192</a>
+            <a className={styles.phone} href={shop.phoneHref}>{shop.phone}</a>
             <button
               className={styles.toggle}
               type="button"
@@ -181,12 +234,10 @@ export default function RecordingStudioPage() {
 
       <section className={styles.hero} id="top">
         <div className={styles.heroCopy} data-reveal>
-          <p className={styles.kicker}>Brooklyn rooms. Clean booking. Warm records.</p>
-          <h1>Turn late-night ideas into booked studio time.</h1>
+          <p className={styles.kicker}>{shop.heroKicker}</p>
+          <h1>{shop.heroHeadline}</h1>
           <p className={styles.lede}>
-            Backblock Studioz gives artists, podcasters, and managers a premium room to
-            hear the vibe, check the services, and reserve a session without a messy DM
-            thread.
+            {shop.heroLede}
           </p>
           <div className={styles.ctaRow}>
             <a className={styles.primaryCta} href="#book">Book Studio Time</a>
@@ -194,7 +245,16 @@ export default function RecordingStudioPage() {
           </div>
         </div>
         <div className={styles.heroConsole} data-reveal>
-          <TapeDeck />
+          {shop.heroImage ? (
+            <img
+              className={styles.heroImage}
+              src={shop.heroImage}
+              alt={shop.heroImageAlt ?? `${shop.name} studio`}
+              loading="eager"
+            />
+          ) : (
+            <TapeDeck liveRoomLabel={shop.liveRoomLabel ?? "LIVE ROOM"} />
+          )}
         </div>
       </section>
 
@@ -206,6 +266,15 @@ export default function RecordingStudioPage() {
         <div className={styles.serviceRack}>
           {services.map((service) => (
             <article className={styles.channelStrip} data-reveal key={service.title}>
+              {service.image ? (
+                <div className={styles.serviceMedia}>
+                  <img
+                    src={service.image}
+                    alt={service.imageAlt ?? `${shop.name} ${service.title}`}
+                    loading="lazy"
+                  />
+                </div>
+              ) : null}
               <span>{service.code}</span>
               <h3>{service.title}</h3>
               <p>{service.body}</p>
@@ -235,7 +304,7 @@ export default function RecordingStudioPage() {
               }`}
               key={`${message.role}-${index}`}
             >
-              <span>{message.role === "ai" ? "Backblock AI" : "Artist"}</span>
+              <span>{message.role === "ai" ? shop.aiLabel : "Artist"}</span>
               <p>{message.text}</p>
             </div>
           ))}
@@ -304,10 +373,10 @@ export default function RecordingStudioPage() {
       </section>
 
       <footer className={styles.footer}>
-        <p>Backblock Studioz is ready for the next take.</p>
+        <p>{shop.footerLine ?? `${shop.name} is ready for the next take.`}</p>
         <div>
-          <a href="tel:+17185550192">(718) 555-0192</a>
-          <a href="mailto:bookings@backblockstudioz.demo">bookings@backblockstudioz.demo</a>
+          <a href={shop.phoneHref}>{shop.phone}</a>
+          <a href={emailHref}>{shop.email}</a>
           <a href="#book">Book Studio Time</a>
         </div>
       </footer>

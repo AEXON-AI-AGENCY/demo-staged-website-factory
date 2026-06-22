@@ -4,12 +4,19 @@ import SalonPage, {
   type ProspectData,
 } from "../../salon/page";
 import BarbershopPage from "../../barbershop/page";
+import RecordingStudioPage, {
+  type RecordingStudioProspect,
+} from "../../recording-studio/page";
 
-const PROSPECTS: Record<string, ProspectData & { expires: string }> = {
+type ProspectEntry =
+  | (ProspectData & { expires: string; vertical: "salon" | "barber" })
+  | (RecordingStudioProspect & { expires: string; vertical: "studio" });
+
+const PROSPECTS: Record<string, ProspectEntry> = {
   "ani-african-hair-braiding": {
     name: "Ani African Hair Braiding",
     phone: "(602) 555-0199",
-    phoneHref: "tel:+16025550199",
+    phoneHref: "tel:+160****0199",
     email: "aniafricanhairbraiding@gmail.com",
     city: "Phoenix",
     state: "AZ",
@@ -44,7 +51,7 @@ const PROSPECTS: Record<string, ProspectData & { expires: string }> = {
   "bayside-barbershop": {
     name: "Bayside Barbershop",
     phone: "(718) 555-0100",
-    phoneHref: "tel:+17185550100",
+    phoneHref: "tel:+171****0100",
     email: "hello@baysidebarbers.com",
     city: "Brooklyn",
     state: "NY",
@@ -57,13 +64,58 @@ const PROSPECTS: Record<string, ProspectData & { expires: string }> = {
     ...DEFAULT_SALON_PROSPECT,
     name: "Glow Studio Salon",
     phone: "(212) 555-0123",
-    phoneHref: "tel:+12125550123",
+    phoneHref: "tel:+121****0123",
     email: "hello@glowstudiosalon.com",
     city: "New York",
     state: "NY",
     address: "18 Mercer Row, Studio 4, New York, NY",
     tagline: "Quiet luxury beauty studio",
+    vertical: "salon",
     expires: "2026-06-20",
+  },
+  "we-made-it-recording-studio": {
+    name: "We Made It Recording Studio",
+    shortName: "We Made It",
+    phone: "(817) 203-4697",
+    phoneHref: "tel:+181****4697",
+    email: "info@wemadeitstudio.com",
+    city: "Arlington",
+    state: "TX",
+    tagline: "DFW's hottest rooms. Same-day roughs. Engineer included.",
+    heroKicker: "DFW's hottest rooms. Same-day roughs. Engineer included.",
+    heroHeadline: "Hear the take before you book the take.",
+    heroLede:
+      "We Made It Recording Studio gives DFW artists, podcasters, and managers a premium room to lock the vibe, check availability, and reserve a session — no DM thread required.",
+    heroImage: "/prospects/we-made-it-recording-studio/hero-studio.jpg",
+    heroImageAlt: "We Made It Recording Studio control room with a Black artist in the vocal booth and SSL mixing console in the foreground",
+    liveRoomLabel: "WE MADE IT LIVE ROOM",
+    aiLabel: "We Made It Concierge",
+    footerLine: "We Made It Recording Studio is ready for the next take.",
+    services: [
+      {
+        code: "CH 01",
+        title: "Recording sessions",
+        body: "Two-hour, half-day, and late-night vocal blocks with treated booth, engineer setup, and clean take organization — DFW-ready.",
+        image: "/prospects/we-made-it-recording-studio/tile-vocal-session.jpg",
+        imageAlt: "Vocalist at the studio microphone during a recording session",
+      },
+      {
+        code: "CH 02",
+        title: "Mixing / mastering",
+        body: "Stem prep, vocal tuning, mix revisions, and release-ready masters delivered through a secure file room.",
+        image: "/prospects/we-made-it-recording-studio/tile-mixing-console.jpg",
+        imageAlt: "SSL mixing console with audio engineer at the faders",
+      },
+      {
+        code: "CH 03",
+        title: "Beat + artist packages",
+        body: "Beat selection, hook sketching, session direction, cover-art handoff, and rollout assets for independent DFW artists.",
+        image: "/prospects/we-made-it-recording-studio/tile-producer-lounge.jpg",
+        imageAlt: "Producer in the studio lounge with gold records on the wall",
+      },
+    ],
+    vertical: "studio",
+    expires: "2026-06-27",
   },
 };
 
@@ -146,6 +198,10 @@ export default async function ProspectDemo({
 
   if (today > prospect.expires) {
     return <ExpiredPage prospectName={prospect.name} expires={prospect.expires} />;
+  }
+
+  if (prospect.vertical === "studio") {
+    return <RecordingStudioPage prospect={prospect} />;
   }
 
   if (prospect.vertical === "barber") {
