@@ -163,7 +163,7 @@ const STAGED: Record<VerticalKey, boolean> = {
   streetwear: false,
   "influencer-brand": false,
   "health-supplements": false,
-  "food-brand": true,
+  "food-brand": false,
   barbershop: false,
 };
 
@@ -303,7 +303,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(16,185,129,0.1)", color: "#10b981", border: "1px solid rgba(16,185,129,0.2)" }}>
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
-            18 live · 1 coming soon
+            19 live · 0 coming soon
           </span>
           <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#a1a1aa", textDecoration: "none" }}>
             aexonai.com →
@@ -352,7 +352,7 @@ export default function Home() {
 
         <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
           <a href="#demos" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 28px", borderRadius: "99px", fontSize: "14px", fontWeight: 600, background: "#22d3ee", color: "#09090b", textDecoration: "none", transition: "opacity 0.2s" }}>
-            Browse 18 demos
+            Browse 19 demos
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 5v14M5 12l7 7 7-7"/>
             </svg>
