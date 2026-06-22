@@ -9,7 +9,7 @@ import {
   type FormEvent,
 } from "react";
 import { Inter } from "next/font/google";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const interDisplay = Inter({
   subsets: ["latin"],
@@ -22,6 +22,21 @@ const interBody = Inter({
   weight: "400",
   display: "swap",
 });
+
+export const DEFAULT_HVAC_PROSPECT: ProspectData = {
+  name: "CoolPro HVAC",
+  shortName: "CoolPro",
+  phone: "(555) 014-2247",
+  phoneHref: "tel:+155****2247",
+  email: "dispatch@coolprohvac.demo",
+  emailHref: "mailto:dispatch@coolprohvac.demo",
+  city: "",
+  state: "",
+  address: "",
+  tagline: "Stay Cool. Stay Comfortable.",
+  expires: "2099-12-31",
+  vertical: "hvac",
+};
 
 const darkColors = {
   bg: "#09090b",
@@ -494,9 +509,12 @@ function CoolingLogo({ accent, textColor, name }: { accent: string; textColor: s
   );
 }
 
-export default function HvacPage() {
-  const TEMPLATE = { name: 'CoolPro HVAC', phone: '(555) 014-2247', email: 'dispatch@coolprohvac.demo' };
-  const prospect = useProspectParams(TEMPLATE);
+export default function HvacPage({
+  prospect = DEFAULT_HVAC_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_HVAC_PROSPECT, ...prospect };
   const [theme, setTheme] = useState<ThemeMode>("dark");
   const [mounted, setMounted] = useState(false);
   const [hoveredService, setHoveredService] = useState<number | null>(null);
@@ -957,8 +975,8 @@ export default function HvacPage() {
               paddingBottom: "0.8rem",
             }}
           >
-            <a href="#top" aria-label={`${prospect.name} home`}>
-              <CoolingLogo accent={c.accent} textColor={c.text} name={prospect.name} />
+            <a href="#top" aria-label={`${shop.name} home`}>
+              <CoolingLogo accent={c.accent} textColor={c.text} name={shop.name} />
             </a>
 
             <div
@@ -971,7 +989,7 @@ export default function HvacPage() {
               }}
             >
               <a
-                href={prospect.phoneHref}
+                href={shop.phoneHref}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -985,7 +1003,7 @@ export default function HvacPage() {
               >
                 <PhoneIcon />
                 <span style={{ letterSpacing: "0.06em", fontSize: "0.88rem" }}>
-                  {prospect.phone}
+                  {shop.phone}
                 </span>
               </a>
 
@@ -1439,7 +1457,7 @@ export default function HvacPage() {
                           letterSpacing: "-0.03em",
                         }}
                       >
-                        {`${prospect.name} AI`} Dispatch
+                        {`${shop.name} AI`} Dispatch
                       </div>
                       <div style={{ color: c.textMuted, fontSize: "0.88rem" }}>
                         Maintenance scheduling flow
@@ -1751,14 +1769,14 @@ export default function HvacPage() {
                     {
                       icon: PhoneIcon,
                       label: "Call",
-                      value: prospect.phone,
-                      href: prospect.phoneHref,
+                      value: shop.phone,
+                      href: shop.phoneHref,
                     },
                     {
                       icon: MailIcon,
                       label: "Email",
-                      value: prospect.email,
-                      href: `mailto:${prospect.email}`,
+                      value: shop.email,
+                      href: `mailto:${shop.email}`,
                     },
                     {
                       icon: PinIcon,
@@ -2085,7 +2103,7 @@ export default function HvacPage() {
             }}
           >
             <div style={{ display: "grid", gap: "0.75rem" }}>
-              <CoolingLogo accent={c.accent} textColor={c.text} name={prospect.name} />
+              <CoolingLogo accent={c.accent} textColor={c.text} name={shop.name} />
               <p
                 style={{
                   margin: 0,
@@ -2131,8 +2149,8 @@ export default function HvacPage() {
               >
                 Contact
               </span>
-              <a href={prospect.phoneHref}>{prospect.phone}</a>
-              <a href={`mailto:${prospect.email}`}>{prospect.email}</a>
+              <a href={shop.phoneHref}>{shop.phone}</a>
+              <a href={`mailto:${shop.email}`}>{shop.email}</a>
               <span style={{ color: c.textSoft }}>Metro comfort coverage</span>
             </div>
           </div>

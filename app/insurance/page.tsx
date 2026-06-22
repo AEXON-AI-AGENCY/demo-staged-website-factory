@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -15,6 +15,22 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
   display: "swap",
 });
+
+export const DEFAULT_INSURANCE_PROSPECT: ProspectData = {
+  name: "Shield Insurance Partners",
+  shortName: "Shield",
+  phone: "(305) 555-0176",
+  phoneHref: "tel:+130****0176",
+  email: "quotes@shieldinsurancepartners.com",
+  emailHref: "mailto:quotes@shieldinsurancepartners.com",
+  city: "Miami",
+  state: "FL",
+  address: "1000 Brickell Ave, Miami, FL 33131",
+  hours: "Mon-Fri: 9AM-5PM",
+  tagline: "Protection You Can Count On.",
+  expires: "2099-12-31",
+  vertical: "insurance",
+};
 
 type Theme = "light" | "dark";
 
@@ -91,9 +107,12 @@ const contactRows = [
   ["Email", "quotes@shieldinsurancepartners.com"],
 ];
 
-export default function InsurancePage() {
-  const TEMPLATE = { name: "Shield Insurance Partners", phone: "(305) 555-0176", email: "quotes@shieldinsurancepartners.com" };
-  const prospect = useProspectParams(TEMPLATE);
+export default function InsurancePage({
+  prospect = DEFAULT_INSURANCE_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_INSURANCE_PROSPECT, ...prospect };
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
   const [zip, setZip] = useState("33131");
@@ -366,7 +385,7 @@ export default function InsurancePage() {
 
       <nav style={{ position: "sticky", top: 0, zIndex: 100, height: 48, background: "#161616", color: "#f4f4f4", borderBottom: "1px solid #393939" }}>
         <div className="container" style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
-          <a href="#quote" style={{ color: "#f4f4f4", textDecoration: "none", fontSize: 15, fontWeight: 500 }}>{prospect.name}</a>
+          <a href="#quote" style={{ color: "#f4f4f4", textDecoration: "none", fontSize: 15, fontWeight: 500 }}>{shop.name}</a>
           <div className="nav-links" style={{ display: "flex", alignItems: "center", gap: 32, height: "100%" }}>
             {["Quote", "Rates", "Coverage", "AI Advisor", "Contact"].map((item) => (
               <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`} style={{ height: "100%", display: "grid", placeItems: "center", color: "#c6c6c6", textDecoration: "none", fontSize: 13, borderBottom: item === "Quote" ? `3px solid ${colors.light.accent}` : "3px solid transparent" }}>{item}</a>
@@ -592,7 +611,7 @@ export default function InsurancePage() {
                 {["Morning", "Afternoon", "End of day"].map((option) => <option key={option}>{option}</option>)}
               </select>
               <button className="primary-button" type="submit" style={{ gridColumn: "1 / -1", justifySelf: "start", marginTop: 8 }}>Get a Quote</button>
-              <p style={{ gridColumn: "1 / -1", color: c.subtle, fontSize: 12, lineHeight: 1.6, margin: "8px 0 0" }}>By submitting, you consent to a callback from a {prospect.name} agent. We do not sell your data.</p>
+              <p style={{ gridColumn: "1 / -1", color: c.subtle, fontSize: 12, lineHeight: 1.6, margin: "8px 0 0" }}>By submitting, you consent to a callback from a {shop.name} agent. We do not sell your data.</p>
             </form>
           </div>
         </div>
@@ -602,7 +621,7 @@ export default function InsurancePage() {
         <div className="container">
           <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "1.4fr repeat(3, 1fr)", gap: 40 }}>
             <div>
-              <div style={{ fontSize: 32, lineHeight: 1.15, fontWeight: 300, marginBottom: 12 }}>{prospect.name}</div>
+              <div style={{ fontSize: 32, lineHeight: 1.15, fontWeight: 300, marginBottom: 12 }}>{shop.name}</div>
               <div style={{ color: "#c6c6c6", fontSize: 14 }}>Protection You Can Count On.</div>
             </div>
             {[
@@ -618,7 +637,7 @@ export default function InsurancePage() {
               </div>
             ))}
           </div>
-          <div className="mono" style={{ borderTop: "1px solid #393939", marginTop: 56, paddingTop: 24, color: "#8d8d8d", fontSize: 12, letterSpacing: "0.32px" }}>© 2026 {prospect.name} · Licensed in FL, NY, TX · CA License #0G84829</div>
+          <div className="mono" style={{ borderTop: "1px solid #393939", marginTop: 56, paddingTop: 24, color: "#8d8d8d", fontSize: 12, letterSpacing: "0.32px" }}>© 2026 {shop.name} · Licensed in FL, NY, TX · CA License #0G84829</div>
         </div>
       </footer>
     </main>

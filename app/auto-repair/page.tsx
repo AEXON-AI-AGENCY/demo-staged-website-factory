@@ -2,11 +2,26 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { DM_Sans, Bebas_Neue, JetBrains_Mono } from "next/font/google";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: ["400"] });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"] });
+
+export const DEFAULT_AUTO_REPAIR_PROSPECT: ProspectData = {
+  name: "Apex Auto",
+  shortName: "APEX AUTO",
+  phone: "(555) 742-9911",
+  phoneHref: "tel:+15557429911",
+  email: "intake@apexauto.example",
+  emailHref: "mailto:intake@apexauto.example",
+  city: "",
+  state: "",
+  address: "",
+  tagline: "Real mechanics. Upfront estimates. AI-assisted scheduling.",
+  expires: "2099-12-31",
+  vertical: "auto-repair",
+};
 
 const cDark = {
   bg: "#0f0f0f",
@@ -38,9 +53,12 @@ const cLight = {
   ambientB: "rgba(220, 38, 38, 0.03)",
 };
 
-export default function AutoRepair() {
-  const TEMPLATE = { name: 'Apex Auto', phone: '(555) 742-9911', email: 'intake@apexauto.example' };
-  const prospect = useProspectParams(TEMPLATE);
+export default function AutoRepair({
+  prospect = DEFAULT_AUTO_REPAIR_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_AUTO_REPAIR_PROSPECT, ...prospect };
   const [isDark, setIsDark] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -482,7 +500,7 @@ export default function AutoRepair() {
                 className="display-font"
                 style={{ fontSize: "1.3rem", color: isDark ? c.text : "#f0f0f0", letterSpacing: "0.06em" }}
               >
-                {prospect.name}
+                {shop.name}
               </span>
             </div>
 
@@ -527,7 +545,7 @@ export default function AutoRepair() {
                 Contact
               </a>
               <a
-                href={prospect.phoneHref}
+                href={shop.phoneHref}
                 style={{
                   color: c.accent,
                   textDecoration: "none",
@@ -537,7 +555,7 @@ export default function AutoRepair() {
                   letterSpacing: "0.04em",
                 }}
               >
-                {prospect.phone}
+                {shop.phone}
               </a>
               <button
                 type="button"
@@ -572,9 +590,9 @@ export default function AutoRepair() {
                 margin: "0 0 1.25rem",
               }}
             >
-              APEX
+              {(shop.shortName ?? shop.name).split(" ")[0]}
               <br />
-              <span style={{ color: c.accent }}>AUTO</span>
+              <span style={{ color: c.accent }}>{(shop.shortName ?? shop.name).split(" ").slice(1).join(" ") || shop.name}</span>
             </h1>
             <p
               style={{
@@ -1154,7 +1172,7 @@ export default function AutoRepair() {
                 className="display-font"
                 style={{ fontSize: "1.1rem", color: isDark ? c.text : "#f0f0f0", letterSpacing: "0.06em" }}
               >
-                APEX AUTO
+                {shop.shortName ?? shop.name}
               </span>
             </div>
             <div
@@ -1166,7 +1184,7 @@ export default function AutoRepair() {
               }}
             >
               <a
-                href={prospect.phoneHref}
+                href={shop.phoneHref}
                 style={{
                   color: c.accent,
                   textDecoration: "none",
@@ -1175,17 +1193,17 @@ export default function AutoRepair() {
                   fontFamily: jetbrainsMono.style.fontFamily,
                 }}
               >
-                {prospect.phone}
+                {shop.phone}
               </a>
               <a
-                href={`mailto:${prospect.email}`}
+                href={`mailto:${shop.email}`}
                 style={{
                   color: c.textMuted,
                   textDecoration: "none",
                   fontSize: "0.88rem",
                 }}
               >
-                {prospect.email}
+                {shop.email}
               </a>
               <a
                 href="#contact"

@@ -2,7 +2,23 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import type { ProspectData } from "@/lib/prospect-data";
 import styles from "./page.module.css";
+
+export const DEFAULT_HEALTH_SUPPLEMENTS_PROSPECT: ProspectData = {
+  name: "Vitality Nutrition",
+  shortName: "VN",
+  phone: "(555) 018-2210",
+  phoneHref: "tel:+155****2210",
+  email: "labeldesk@vitality.example",
+  emailHref: "mailto:labeldesk@vitality.example",
+  city: "",
+  state: "",
+  address: "",
+  tagline: "Supplement Facts Operating System / Lot VN-2026-A",
+  expires: "2099-12-31",
+  vertical: "health-supplements",
+};
 
 const protocols = [
   {
@@ -49,7 +65,12 @@ const coachMessages = [
   ["ai", "Subscription capture: 30-day hydration + magnesium, 45-day greens reminder, pause-anytime checkout path. This is illustrative and not medical advice."],
 ];
 
-export default function HealthSupplementsPage() {
+export default function HealthSupplementsPage({
+  prospect = DEFAULT_HEALTH_SUPPLEMENTS_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_HEALTH_SUPPLEMENTS_PROSPECT, ...prospect };
   const [light, setLight] = useState(false);
 
   useEffect(() => {
@@ -79,9 +100,9 @@ export default function HealthSupplementsPage() {
       </div>
 
       <nav className={styles.nav}>
-        <a className={styles.brand} href="#top" aria-label="Vitality Nutrition home">
-          <span className={styles.brandMark}>VN</span>
-          <span>Vitality Nutrition</span>
+        <a className={styles.brand} href="#top" aria-label={`${shop.name} home`}>
+          <span className={styles.brandMark}>{shop.shortName}</span>
+          <span>{shop.name}</span>
         </a>
         <div className={styles.navLinks}>
           <a href="#protocols">Protocols</a>
@@ -96,7 +117,7 @@ export default function HealthSupplementsPage() {
 
       <section id="top" className={styles.hero}>
         <div className={styles.heroCopy} data-reveal>
-          <p className={styles.kicker}>Supplement Facts Operating System / Lot VN-2026-A</p>
+          <p className={styles.kicker}>{shop.tagline}</p>
           <h1>Dosing Protocol Cockpit for transparent daily stacks.</h1>
           <p>
             Vitality Nutrition turns subscription supplements into a label-first operating screen: timing, allergen
@@ -227,7 +248,7 @@ export default function HealthSupplementsPage() {
       </section>
 
       <footer className={styles.footer}>
-        <div><b>Vitality Nutrition</b><span>labeldesk@vitality.example · (555) 018-2210</span></div>
+        <div><b>{shop.name}</b><span>{shop.email} · {shop.phone}</span></div>
         <a href="#subscribe">Build a transparent stack</a>
       </footer>
     </main>

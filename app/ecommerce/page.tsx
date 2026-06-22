@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { DM_Sans, Fraunces, JetBrains_Mono } from "next/font/google";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -21,6 +21,21 @@ const jetBrains = JetBrains_Mono({
   display: "swap",
   weight: ["400", "500", "600"],
 });
+
+export const DEFAULT_ECOMMERCE_PROSPECT: ProspectData = {
+  name: "Vitality Nutrition",
+  shortName: "Vitality Nutrition",
+  phone: "(971) 555-0674",
+  phoneHref: "tel:+197****0674",
+  email: "support@vitalitynutrition.co",
+  emailHref: "mailto:support@vitalitynutrition.co",
+  city: "Portland",
+  state: "OR",
+  address: "2100 SE Burnside Rd, Portland, OR",
+  tagline: "Fuel Your Best Self.",
+  expires: "2099-12-31",
+  vertical: "ecommerce",
+};
 
 type Theme = "light" | "dark";
 
@@ -285,9 +300,12 @@ function Stars({ rating, color }: { rating: string; color: string }) {
   );
 }
 
-export default function EcommercePage() {
-  const TEMPLATE = { name: "Vitality Nutrition", phone: "(971) 555-0674", email: "support@vitalitynutrition.co" };
-  const prospect = useProspectParams(TEMPLATE);
+export default function EcommercePage({
+  prospect = DEFAULT_ECOMMERCE_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_ECOMMERCE_PROSPECT, ...prospect };
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -504,7 +522,7 @@ export default function EcommercePage() {
               </span>
               <span>
                 <span className="display" style={{ display: "block", fontSize: "1.28rem", fontWeight: 700, lineHeight: 1 }}>
-                  {prospect.name}
+                  {shop.name}
                 </span>
                 <span style={{ display: "block", color: colors.muted, fontSize: "0.78rem", marginTop: 3 }}>
                   Fuel Your Best Self.
@@ -523,10 +541,10 @@ export default function EcommercePage() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <a
                 className="desktop-phone"
-                href={prospect.phoneHref}
+                href={shop.phoneHref}
                 style={{ color: colors.muted, textDecoration: "none", fontSize: "0.86rem", fontWeight: 700 }}
               >
-                {prospect.phone}
+                {shop.phone}
               </a>
               <button
                 type="button"
@@ -998,7 +1016,7 @@ export default function EcommercePage() {
             <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "1.2fr repeat(4, 1fr)", gap: "2rem" }}>
               <div>
                 <div className="display" style={{ fontSize: "1.5rem", fontWeight: 700 }}>
-                  {prospect.name}
+                  {shop.name}
                 </div>
                 <p style={{ color: "#c6c6c6", lineHeight: 1.65, maxWidth: 260 }}>Fuel Your Best Self. Science-backed supplements made in Portland, OR.</p>
                 <div style={{ display: "flex", gap: "0.95rem", marginTop: "1.1rem" }}>
@@ -1040,8 +1058,8 @@ export default function EcommercePage() {
                 fontSize: "0.9rem",
               }}
             >
-              <span>© 2026 {prospect.name} · Made in Portland, OR · NSF Certified</span>
-              <span>{prospect.email} · 2100 SE Burnside Rd</span>
+              <span>© 2026 {shop.name} · Made in {shop.city}, {shop.state} · NSF Certified</span>
+              <span>{shop.email} · {shop.address}</span>
             </div>
           </div>
         </footer>

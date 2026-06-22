@@ -1,9 +1,26 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import type { ProspectData } from "@/lib/prospect-data";
 import styles from "./page.module.css";
 
 type ThemeMode = "dark" | "light";
+
+export const DEFAULT_STREETWEAR_PROSPECT: ProspectData = {
+  name: "NOIR Apparel",
+  shortName: "N",
+  phone: "(718) 555-0192",
+  phoneHref: "tel:+171****0192",
+  email: "hello@noir-apparel.shop",
+  emailHref: "mailto:hello@noir-apparel.shop",
+  city: "Brooklyn",
+  state: "NY",
+  address: "1047 Wythe Ave, Brooklyn NY",
+  hours: "Brooklyn capsule streetwear. Limited runs, no reprint, no algorithm.",
+  tagline: "Brooklyn capsule streetwear. Limited runs, no reprint, no algorithm.",
+  expires: "2099-12-31",
+  vertical: "streetwear",
+};
 
 /* ─── Drop data (concrete product labels — no fabricated metrics) ─────────── */
 const drops = [
@@ -202,7 +219,12 @@ function BarcodeStrip({ value }: { value: string }) {
   );
 }
 
-export default function StreetwearPage() {
+export default function StreetwearPage({
+  prospect = DEFAULT_STREETWEAR_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_STREETWEAR_PROSPECT, ...prospect };
   const [theme, setTheme] = useState<ThemeMode>("dark");
   const [form, setForm] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
@@ -247,21 +269,21 @@ export default function StreetwearPage() {
       {/* ─── Nav ──────────────────────────────────────────────────────── */}
       <div className={styles.navWrap}>
         <div className={`${styles.shell} ${styles.nav}`}>
-          <a className={styles.brand} href="#top" aria-label="NOIR Apparel home">
+          <a className={styles.brand} href="#top" aria-label={`${shop.name} home`}>
             <span className={styles.brandMark} aria-hidden="true">
-              N
+              {shop.shortName}
             </span>
-            <span>NOIR Apparel</span>
+            <span>{shop.name}</span>
           </a>
-          <nav className={styles.navLinks} aria-label="NOIR Apparel sections">
+          <nav className={styles.navLinks} aria-label={`${shop.name} sections`}>
             <a href="#drop">Drop</a>
             <a href="#lookbook">Lookbook</a>
             <a href="#stylist">AI Stylist</a>
             <a href="#waitlist">Join Waitlist</a>
           </nav>
           <div className={styles.navActions}>
-            <a className={styles.phone} href="tel:+171****0192">
-              (718) 555-0192
+            <a className={styles.phone} href={shop.phoneHref}>
+              {shop.phone}
             </a>
             <button
               className={styles.toggle}
@@ -604,12 +626,12 @@ export default function StreetwearPage() {
               <p>
                 Or reach the studio directly:{" "}
                 <a
-                  href="mailto:hello@noir-apparel.shop"
+                  href={shop.emailHref}
                   style={{ color: "var(--accent)" }}
                 >
-                  hello@noir-apparel.shop
+                  {shop.email}
                 </a>{" "}
-                · (718) 555-0192
+                · {shop.phone}
               </p>
             </div>
 
@@ -734,10 +756,9 @@ export default function StreetwearPage() {
         <div className={styles.shell}>
           <div className={styles.footerInner}>
             <div>
-              <p className={styles.footerBrand}>NOIR Apparel</p>
+              <p className={styles.footerBrand}>{shop.name}</p>
               <p className={styles.footerTag}>
-                Brooklyn capsule streetwear. Limited runs, no reprint, no
-                algorithm.
+                {shop.tagline}
               </p>
               <div
                 className={styles.footerBarcode}
@@ -751,14 +772,14 @@ export default function StreetwearPage() {
               <h4>Contact</h4>
               <ul>
                 <li>
-                  <a href="tel:+171****0192">(718) 555-0192</a>
+                  <a href={shop.phoneHref}>{shop.phone}</a>
                 </li>
                 <li>
-                  <a href="mailto:hello@noir-apparel.shop">
-                    hello@noir-apparel.shop
+                  <a href={shop.emailHref}>
+                    {shop.email}
                   </a>
                 </li>
-                <li>1047 Wythe Ave, Brooklyn NY</li>
+                <li>{shop.address}</li>
               </ul>
             </div>
             <div className={styles.footerCol}>
@@ -796,7 +817,7 @@ export default function StreetwearPage() {
           </div>
 
           <div className={styles.footerLegal}>
-            <span>© 2026 NOIR Apparel · Brooklyn NY</span>
+            <span>© 2026 {shop.name} · Brooklyn NY</span>
             <span>Drop 03 · FW26 · No reprint</span>
             <span>Built by Aexon AI</span>
           </div>

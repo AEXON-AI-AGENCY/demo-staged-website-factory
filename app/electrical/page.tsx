@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Bebas_Neue, DM_Sans, JetBrains_Mono } from "next/font/google";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import React, { useState, useRef, useEffect, type ChangeEvent, type FormEvent } from "react";
+import { DM_Sans, Bebas_Neue, JetBrains_Mono } from "next/font/google";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -19,6 +19,21 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
 });
+
+export const DEFAULT_ELECTRICAL_PROSPECT: ProspectData = {
+  name: "Current Electric",
+  shortName: "Current Electric",
+  phone: "(512) 555-0128",
+  phoneHref: "tel:+151****0128",
+  email: "intake@current-electric.example",
+  emailHref: "mailto:intake@current-electric.example",
+  city: "Austin",
+  state: "TX",
+  address: "",
+  tagline: "Licensed electricians. Honest pricing. No surprise add-ons.",
+  expires: "2099-12-31",
+  vertical: "electrical",
+};
 
 const darkTheme = {
   bg: "#050507",
@@ -509,9 +524,12 @@ const trustBadges = [
   { title: "Theme persistence", body: "Dark and light modes stay synced in local storage with a mounted guard to avoid hydration drift." },
 ];
 
-export default function ElectricalPage() {
-  const TEMPLATE = { name: 'Current Electric', phone: '(512) 555-0128', email: 'intake@current-electric.example' };
-  const prospect = useProspectParams(TEMPLATE);
+export default function ElectricalPage({
+  prospect = DEFAULT_ELECTRICAL_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_ELECTRICAL_PROSPECT, ...prospect };
   const [isDark, setIsDark] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -1053,7 +1071,7 @@ export default function ElectricalPage() {
               </div>
               <div>
                 <div className="display-font" style={{ fontSize: "1.7rem", letterSpacing: "0.08em", lineHeight: 0.92 }}>
-                  {prospect.name}
+                  {shop.name}
                 </div>
                 <div className="mono-font" style={{ fontSize: "0.66rem", letterSpacing: "0.18em", color: c.textSoft }}>
                   PANEL WORK / TROUBLESHOOTING / POWER PLANNING
@@ -1072,7 +1090,7 @@ export default function ElectricalPage() {
                 Contact
               </a>
               <a
-                href={prospect.phoneHref}
+                href={shop.phoneHref}
                 className="plain-link mono-font"
                 style={{
                   display: "inline-flex",
@@ -1085,7 +1103,7 @@ export default function ElectricalPage() {
                 }}
               >
                 <PhoneIcon />
-                {prospect.phone}
+                {shop.phone}
               </a>
             </div>
           </div>
@@ -1836,11 +1854,11 @@ export default function ElectricalPage() {
                   Reach
                 </div>
                 <div style={{ display: "grid", gap: "0.4rem", color: c.textMuted }}>
-                  <a className="plain-link" href={prospect.phoneHref}>
-                    {prospect.phone}
+                  <a className="plain-link" href={shop.phoneHref}>
+                    {shop.phone}
                   </a>
-                  <a className="plain-link" href={`mailto:${prospect.email}`}>
-                    {prospect.email}
+                  <a className="plain-link" href={`mailto:${shop.email}`}>
+                    {shop.email}
                   </a>
                   <a className="plain-link" href="#contact">
                     Start inspection request

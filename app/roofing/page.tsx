@@ -2,7 +2,21 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Bebas_Neue, DM_Sans, JetBrains_Mono } from "next/font/google";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
+
+export const DEFAULT_ROOFING_PROSPECT: ProspectData = {
+  name: "TopTier Roofing",
+  phone: "(248) 555-0100",
+  phoneHref: "tel:+12485550100",
+  email: "info@toptiermi.com",
+  emailHref: "mailto:info@toptiermi.com",
+  city: "Detroit",
+  state: "MI",
+  address: "",
+  tagline: "Detroit's roofing specialists.",
+  vertical: "roofing",
+  expires: "2099-12-31",
+};
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -520,9 +534,12 @@ const initialFormState: FormState = {
 
 // ─── Main Page ───────────────────────────────────────────────────────────────
 
-export default function RoofingPage() {
-  const TEMPLATE = { name: "TopTier Roofing", phone: "(248) 555-0100", email: "info@toptiermi.com" };
-  const prospect = useProspectParams(TEMPLATE);
+export default function RoofingPage({
+  prospect = DEFAULT_ROOFING_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_ROOFING_PROSPECT, ...prospect };
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState<FormState>(initialFormState);
@@ -695,7 +712,7 @@ export default function RoofingPage() {
               </svg>
             </div>
             <div>
-              <div style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1rem", letterSpacing: "0.1em", color: colors.text, lineHeight: 1 }}>{prospect.name}</div>
+              <div style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1rem", letterSpacing: "0.1em", color: colors.text, lineHeight: 1 }}>{shop.name}</div>
               <div style={{ fontSize: "0.68rem", letterSpacing: "0.14em", color: colors.textSoft, textTransform: "uppercase", marginTop: "2px" }}>Michigan&apos;s Choice</div>
             </div>
           </div>
@@ -887,7 +904,7 @@ export default function RoofingPage() {
           <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
             <div style={sectionLabel}>Powered by AI</div>
             <h2 style={headingStyle}>Get a Roof Estimate — Instantly</h2>
-            <p style={{ color: colors.textMuted, maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>{`${prospect.name} AI`} analyzes your roof using satellite imagery and delivers an instant repair estimate. No waiting, no obligation.</p>
+            <p style={{ color: colors.textMuted, maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>{`${shop.name} AI`} analyzes your roof using satellite imagery and delivers an instant repair estimate. No waiting, no obligation.</p>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", alignItems: "start" }}>
@@ -898,7 +915,7 @@ export default function RoofingPage() {
                   <BotIcon />
                 </div>
                 <div>
-                  <div style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1rem", color: colors.onAccent, letterSpacing: "0.05em" }}>{`${prospect.name} AI`}</div>
+                  <div style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1rem", color: colors.onAccent, letterSpacing: "0.05em" }}>{`${shop.name} AI`}</div>
                   <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.75)" }}>Instant Roof Analysis</div>
                 </div>
                 <div style={{ marginLeft: "auto", fontSize: "0.65rem", padding: "0.2rem 0.6rem", background: "rgba(255,255,255,0.2)", borderRadius: "20px", color: colors.onAccent }}>Live Demo</div>
@@ -910,7 +927,7 @@ export default function RoofingPage() {
                     <BotIcon />
                   </div>
                   <div style={{ background: colors.bgAlt, border: `1px solid ${colors.border}`, borderRadius: "12px", borderBottomLeftRadius: "4px", padding: "0.85rem 1rem", maxWidth: "85%" }}>
-                    <p style={{ color: colors.textMuted, fontSize: "0.88rem", lineHeight: 1.6, margin: 0 }}>Hi! I'm <strong style={{ color: colors.text }}>{`${prospect.name} AI`}</strong>. I can analyze your roof from satellite imagery and give you an instant repair estimate. What type of property do you have?</p>
+                    <p style={{ color: colors.textMuted, fontSize: "0.88rem", lineHeight: 1.6, margin: 0 }}>Hi! I'm <strong style={{ color: colors.text }}>{`${shop.name} AI`}</strong>. I can analyze your roof from satellite imagery and give you an instant repair estimate. What type of property do you have?</p>
                   </div>
                 </div>
 
@@ -982,7 +999,7 @@ export default function RoofingPage() {
             <div>
               <div style={sectionLabel}>Get Started</div>
               <h2 style={headingStyle}>Schedule Your<br /><span style={{ color: colors.accent }}>Free Inspection</span></h2>
-              <p style={{ color: colors.textMuted, lineHeight: 1.7, marginBottom: "2rem" }}>Fill out the form and a {prospect.name} specialist will reach out within 2 hours to confirm your appointment or request more details.</p>
+              <p style={{ color: colors.textMuted, lineHeight: 1.7, marginBottom: "2rem" }}>Fill out the form and a {shop.name} specialist will reach out within 2 hours to confirm your appointment or request more details.</p>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
                 {[
@@ -1009,7 +1026,7 @@ export default function RoofingPage() {
                     <CheckIcon />
                   </div>
                   <h3 style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "1.5rem", color: colors.text, marginBottom: "0.75rem" }}>Request Received!</h3>
-                  <p style={{ color: colors.textMuted, fontSize: "0.9rem", lineHeight: 1.65 }}>A {prospect.name} specialist will contact you within 2 hours to confirm your inspection appointment.</p>
+                  <p style={{ color: colors.textMuted, fontSize: "0.9rem", lineHeight: 1.65 }}>A {shop.name} specialist will contact you within 2 hours to confirm your inspection appointment.</p>
                 </div>
               ) : (
                 <form ref={formRef} onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
@@ -1085,7 +1102,7 @@ export default function RoofingPage() {
                     <path d="M3 21h18M4 21V10l8-7 8 7v11M9 21v-6h6v6" />
                   </svg>
                 </div>
-                <span style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "0.95rem", letterSpacing: "0.08em", color: colors.text }}>{prospect.name}</span>
+                <span style={{ fontFamily: bebasNeue.style.fontFamily, fontSize: "0.95rem", letterSpacing: "0.08em", color: colors.text }}>{shop.name}</span>
               </div>
               <p style={{ fontSize: "0.85rem", color: colors.textSoft, lineHeight: 1.65, maxWidth: "280px" }}>Michigan&apos;s trusted residential roofing contractor. Licensed, insured, and committed to quality craftsmanship on every project.</p>
             </div>
@@ -1107,7 +1124,7 @@ export default function RoofingPage() {
           </div>
 
           <div style={{ borderTop: `1px solid ${colors.border}`, paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-            <span style={{ fontSize: "0.78rem", color: colors.textSoft }}>© 2026 {prospect.name} LLC. All rights reserved.</span>
+            <span style={{ fontSize: "0.78rem", color: colors.textSoft }}>© 2026 {shop.name} LLC. All rights reserved.</span>
             <span style={{ fontSize: "0.78rem", color: colors.textSoft }}>Serving Macomb, Oakland, Wayne & Genesee Counties</span>
           </div>
         </div>

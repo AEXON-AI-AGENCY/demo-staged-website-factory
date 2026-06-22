@@ -3,7 +3,20 @@
 import type { CSSProperties, FormEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { DM_Sans, JetBrains_Mono, Manrope } from 'next/font/google';
-import { useProspectParams } from '../_hooks/useProspectParams';
+import type { ProspectData } from '@/lib/prospect-data';
+
+export const DEFAULT_PLUMBING_PROSPECT: ProspectData = {
+  name: 'AquaFlow Plumbing',
+  phone: '(555) 742-9103',
+  phoneHref: 'tel:+155****9103',
+  email: '',
+  city: 'San Francisco',
+  state: 'CA',
+  address: "",
+  tagline: 'Bay Area plumbing, done right.',
+  vertical: 'plumbing',
+  expires: '2099-12-31',
+};
 
 const displayFont = Manrope({
   subsets: ['latin'],
@@ -182,9 +195,12 @@ function ClockIcon() {
   );
 }
 
-export default function PlumbingPage() {
-  const TEMPLATE = { name: 'AquaFlow Plumbing', phone: '(555) 742-9103', email: '' };
-  const prospect = useProspectParams(TEMPLATE);
+export default function PlumbingPage({
+  prospect = DEFAULT_PLUMBING_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_PLUMBING_PROSPECT, ...prospect };
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const [theme, setTheme] = useState<ThemeName>('dark');
@@ -901,7 +917,7 @@ export default function PlumbingPage() {
                     letterSpacing: '-0.03em',
                   }}
                 >
-                  {prospect.name}
+                  {shop.name}
                 </div>
                 <div
                   style={{
@@ -1092,7 +1108,7 @@ export default function PlumbingPage() {
                     Book Service
                   </a>
                   <a
-                    href={prospect.phoneHref}
+                    href={shop.phoneHref}
                     style={{
                       textDecoration: 'none',
                       color: 'var(--accent)',
@@ -1104,7 +1120,7 @@ export default function PlumbingPage() {
                       background: 'var(--card)',
                     }}
                   >
-                    {`Call ${prospect.phone}`}
+                    {`Call ${shop.phone}`}
                   </a>
                 </div>
 
@@ -1571,7 +1587,7 @@ export default function PlumbingPage() {
                         textTransform: 'uppercase',
                       }}
                     >
-                      {`${prospect.name} AI`} • live handoff mock
+                      {`${shop.name} AI`} • live handoff mock
                     </div>
                   </div>
                   <div
@@ -1874,7 +1890,7 @@ export default function PlumbingPage() {
                         onChange={(event) => updateField('phone', event.target.value)}
                         onFocus={() => setFocusedField('phone')}
                         onBlur={() => setFocusedField(null)}
-                        placeholder={prospect.phone}
+                        placeholder={shop.phone}
                         style={inputStyle('phone')}
                       />
                     </div>
@@ -2049,7 +2065,7 @@ export default function PlumbingPage() {
                       lineHeight: 1,
                     }}
                   >
-                    {prospect.name}
+                    {shop.name}
                   </div>
                   <div
                     style={{
@@ -2084,8 +2100,8 @@ export default function PlumbingPage() {
               >
                 Footer
               </div>
-              <a href={prospect.phoneHref} style={{ color: 'var(--text)', textDecoration: 'none', fontSize: 16 }}>
-                {prospect.phone}
+              <a href={shop.phoneHref} style={{ color: 'var(--text)', textDecoration: 'none', fontSize: 16 }}>
+                {shop.phone}
               </a>
               <div style={{ color: 'var(--text2)', lineHeight: 1.7 }}>Dispatch hours: always on for emergencies.</div>
               <a

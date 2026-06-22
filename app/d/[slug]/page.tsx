@@ -1,16 +1,35 @@
 import { notFound } from "next/navigation";
 import SalonPage, {
   DEFAULT_SALON_PROSPECT,
-  type ProspectData,
 } from "../../salon/page";
 import BarbershopPage from "../../barbershop/page";
-import RecordingStudioPage, {
-  type RecordingStudioProspect,
-} from "../../recording-studio/page";
+import RecordingStudioPage from "../../recording-studio/page";
+import type { ProspectData } from "@/lib/prospect-data";
+import AutoRepairPage from "../../auto-repair/page";
+import ClothingPage from "../../clothing/page";
+import EcommercePage from "../../ecommerce/page";
+import ElectricalPage from "../../electrical/page";
+import HealthSupplementsPage from "../../health-supplements/page";
+import HvacPage from "../../hvac/page";
+import InsurancePage from "../../insurance/page";
+import LawFirmPage from "../../law-firm/page";
+import PlumbingPage from "../../plumbing/page";
+import RealEstatePage from "../../real-estate/page";
+import RestaurantPage from "../../restaurant/page";
+import RoofingPage from "../../roofing/page";
+import StreetwearPage from "../../streetwear/page";
+import TechCompanyPage from "../../tech-company/page";
 
-type ProspectEntry =
-  | (ProspectData & { expires: string; vertical: "salon" | "barber" })
-  | (RecordingStudioProspect & { expires: string; vertical: "studio" });
+// Every prospect entry is a ProspectData (from the shared lib) plus
+// an expires date and a vertical id. The WMI entry includes extra
+// vertical-specific fields (heroKicker, liveRoomLabel, etc.) which
+// flow through as untyped extras via `[key: string]: unknown` on
+// the ProspectData type.
+type ProspectEntry = ProspectData & {
+  expires: string;
+  vertical: string;
+  [key: string]: unknown; // allow vertical-specific extras like heroKicker, liveRoomLabel
+};
 
 const PROSPECTS: Record<string, ProspectEntry> = {
   "ani-african-hair-braiding": {
@@ -79,6 +98,7 @@ const PROSPECTS: Record<string, ProspectEntry> = {
     phone: "(817) 203-4697",
     phoneHref: "tel:+181****4697",
     email: "info@wemadeitstudio.com",
+    address: "Arlington, TX",
     city: "Arlington",
     state: "TX",
     tagline: "DFW's hottest rooms. Same-day roughs. Engineer included.",
@@ -201,12 +221,66 @@ export default async function ProspectDemo({
   }
 
   if (prospect.vertical === "studio") {
-    return <RecordingStudioPage prospect={prospect} />;
+    // The WMI entry has vertical-specific fields (liveRoomLabel, heroKicker,
+    // services with `code` field) that flow through ProspectData as untyped
+    // extras. RecordingStudioPage expects RecordingStudioProspect which is
+    // a stricter superset. The cast is safe because the WMI entry was
+    // designed against RecordingStudioProspect originally.
+    return <RecordingStudioPage prospect={prospect as unknown as Parameters<typeof RecordingStudioPage>[0]["prospect"]} />;
   }
 
   if (prospect.vertical === "barber") {
-    return <BarbershopPage prospect={prospect} />;
+    return <BarbershopPage prospect={prospect as unknown as Parameters<typeof BarbershopPage>[0]["prospect"]} />;
   }
 
-  return <SalonPage prospect={prospect} />;
+  if (prospect.vertical === "salon") {
+    return <SalonPage prospect={prospect as unknown as Parameters<typeof SalonPage>[0]["prospect"]} />;
+  }
+
+  // All 14 other verticals (Bazzy 2026-06-22 refactor)
+  if (prospect.vertical === "auto-repair") {
+    return <AutoRepairPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "clothing") {
+    return <ClothingPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "ecommerce") {
+    return <EcommercePage prospect={prospect} />;
+  }
+  if (prospect.vertical === "electrical") {
+    return <ElectricalPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "health-supplements") {
+    return <HealthSupplementsPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "hvac") {
+    return <HvacPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "insurance") {
+    return <InsurancePage prospect={prospect} />;
+  }
+  if (prospect.vertical === "law-firm") {
+    return <LawFirmPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "plumbing") {
+    return <PlumbingPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "real-estate") {
+    return <RealEstatePage prospect={prospect} />;
+  }
+  if (prospect.vertical === "restaurant") {
+    return <RestaurantPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "roofing") {
+    return <RoofingPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "streetwear") {
+    return <StreetwearPage prospect={prospect} />;
+  }
+  if (prospect.vertical === "tech-company") {
+    return <TechCompanyPage prospect={prospect} />;
+  }
+
+  // Unknown vertical — fall back to salon as a safety net
+  return <SalonPage prospect={prospect as never} />;
 }

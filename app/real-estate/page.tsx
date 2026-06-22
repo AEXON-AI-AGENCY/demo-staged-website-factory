@@ -2,13 +2,36 @@
 
 import React, { useEffect, useState } from "react";
 import { DM_Sans, Playfair_Display } from "next/font/google";
-import { VERTICALS } from "@/lib/verticals";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700", "800"] });
 
-const vertical = VERTICALS["real-estate"];
+export const DEFAULT_REAL_ESTATE_PROSPECT: ProspectData = {
+  name: "Horizon Realty Group",
+  shortName: "HRG",
+  phone: "(303) 555-0847",
+  phoneHref: "tel:+130****0847",
+  email: "listings@horizonrealtyco.com",
+  emailHref: "mailto:listings@horizonrealtyco.com",
+  city: "Denver",
+  state: "CO",
+  address: "1600 Champa St, Denver, CO 80202",
+  hours: "Mon–Sun: 9AM–7PM",
+  about: "Denver's most trusted boutique real estate team. Average 18 years experience per agent.",
+  tagline: "Your Home. Our Mission.",
+  ctaLabel: "Browse Listings",
+  ctaSubLabel: "Free market analysis",
+  services: [
+    { title: "Home Buyers" },
+    { title: "Home Sellers" },
+    { title: "Investment Properties" },
+    { title: "Relocation Services" },
+    { title: "Property Management" },
+  ],
+  expires: "2099-12-31",
+  vertical: "real-estate",
+};
 
 const c = {
   dark: {
@@ -27,16 +50,12 @@ const c = {
   },
 };
 
-export default function RealEstatePage() {
-  const TEMPLATE = { name: VERTICALS["real-estate"].name, phone: VERTICALS["real-estate"].phone, email: VERTICALS["real-estate"].email };
-  const prospect = useProspectParams(TEMPLATE);
-  const vertical = {
-    ...VERTICALS["real-estate"],
-    name: prospect.name,
-    phone: prospect.phone,
-    email: prospect.email,
-  };
-  const phoneHref = prospect.phoneHref;
+export default function RealEstatePage({
+  prospect = DEFAULT_REAL_ESTATE_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_REAL_ESTATE_PROSPECT, ...prospect };
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -80,10 +99,10 @@ export default function RealEstatePage() {
   }
 
   const services = [
-    { number: "01", title: vertical.services[0], description: "Buyer representation built around your lifestyle, target neighborhoods, school priorities, commute, and offer strategy.", tag: "Search · Tour · Offer" },
-    { number: "02", title: vertical.services[1], description: "Data-backed pricing, prep guidance, listing launch plans, and negotiation support that protects your equity.", tag: "Comps · Staging · Close" },
-    { number: "03", title: vertical.services[2], description: "Rental yield review, cap-rate screening, neighborhood trend analysis, and acquisition support for long-term holds.", tag: "Analyze · Acquire" },
-    { number: "04", title: vertical.services[3], description: "A smooth move into Denver with neighborhood shortlists, virtual previews, private walkthroughs, and closing coordination.", tag: "Relocate · Settle" },
+    { number: "01", title: shop.services![0].title, description: "Buyer representation built around your lifestyle, target neighborhoods, school priorities, commute, and offer strategy.", tag: "Search · Tour · Offer" },
+    { number: "02", title: shop.services![1].title, description: "Data-backed pricing, prep guidance, listing launch plans, and negotiation support that protects your equity.", tag: "Comps · Staging · Close" },
+    { number: "03", title: shop.services![2].title, description: "Rental yield review, cap-rate screening, neighborhood trend analysis, and acquisition support for long-term holds.", tag: "Analyze · Acquire" },
+    { number: "04", title: shop.services![3].title, description: "A smooth move into Denver with neighborhood shortlists, virtual previews, private walkthroughs, and closing coordination.", tag: "Relocate · Settle" },
   ];
 
   const chatMessages = [
@@ -196,8 +215,8 @@ export default function RealEstatePage() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", minWidth: 0 }}>
             <div style={{ fontSize: "1.55rem" }}>🏡</div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.05rem", fontWeight: 700, color: colors.text, lineHeight: 1, whiteSpace: "nowrap" }}>{vertical.name}</div>
-              <div style={{ display: "inline-flex", fontSize: "0.62rem", letterSpacing: "0.14em", color: eyebrowColor, textTransform: "uppercase", marginTop: "5px", fontWeight: 700, border: `1px solid ${colors.border}`, borderRadius: "999px", padding: "0.16rem 0.48rem" }}>{vertical.tagline}</div>
+              <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.05rem", fontWeight: 700, color: colors.text, lineHeight: 1, whiteSpace: "nowrap" }}>{shop.name}</div>
+              <div style={{ display: "inline-flex", fontSize: "0.62rem", letterSpacing: "0.14em", color: eyebrowColor, textTransform: "uppercase", marginTop: "5px", fontWeight: 700, border: `1px solid ${colors.border}`, borderRadius: "999px", padding: "0.16rem 0.48rem" }}>{shop.tagline}</div>
             </div>
           </div>
           <div className="desktop-links" style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
@@ -208,7 +227,7 @@ export default function RealEstatePage() {
             ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <a className="nav-phone" href={phoneHref} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>{vertical.phone}</a>
+            <a className="nav-phone" href={shop.phoneHref} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>{shop.phone}</a>
             <button className="theme-button" onClick={toggleTheme} aria-label="Toggle color theme" style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "8px", padding: "0.45rem 0.85rem", cursor: "pointer", color: colors.text, fontSize: "0.8rem", fontFamily: dmSans.style.fontFamily, display: "flex", alignItems: "center", gap: "0.4rem", transition: "transform 0.2s" }}>
               {theme === "dark" ? "☀" : "☾"} {theme === "dark" ? "Light" : "Dark"}
             </button>
@@ -224,10 +243,10 @@ export default function RealEstatePage() {
               Your Denver Move, <br /><span style={{ color: colors.accent }}>Guided with Precision.</span>
             </h1>
             <p style={{ fontSize: "1.15rem", color: bodyTextColor, lineHeight: 1.72, margin: "0 0 2.5rem", maxWidth: "520px", fontWeight: 600 }}>
-              {vertical.about} From first search to final signature, our agents pair local market judgment with AI-assisted listing intelligence.
+              {shop.about} From first search to final signature, our agents pair local market judgment with AI-assisted listing intelligence.
             </p>
             <div className="hero-actions" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-              <a className="pill-button" href="#listings" style={{ background: colors.accent, color: colors.onAccent, padding: "0.85rem 2rem", borderRadius: "999px", textDecoration: "none", fontWeight: 800, fontSize: "0.9rem", boxShadow: `0 0 24px ${colors.accentGlow}`, transition: "transform 0.2s" }}>{vertical.cta}</a>
+              <a className="pill-button" href="#listings" style={{ background: colors.accent, color: colors.onAccent, padding: "0.85rem 2rem", borderRadius: "999px", textDecoration: "none", fontWeight: 800, fontSize: "0.9rem", boxShadow: `0 0 24px ${colors.accentGlow}`, transition: "transform 0.2s" }}>{shop.ctaLabel}</a>
               <a className="pill-button" href="#contact" style={{ border: `1.5px solid ${colors.borderStrong}`, color: colors.text, background: colors.card, padding: "0.85rem 2rem", borderRadius: "999px", textDecoration: "none", fontWeight: 700, fontSize: "0.9rem", transition: "transform 0.2s" }}>Schedule a Walkthrough</a>
             </div>
           </div>
@@ -242,9 +261,9 @@ export default function RealEstatePage() {
 
         <div className="responsive-three" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginTop: "4rem", padding: "1.75rem 2rem", background: colors.card, borderRadius: "14px", border: `1px solid ${colors.border}` }}>
           {[
-            { label: "Office Hours", value: vertical.hours },
-            { label: "Office Location", value: vertical.address },
-            { label: "Speak to an Agent", value: `${vertical.phone}\n${vertical.cta_sub}` },
+            { label: "Office Hours", value: shop.hours },
+            { label: "Office Location", value: shop.address },
+            { label: "Speak to an Agent", value: `${shop.phone}\n${shop.ctaSubLabel}` },
           ].map((item) => (
             <div key={item.label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: "0.7rem", letterSpacing: "0.15em", color: eyebrowColor, fontWeight: 800, textTransform: "uppercase", marginBottom: "0.4rem" }}>{item.label}</div>
@@ -282,7 +301,7 @@ export default function RealEstatePage() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem", paddingBottom: "1rem", borderBottom: `1px solid ${colors.border}` }}>
               <div style={{ width: "2.2rem", height: "2.2rem", borderRadius: "50%", background: colors.accent, display: "grid", placeItems: "center", color: colors.onAccent, fontSize: "1rem" }}>AI</div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: "0.9rem", color: colors.text }}>{`${prospect.name.split(' ')[0]} AI Concierge`}</div>
+                <div style={{ fontWeight: 700, fontSize: "0.9rem", color: colors.text }}>{`${shop.name.split(' ')[0]} AI Concierge`}</div>
                 <div style={{ fontSize: "0.75rem", color: colors.success, fontWeight: 700 }}>● Online — tours, comps, and listings</div>
               </div>
             </div>
@@ -350,10 +369,10 @@ export default function RealEstatePage() {
             <p style={{ fontSize: "1rem", color: bodyTextColor, lineHeight: 1.75, marginBottom: "2rem", fontWeight: 600 }}>Ready to buy, sell, or explore your options in Denver? Tell us what you need and an agent will follow up with listings, comps, and next steps.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               {[
-                { label: "Address", value: vertical.address },
-                { label: "Phone", value: vertical.phone },
-                { label: "Hours", value: vertical.hours },
-                { label: "Email", value: vertical.email },
+                { label: "Address", value: shop.address },
+                { label: "Phone", value: shop.phone },
+                { label: "Hours", value: shop.hours },
+                { label: "Email", value: shop.email },
               ].map((item) => (
                 <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                   <div style={{ fontSize: "0.75rem", fontWeight: 800, color: eyebrowColor, width: "70px", letterSpacing: "0.08em" }}>{item.label}</div>
@@ -398,17 +417,17 @@ export default function RealEstatePage() {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
               <span style={{ fontSize: "1.4rem" }}>🏡</span>
-              <span style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text }}>{vertical.name}</span>
+              <span style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text }}>{shop.name}</span>
             </div>
-            <div style={{ color: colors.textSoft, fontSize: "0.85rem", fontWeight: 600 }}>{vertical.tagline}</div>
+            <div style={{ color: colors.textSoft, fontSize: "0.85rem", fontWeight: 600 }}>{shop.tagline}</div>
           </div>
-          <div style={{ fontSize: "0.84rem", color: colors.textSoft, fontWeight: 600, lineHeight: 1.8 }}>{vertical.address}<br />{vertical.phone}<br />{vertical.email}</div>
+          <div style={{ fontSize: "0.84rem", color: colors.textSoft, fontWeight: 600, lineHeight: 1.8 }}>{shop.address}<br />{shop.phone}<br />{shop.email}</div>
           <div style={{ textAlign: "left" }}>
             <a href="#contact" style={{ color: eyebrowColor, textDecoration: "none", fontSize: "0.9rem", fontWeight: 800 }}>Schedule a Walkthrough →</a>
           </div>
         </div>
         <div style={{ maxWidth: "1200px", margin: "2rem auto 0", textAlign: "center", fontSize: "0.8rem", color: colors.text, fontWeight: 600 }}>
-          © 2026 {vertical.name}. All rights reserved.
+          © 2026 {shop.name}. All rights reserved.
         </div>
       </footer>
 

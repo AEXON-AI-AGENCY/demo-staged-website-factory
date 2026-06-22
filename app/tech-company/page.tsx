@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,6 +15,23 @@ const jetBrains = JetBrains_Mono({
   display: "swap",
   weight: ["400", "500", "600"],
 });
+
+export const DEFAULT_TECH_COMPANY_PROSPECT: ProspectData = {
+  name: "Nexus AI",
+  shortName: "Nexus",
+  phone: "(512) 555-0192",
+  phoneHref: "tel:+151****0192",
+  email: "contact@nexus-ai.com",
+  emailHref: "mailto:contact@nexus-ai.com",
+  city: "Austin",
+  state: "TX",
+  address: "8901 Data Blvd, Austin, TX 78701",
+  hours: "Mon–Fri: 8AM–6PM",
+  tagline: "Intelligent Automation for Modern Enterprises",
+  ctaSubLabel: "Trusted by 200+ enterprises",
+  expires: "2099-12-31",
+  vertical: "tech-company",
+};
 
 type Theme = "light" | "dark";
 
@@ -182,9 +199,12 @@ function ThemeToggle({ theme, toggle }: { theme: Theme; toggle: () => void }) {
   );
 }
 
-export default function TechCompanyPage() {
-  const TEMPLATE = { name: "Nexus AI", phone: "", email: "contact@nexus-ai.com" };
-  const prospect = useProspectParams(TEMPLATE);
+export default function TechCompanyPage({
+  prospect = DEFAULT_TECH_COMPANY_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_TECH_COMPANY_PROSPECT, ...prospect };
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
   const [openFaq, setOpenFaq] = useState(0);
@@ -429,7 +449,7 @@ export default function TechCompanyPage() {
         <div className="navInner">
           <a className="brand" href="#top">
             <span className="brandMark">N</span>
-            <span>{prospect.name}</span>
+            <span>{shop.name}</span>
           </a>
           <div className="navLinks" aria-label="Primary navigation">
             {navLinks.map((link, i) => (
@@ -673,7 +693,7 @@ const agent = await Nexus.create({
         <div className="nexus-shell">
           <div className="footerGrid">
             <div className="footerLead">
-              <div className="footerBrand">{prospect.name}</div>
+              <div className="footerBrand">{shop.name}</div>
               <div className="footerTag">Intelligent automation for modern enterprises.</div>
             </div>
             {footerColumns.map(([heading, ...links]) => (
@@ -683,7 +703,7 @@ const agent = await Nexus.create({
               </div>
             ))}
           </div>
-          <div className="footerBottom">© 2026 {prospect.name} · Made in Austin, TX · SOC 2 Type II · GDPR · HIPAA</div>
+          <div className="footerBottom">© 2026 {shop.name} · Made in Austin, TX · SOC 2 Type II · GDPR · HIPAA</div>
         </div>
       </footer>
     </main>

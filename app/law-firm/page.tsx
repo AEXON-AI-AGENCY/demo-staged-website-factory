@@ -2,13 +2,35 @@
 
 import React, { useEffect, useState } from "react";
 import { DM_Sans, Playfair_Display } from "next/font/google";
-import { VERTICALS } from "@/lib/verticals";
-import { useProspectParams } from "../_hooks/useProspectParams";
+import type { ProspectData } from "@/lib/prospect-data";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700", "800"] });
 
-const vertical = VERTICALS["law-firm"];
+export const DEFAULT_LAW_FIRM_PROSPECT: ProspectData = {
+  name: "Morrison & Associates Law",
+  shortName: "M&A",
+  phone: "(312) 555-0923",
+  phoneHref: "tel:+131****0923",
+  email: "intake@morrisonlawchicago.com",
+  emailHref: "mailto:intake@morrisonlawchicago.com",
+  city: "Chicago",
+  state: "IL",
+  address: "225 W Wacker Dr, Chicago, IL 60606",
+  hours: "Mon–Fri: 8AM–6PM",
+  about: "Award-winning Chicago law firm. Contingency-fee personal injury cases. Free consultations.",
+  tagline: "Fighting for You. Every Step.",
+  ctaSubLabel: "Se habla español",
+  services: [
+    { title: "Personal Injury" },
+    { title: "Family Law" },
+    { title: "Criminal Defense" },
+    { title: "Estate Planning" },
+    { title: "Business Litigation" },
+  ],
+  expires: "2099-12-31",
+  vertical: "law-firm",
+};
 
 const c = {
   dark: {
@@ -27,16 +49,12 @@ const c = {
   },
 };
 
-export default function LawFirmPage() {
-  const TEMPLATE = { name: VERTICALS["law-firm"].name, phone: VERTICALS["law-firm"].phone, email: VERTICALS["law-firm"].email };
-  const prospect = useProspectParams(TEMPLATE);
-  const vertical = {
-    ...VERTICALS["law-firm"],
-    name: prospect.name,
-    phone: prospect.phone,
-    email: prospect.email,
-  };
-  const phoneHref = prospect.phoneHref;
+export default function LawFirmPage({
+  prospect = DEFAULT_LAW_FIRM_PROSPECT,
+}: {
+  prospect?: ProspectData;
+}) {
+  const shop = { ...DEFAULT_LAW_FIRM_PROSPECT, ...prospect };
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -80,10 +98,10 @@ export default function LawFirmPage() {
   }
 
   const services = [
-    { number: "01", title: vertical.services[0], description: "Representation for serious auto collisions, premises injuries, medical recovery, lost wages, settlements, and verdict strategy.", tag: "No fee unless you win" },
-    { number: "02", title: vertical.services[1], description: "Clear counsel for divorce, custody, parenting time, support, and negotiated agreements when family decisions carry lasting consequences.", tag: "Plan · File · Resolve" },
-    { number: "03", title: vertical.services[2], description: "Rapid defense for investigations, arrests, bond hearings, motions, plea negotiations, and trial preparation across Cook County courts.", tag: "Protect your rights" },
-    { number: "04", title: vertical.services[4], description: "Practical litigation support for contract disputes, shareholder conflicts, depositions, injunctions, and settlement negotiations.", tag: "Dispute · Depose · Litigate" },
+    { number: "01", title: shop.services![0].title, description: "Representation for serious auto collisions, premises injuries, medical recovery, lost wages, settlements, and verdict strategy.", tag: "No fee unless you win" },
+    { number: "02", title: shop.services![1].title, description: "Clear counsel for divorce, custody, parenting time, support, and negotiated agreements when family decisions carry lasting consequences.", tag: "Plan · File · Resolve" },
+    { number: "03", title: shop.services![2].title, description: "Rapid defense for investigations, arrests, bond hearings, motions, plea negotiations, and trial preparation across Cook County courts.", tag: "Protect your rights" },
+    { number: "04", title: shop.services![4].title, description: "Practical litigation support for contract disputes, shareholder conflicts, depositions, injunctions, and settlement negotiations.", tag: "Dispute · Depose · Litigate" },
   ];
 
   const chatMessages = [
@@ -197,8 +215,8 @@ export default function LawFirmPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", minWidth: 0 }}>
             <div style={{ width: "2.25rem", height: "2.25rem", borderRadius: "8px", background: colors.accent, color: colors.onAccent, display: "grid", placeItems: "center", fontFamily: playfair.style.fontFamily, fontWeight: 800, fontSize: "0.92rem" }}>M&A</div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.05rem", fontWeight: 700, color: colors.text, lineHeight: 1, whiteSpace: "nowrap" }}>{vertical.name}</div>
-              <div style={{ display: "inline-flex", fontSize: "0.62rem", letterSpacing: "0.14em", color: eyebrowColor, textTransform: "uppercase", marginTop: "5px", fontWeight: 700, border: `1px solid ${colors.border}`, borderRadius: "999px", padding: "0.16rem 0.48rem" }}>{vertical.tagline}</div>
+              <div style={{ fontFamily: playfair.style.fontFamily, fontSize: "1.05rem", fontWeight: 700, color: colors.text, lineHeight: 1, whiteSpace: "nowrap" }}>{shop.name}</div>
+              <div style={{ display: "inline-flex", fontSize: "0.62rem", letterSpacing: "0.14em", color: eyebrowColor, textTransform: "uppercase", marginTop: "5px", fontWeight: 700, border: `1px solid ${colors.border}`, borderRadius: "999px", padding: "0.16rem 0.48rem" }}>{shop.tagline}</div>
             </div>
           </div>
           <div className="desktop-links" style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
@@ -214,7 +232,7 @@ export default function LawFirmPage() {
             ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <a className="nav-phone" href={phoneHref} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>{vertical.phone}</a>
+            <a className="nav-phone" href={shop.phoneHref} style={{ color: colors.textSoft, textDecoration: "none", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>{shop.phone}</a>
             <button className="theme-button" onClick={toggleTheme} aria-label="Toggle color theme" style={{ background: colors.card, border: `1px solid ${colors.border}`, borderRadius: "8px", padding: "0.45rem 0.85rem", cursor: "pointer", color: colors.text, fontSize: "0.8rem", fontFamily: dmSans.style.fontFamily, display: "flex", alignItems: "center", gap: "0.4rem", transition: "transform 0.2s" }}>
               {theme === "dark" ? "☀" : "☾"} {theme === "dark" ? "Light" : "Dark"}
             </button>
@@ -230,7 +248,7 @@ export default function LawFirmPage() {
               Serious Counsel, <br /><span style={{ color: colors.accentDark }}>Relentless Advocacy.</span>
             </h1>
             <p style={{ fontSize: "1.15rem", color: bodyTextColor, lineHeight: 1.72, margin: "0 0 2.5rem", maxWidth: "520px", fontWeight: 600 }}>
-              {vertical.about} Our attorneys guide clients through consultations, evidence review, depositions, settlement strategy, and litigation with clear communication.
+              {shop.about} Our attorneys guide clients through consultations, evidence review, depositions, settlement strategy, and litigation with clear communication.
             </p>
             <div className="hero-actions" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
               <a className="pill-button" href="#contact" style={{ background: colors.accent, color: colors.onAccent, padding: "0.85rem 2rem", borderRadius: "999px", textDecoration: "none", fontWeight: 800, fontSize: "0.9rem", boxShadow: `0 0 24px ${colors.accentGlow}`, transition: "transform 0.2s" }}>Free Case Review</a>
@@ -248,9 +266,9 @@ export default function LawFirmPage() {
 
         <div className="responsive-three" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginTop: "4rem", padding: "1.75rem 2rem", background: colors.card, borderRadius: "14px", border: `1px solid ${colors.border}` }}>
           {[
-            { label: "Office Hours", value: vertical.hours },
-            { label: "Office Location", value: vertical.address },
-            { label: "Speak to an Attorney", value: `${vertical.phone}\n${vertical.cta_sub}` },
+            { label: "Office Hours", value: shop.hours },
+            { label: "Office Location", value: shop.address },
+            { label: "Speak to an Attorney", value: `${shop.phone}\n${shop.ctaSubLabel}` },
           ].map((item) => (
             <div key={item.label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: "0.7rem", letterSpacing: "0.15em", color: eyebrowColor, fontWeight: 800, textTransform: "uppercase", marginBottom: "0.4rem" }}>{item.label}</div>
@@ -288,7 +306,7 @@ export default function LawFirmPage() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem", paddingBottom: "1rem", borderBottom: `1px solid ${colors.border}` }}>
               <div style={{ width: "2.2rem", height: "2.2rem", borderRadius: "50%", background: colors.accent, display: "grid", placeItems: "center", color: colors.onAccent, fontSize: "1rem", fontWeight: 800 }}>AI</div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: "0.9rem", color: colors.text }}>{`${prospect.name.split(' ')[0]} AI Intake`}</div>
+                <div style={{ fontWeight: 700, fontSize: "0.9rem", color: colors.text }}>{`${shop.name.split(' ')[0]} AI Intake`}</div>
                 <div style={{ fontSize: "0.75rem", color: colors.success, fontWeight: 700 }}>● Online - confidential case review</div>
               </div>
             </div>
@@ -356,10 +374,10 @@ export default function LawFirmPage() {
             <p style={{ fontSize: "1rem", color: bodyTextColor, lineHeight: 1.75, marginBottom: "2rem", fontWeight: 600 }}>Contact our Chicago office for a confidential consultation. We will review your situation, identify urgent deadlines, and explain your legal options before you commit to next steps.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               {[
-                { label: "Address", value: vertical.address },
-                { label: "Phone", value: vertical.phone },
-                { label: "Hours", value: vertical.hours },
-                { label: "Email", value: vertical.email },
+                { label: "Address", value: shop.address },
+                { label: "Phone", value: shop.phone },
+                { label: "Hours", value: shop.hours },
+                { label: "Email", value: shop.email },
               ].map((item) => (
                 <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                   <div style={{ fontSize: "0.75rem", fontWeight: 800, color: eyebrowColor, width: "70px", letterSpacing: "0.08em" }}>{item.label}</div>
@@ -408,17 +426,17 @@ export default function LawFirmPage() {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
               <span style={{ width: "2rem", height: "2rem", borderRadius: "8px", background: colors.accent, color: colors.onAccent, display: "grid", placeItems: "center", fontFamily: playfair.style.fontFamily, fontWeight: 800, fontSize: "0.78rem" }}>M&A</span>
-              <span style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text }}>{vertical.name}</span>
+              <span style={{ fontFamily: playfair.style.fontFamily, fontSize: "0.95rem", fontWeight: 700, color: colors.text }}>{shop.name}</span>
             </div>
-            <div style={{ color: colors.textSoft, fontSize: "0.85rem", fontWeight: 600 }}>{vertical.tagline}</div>
+            <div style={{ color: colors.textSoft, fontSize: "0.85rem", fontWeight: 600 }}>{shop.tagline}</div>
           </div>
-          <div style={{ fontSize: "0.84rem", color: colors.textSoft, fontWeight: 600, lineHeight: 1.8 }}>{vertical.address}<br />{vertical.phone}<br />{vertical.email}</div>
+          <div style={{ fontSize: "0.84rem", color: colors.textSoft, fontWeight: 600, lineHeight: 1.8 }}>{shop.address}<br />{shop.phone}<br />{shop.email}</div>
           <div style={{ textAlign: "left" }}>
             <a href="#contact" style={{ color: eyebrowColor, textDecoration: "none", fontSize: "0.9rem", fontWeight: 800 }}>Free Case Review →</a>
           </div>
         </div>
         <div style={{ maxWidth: "1200px", margin: "2rem auto 0", textAlign: "center", fontSize: "0.8rem", color: colors.text, fontWeight: 600 }}>
-          © 2026 {vertical.name}. All rights reserved.
+          © 2026 {shop.name}. All rights reserved.
         </div>
       </footer>
 
