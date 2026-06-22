@@ -1,0 +1,665 @@
+/* Hallmark · macrostructure: Dosing Protocol Cockpit · tone: industrial-lab · theme: obsidian label-system · accent: acid-lime + electrolyte-cyan · differs: not skincare, not streetwear, not ecommerce */
+.page {
+  --ink: #f6f3e8;
+  --paper: rgba(246, 243, 232, 0.94);
+  --panel: rgba(18, 20, 18, 0.9);
+  --line: rgba(246, 243, 232, 0.18);
+  --acid: #c6ff2e;
+  --cyan: #31e6ff;
+  --orange: #ff7a1a;
+  --muted: #b9b7aa;
+  min-height: 100vh;
+  color: var(--ink);
+  background: #080907;
+  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  overflow-x: clip;
+}
+
+.light {
+  --ink: #10120d;
+  --paper: rgba(255, 253, 242, 0.96);
+  --panel: rgba(255, 253, 242, 0.92);
+  --line: rgba(16, 18, 13, 0.2);
+  --muted: #46483e;
+  background: #eeeadc;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.28;
+}
+
+.backdrop img {
+  object-fit: cover;
+  filter: saturate(0.75) contrast(1.2);
+}
+
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8, 9, 7, 0.9), rgba(8, 9, 7, 0.48), rgba(8, 9, 7, 0.92)),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 18px);
+}
+
+.light .backdrop::after {
+  background: linear-gradient(90deg, rgba(238, 234, 220, 0.86), rgba(238, 234, 220, 0.48), rgba(238, 234, 220, 0.88));
+}
+
+.pulseRail {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+.pulseRail path {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 3;
+  stroke-dasharray: 70 24;
+  animation: railPulse 3.8s linear infinite;
+}
+
+.nav,
+.hero,
+.section,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(16px, 4vw, 48px);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, #090a07 82%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.light .nav {
+  background: color-mix(in srgb, #fffdf2 86%, transparent);
+}
+
+.brand,
+.navLinks a,
+.footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--acid);
+  color: var(--acid);
+  font-family: "Courier New", monospace;
+}
+
+.navLinks {
+  display: flex;
+  gap: 18px;
+  font-size: 12px;
+  font-family: "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.toggle,
+.primaryCta,
+.secondaryCta,
+.form button {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.toggle {
+  background: var(--acid);
+  color: #10120d;
+  padding: 0 14px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+  gap: clamp(22px, 4vw, 52px);
+  min-height: calc(100vh - 68px);
+  padding: clamp(46px, 7vw, 92px) clamp(16px, 4vw, 48px) 42px;
+  align-items: center;
+}
+
+.heroCopy h1,
+.sectionHead h2,
+.labelLab h2,
+.coachPanel h2,
+.form h2 {
+  margin: 0;
+  font-size: clamp(38px, 8vw, 104px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  max-width: 880px;
+}
+
+.heroCopy p,
+.labelLab p,
+.protocolCard p,
+.coachPanel p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.kicker {
+  margin: 0 0 14px;
+  color: var(--acid);
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.primaryCta,
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  text-decoration: none;
+}
+
+.primaryCta {
+  background: var(--acid);
+  color: #10120d;
+}
+
+.secondaryCta {
+  background: transparent;
+  color: var(--ink);
+}
+
+.cockpit {
+  display: grid;
+  grid-template-columns: 1fr 0.72fr;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.mediaFrame,
+.protocolImage {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0f100d;
+}
+
+.mediaFrame {
+  min-height: 540px;
+}
+
+.mediaFrame img,
+.protocolImage img {
+  object-fit: cover;
+}
+
+.scanLine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0 46%, rgba(198, 255, 46, 0.42) 49%, transparent 52% 100%);
+  animation: scan 4.5s ease-in-out infinite;
+}
+
+.factPanel,
+.nutritionPanel,
+.coachPanel,
+.trustPanel,
+.form {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: inset 0 0 0 1px rgba(198, 255, 46, 0.08);
+}
+
+.factPanel {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.factPanel > span,
+.cardTopline,
+.factRow,
+.badge,
+.form label,
+.footer {
+  font-family: "Courier New", monospace;
+}
+
+.factPanel h2,
+.protocolCard h3,
+.nutritionPanel h3 {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.dosageTicks {
+  display: grid;
+  gap: 8px;
+}
+
+.dosageTicks i,
+.facts span,
+.flags li {
+  border: 1px solid var(--line);
+  padding: 8px;
+  font-style: normal;
+  color: var(--acid);
+  background: rgba(198, 255, 46, 0.06);
+}
+
+.factPanel dl {
+  margin: auto 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.factPanel dt {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.factPanel dd {
+  margin: 4px 0 0;
+  font-weight: 800;
+}
+
+.section {
+  padding: 72px clamp(16px, 4vw, 48px);
+}
+
+.sectionHead {
+  margin-bottom: 22px;
+}
+
+.sectionHead h2,
+.labelLab h2,
+.coachPanel h2,
+.form h2 {
+  font-size: clamp(30px, 5vw, 64px);
+}
+
+.protocolGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.protocolCard {
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+}
+
+.protocolImage {
+  aspect-ratio: 1 / 0.72;
+}
+
+.cardBody {
+  padding: 16px;
+}
+
+.cardTopline {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--cyan);
+  font-size: 11px;
+  margin-bottom: 14px;
+}
+
+.protocolCard strong {
+  display: block;
+  margin: 12px 0;
+  color: var(--orange);
+  line-height: 1.45;
+}
+
+.flags,
+.facts {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+}
+
+.facts {
+  grid-template-columns: 1fr 1fr;
+  margin-top: 10px;
+}
+
+.labSection {
+  padding-top: 18px;
+}
+
+.labelLab {
+  display: grid;
+  grid-template-columns: 0.86fr 1.14fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.nutritionPanel {
+  padding: 18px;
+  color: #10120d;
+  background: var(--paper);
+}
+
+.nutritionPanel h3 {
+  border-bottom: 12px solid #10120d;
+  padding-bottom: 10px;
+  font-size: clamp(30px, 5vw, 62px);
+  letter-spacing: 0;
+}
+
+.factRow {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 3px solid #10120d;
+}
+
+.factRow b {
+  text-align: right;
+}
+
+.coachGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 14px;
+}
+
+.coachPanel,
+.trustPanel {
+  padding: 18px;
+}
+
+.chatWindow {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.userBubble,
+.aiBubble {
+  max-width: 82%;
+  border: 1px solid var(--line);
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.aiBubble {
+  margin-left: auto;
+  border-color: rgba(198, 255, 46, 0.55);
+}
+
+.userBubble span,
+.aiBubble span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--cyan);
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.trustPanel {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  background: rgba(198, 255, 46, 0.05);
+}
+
+.badge span {
+  width: 12px;
+  height: 12px;
+  background: var(--orange);
+  box-shadow: 0 0 0 5px rgba(255, 122, 26, 0.16);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: clamp(16px, 3vw, 26px);
+}
+
+.form > div,
+.full,
+.form button {
+  grid-column: 1 / -1;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.26);
+  color: var(--ink);
+  padding: 13px;
+  font: inherit;
+  text-transform: none;
+}
+
+.light .form input,
+.light .form select,
+.light .form textarea {
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.form textarea {
+  min-height: 116px;
+  resize: vertical;
+}
+
+.form button {
+  background: var(--acid);
+  color: #10120d;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px clamp(16px, 4vw, 48px) 76px;
+  border-top: 1px solid var(--line);
+}
+
+.footer div {
+  display: grid;
+  gap: 5px;
+}
+
+.footer span {
+  color: var(--muted);
+}
+
+.footer a {
+  color: var(--acid);
+  font-weight: 900;
+}
+
+.heroCopy,
+.cockpit,
+.sectionHead,
+.protocolCard,
+.labelLab,
+.coachPanel,
+.trustPanel,
+.form {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes scan {
+  0%, 100% { transform: translateY(-42%); opacity: 0.18; }
+  50% { transform: translateY(42%); opacity: 0.72; }
+}
+
+@keyframes railPulse {
+  to { stroke-dashoffset: -188; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulseRail path,
+  .scanLine {
+    animation: none;
+  }
+
+  .heroCopy,
+  .cockpit,
+  .sectionHead,
+  .protocolCard,
+  .labelLab,
+  .coachPanel,
+  .trustPanel,
+  .form {
+    transition: none;
+  }
+}
+
+@media (max-width: 1020px) {
+  .hero,
+  .labelLab,
+  .coachGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cockpit {
+    grid-template-columns: 1fr;
+  }
+
+  .mediaFrame {
+    min-height: 420px;
+  }
+
+  .protocolGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .navLinks {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .toggle {
+    width: 100%;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .protocolGrid,
+  .form,
+  .factRow {
+    grid-template-columns: 1fr;
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+  }
+
+  .factRow b {
+    text-align: left;
+  }
+
+  .mediaFrame {
+    min-height: 320px;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero,
+  .section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .ctaRow a {
+    width: 100%;
+  }
+}

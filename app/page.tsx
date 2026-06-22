@@ -136,7 +136,7 @@ const VERTICALS = {
   "recording-studio":   { name: "Backblock Studioz",     industry: "Recording Studio",   accent: "#ef4444", description: "Recording studio website with session booking, beat store, mix/master service tiers, and artist roster showcase.", demoUrl: "/recording-studio" },
   "streetwear":         { name: "NOIR Apparel",          industry: "Streetwear Brand",   accent: "#facc15", description: "Drop-driven streetwear brand site with countdown timers, restock alerts, and lookbook storytelling that converts hype to checkout.", demoUrl: "/streetwear" },
   "influencer-brand":   { name: "Maya Cole Skincare",    industry: "Influencer Brand",   accent: "#f472b6", description: "Creator-led brand site with founder story, product education, reviews, and email capture that builds a real DTC list (not just Linktree).", demoUrl: "/influencer-brand" },
-  "health-supplements": { name: "Vitality Nutrition",    industry: "Health / Supplements", accent: "#22c55e", description: "DTC supplement brand with ingredient transparency, subscription tiers, and review-driven trust that lifts AOV.", demoUrl: "/health-supplements" },
+  "health-supplements": { name: "Vitality Nutrition",    industry: "Health / Supplements", accent: "#c6ff2e", description: "DTC supplement protocol cockpit with ingredient transparency, label lab guidance, and subscription clarity for routine compliance.", demoUrl: "/health-supplements" },
   "food-brand":         { name: "Ember & Oak Hot Sauce", industry: "Food / Beverage Brand", accent: "#f97316", description: "DTC food brand with stockist map, recipe content, subscription bundles, and wholesale inquiry form.", demoUrl: "/food-brand" },
   barbershop:        { name: "Bayside Barbershop",      industry: "Barbershop",         accent: "#dc2626", description: "Neighborhood barbershop website with service menu, barber profiles, online booking, and a vibe that turns first-timers into regulars.", demoUrl: "/barbershop" },
 } as const;
@@ -162,7 +162,7 @@ const STAGED: Record<VerticalKey, boolean> = {
   "recording-studio": false,
   streetwear: false,
   "influencer-brand": false,
-  "health-supplements": true,
+  "health-supplements": false,
   "food-brand": true,
   barbershop: false,
 };
@@ -303,7 +303,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 500, background: "rgba(16,185,129,0.1)", color: "#10b981", border: "1px solid rgba(16,185,129,0.2)" }}>
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
-            17 live · 2 coming soon
+            18 live · 1 coming soon
           </span>
           <a href="https://aexonai.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#a1a1aa", textDecoration: "none" }}>
             aexonai.com →
