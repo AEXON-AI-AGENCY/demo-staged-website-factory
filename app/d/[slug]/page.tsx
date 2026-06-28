@@ -137,6 +137,52 @@ const PROSPECTS: Record<string, ProspectEntry> = {
     vertical: "studio",
     expires: "2026-06-27",
   },
+  "mo-money-studios": {
+    name: "Mo' Money Studios",
+    shortName: "Mo' Money",
+    phone: "(908) 259-4711",
+    phoneHref: "tel:+190****4711",
+    email: "ggnari8@gmail.com",
+    address: "Brooklyn, NY",
+    city: "Brooklyn",
+    state: "NY",
+    tagline: "Brooklyn rooms. Setmore booking. Engineer included.",
+    heroKicker: "Brooklyn rooms. Setmore booking. Engineer included.",
+    heroHeadline: "Lock the take without the DM thread.",
+    heroLede:
+      "Mo' Money Studios gives Brooklyn artists, podcasters, and managers a premium room with an engineer included — book a session online, no back-and-forth required.",
+    heroImage: "/prospects/mo-money-studios/hero-studio.jpg",
+    heroImageAlt:
+      "Mo' Money Studios control room with a Black hip-hop artist in the vocal booth and SSL mixing console in the foreground",
+    liveRoomLabel: "MO' MONEY LIVE ROOM",
+    aiLabel: "Mo' Money Concierge",
+    footerLine: "Mo' Money Studios is ready for the next take.",
+    services: [
+      {
+        code: "CH 01",
+        title: "Recording sessions",
+        body: "Two-hour, half-day, and late-night vocal blocks with treated booth, engineer setup, and clean take organization — Brooklyn-ready.",
+        image: "/prospects/mo-money-studios/tile-vocal-session.jpg",
+        imageAlt: "Vocalist at the studio microphone during a recording session",
+      },
+      {
+        code: "CH 02",
+        title: "Mixing / mastering",
+        body: "Stem prep, vocal tuning, mix revisions, and release-ready masters delivered through a secure file room.",
+        image: "/prospects/mo-money-studios/tile-mixing-console.jpg",
+        imageAlt: "SSL mixing console with audio engineer at the faders",
+      },
+      {
+        code: "CH 03",
+        title: "Beat + artist packages",
+        body: "Beat selection, hook sketching, session direction, cover-art handoff, and rollout assets for independent Brooklyn artists.",
+        image: "/prospects/mo-money-studios/tile-producer-lounge.jpg",
+        imageAlt: "Two producers collaborating in the studio lounge with gold records on the wall",
+      },
+    ],
+    vertical: "studio",
+    expires: "2026-07-06",
+  },
 };
 
 export function generateStaticParams() {
