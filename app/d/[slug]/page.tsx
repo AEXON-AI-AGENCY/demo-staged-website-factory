@@ -183,6 +183,19 @@ const PROSPECTS: Record<string, ProspectEntry> = {
     vertical: "studio",
     expires: "2026-07-06",
   },
+  "braid-haven-atl": {
+    name: "Braid Haven ATL",
+    shortName: "Braid Haven",
+    phone: "(470) 890-7026",
+    phoneHref: "tel:+147****7026",
+    email: "fine.her.hair@gmail.com",
+    address: "Peachtree Corners, GA",
+    city: "Peachtree Corners",
+    state: "GA",
+    tagline: "ATL's braiding specialists. Book online, walk out flawless.",
+    vertical: "salon",
+    expires: "2026-07-12",
+  },
 };
 
 export function generateStaticParams() {
