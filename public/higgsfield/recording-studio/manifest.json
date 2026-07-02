@@ -1,0 +1,14 @@
+{
+  "vertical": "recording-studio",
+  "generatedAt": "2026-07-02",
+  "assets": {
+    "heroPoster": "/higgsfield/recording-studio/hero-poster-nano-banana-pro.png",
+    "heroLoop": "/higgsfield/recording-studio/hero-loop-kling-3.mp4",
+    "liquidGlassMaterial": "/higgsfield/recording-studio/liquid-glass-material-gpt-image-2.png"
+  },
+  "models": {
+    "heroPoster": "nano_banana_2 / Nano Banana Pro",
+    "heroLoop": "kling3_0 / Kling v3.0",
+    "liquidGlassMaterial": "gpt_image_2"
+  }
+}
