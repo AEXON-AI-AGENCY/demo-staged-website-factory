@@ -133,7 +133,7 @@ const VERTICALS = {
   ecommerce:      { name: "Vitality Nutrition",           industry: "E-Commerce",     accent: "#84cc16", description: "Clean supplement e-commerce website with ingredient transparency, customer reviews, and subscription options for recurring revenue.", demoUrl: "/ecommerce" },
   "tech-company":{ name: "Nexus AI",                      industry: "Tech Company",   accent: "#a78bfa", description: "Enterprise AI platform demo with agentic workflows, data intelligence, and scalable automation showcase.", demoUrl: "/tech-company" },
   // ─── Staged verticals (added 2026-06-13, not yet built — see "Coming soon" badge in card) ───
-  "recording-studio":   { name: "Backblock Studioz",     industry: "Recording Studio",   accent: "#ef4444", description: "Recording studio website with session booking, beat store, mix/master service tiers, and artist roster showcase.", demoUrl: "/recording-studio" },
+  "recording-studio":   { name: "Backblock Studioz",     industry: "Recording Studio",   accent: "#978EFF", description: "Cinematic recording studio website with liquid-glass session booking, AI concierge intake, room matching, quote prep, and engineer notes.", demoUrl: "/recording-studio" },
   "streetwear":         { name: "NOIR Apparel",          industry: "Streetwear Brand",   accent: "#facc15", description: "Drop-driven streetwear brand site with countdown timers, restock alerts, and lookbook storytelling that converts hype to checkout.", demoUrl: "/streetwear" },
   "influencer-brand":   { name: "Maya Cole Skincare",    industry: "Influencer Brand",   accent: "#f472b6", description: "Creator-led brand site with founder story, product education, reviews, and email capture that builds a real DTC list (not just Linktree).", demoUrl: "/influencer-brand" },
   "health-supplements": { name: "Vitality Nutrition",    industry: "Health / Supplements", accent: "#c6ff2e", description: "DTC supplement protocol cockpit with ingredient transparency, label lab guidance, and subscription clarity for routine compliance.", demoUrl: "/health-supplements" },
@@ -368,7 +368,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "48px" }}>
           <h2 style={{ fontSize: "24px", fontWeight: 700, color: "#f4f4f5", whiteSpace: "nowrap" }}>Industry demos</h2>
           <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.06)" }} />
-          <span style={{ fontSize: "12px", color: "#52525b", whiteSpace: "nowrap" }}>18 verticals</span>
+          <span style={{ fontSize: "12px", color: "#52525b", whiteSpace: "nowrap" }}>19 verticals</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
